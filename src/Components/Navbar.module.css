@@ -1,0 +1,38 @@
+.navbar {
+    top: 20px;
+    display: flex;
+    color: #296152;
+    align-items: center;
+    margin: 20px 2%;
+}
+
+.navbar h1 {
+    margin: 0%;
+    color: #296152;
+    font-family: Signika Negative;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -2px;
+}
+
+.navbar i{
+    max-height: 32px;
+    margin-right: 36px;
+}
+
+.userImg{
+    width: 48px;
+    height: 48px;
+    overflow: hidden;
+    border: #4A5FA0 2px solid;
+    border-radius: 10px;
+    margin-left: auto;
+}
+
+.userImg img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

@@ -1,0 +1,69 @@
+.CreateForm {
+    margin: 1% 0% 1% 5%;
+    width: 40%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: end;
+    align-content: space-around;
+}
+
+.CreateForm .customInput {
+    width: 100%;
+    border-radius: 8px;
+    background: #d9d9d9;
+    border: none;
+    font-family: Signika Negative;
+    font-size: 20px;
+    box-shadow: 0px 3px 6px #244a41;
+    padding: 2%;
+    resize: none;
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.CreateForm .customInput:focus {
+    outline: none;
+}
+
+.CreateForm select{
+    color: rgba(0, 0, 0, 0.4);
+}
+
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.CreateForm .smallInput {
+    padding: 0%;
+    width: 15%;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.pointer {
+    cursor: pointer;
+}
+.pointer:hover {
+    color: rgb(0, 0, 0);
+    transition: 200ms;
+    background: #c3f5d7;
+}
+
+.fileInput {
+    display: none;
+}
+
+.CreateForm label {
+    color: #fff;
+    font-family: Signika Negative;
+    width: 80%;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 40px; /* 153.846% */
+    letter-spacing: 0.4px;
+}
+
+.CreateForm textarea {
+    width: 100%;
+    overflow-y: hidden;
+}
