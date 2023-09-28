@@ -4,7 +4,7 @@
     justify-content: space-around;
     border-radius: 8px;
     border: none;
-    padding: 1%;
+    padding: 8px 2px;
     text-align: center;
     font-family: Signika Negative;
     font-size: 26px;
@@ -12,7 +12,7 @@
     font-weight: 700;
     line-height: 40px; /* 153.846% */
     letter-spacing: 0.39px;
-    width: 30%;
+    width: max(30%,150px);
     cursor: pointer;
 }
 
@@ -38,4 +38,10 @@
     transition: 280ms;
     color: #CDE1F4;
     background: #3c5397;
+}
+
+@media (width <= 1024px){
+    .button{
+        padding: 5px 2px;
+    }
 }

@@ -1,0 +1,40 @@
+.bannerMessage {
+    width:40%;
+    margin: 0% 3%;
+    display: flex;
+    align-items: start;
+    flex-wrap: wrap;
+}
+
+.mainMessage {
+    margin-top: 10%;
+    width: 100%;
+    color: #fff;
+    font-family: Signika Negative;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.96px;
+}
+
+.mainMessage h1 {
+  font-size: 64px;
+  margin:0%;
+}
+
+.mainMessage h2 {
+  font-size: clamp(30px, 2.5vw + .7rem, 48px);
+  margin: 0% 10%;
+}
+
+@media (width <= 980px){
+  .bannerMessage{
+    width: 90%;
+    height: 40vh;
+    justify-content: center;
+  }
+  .mainMessage{
+    text-align: center;
+    margin-top: 0;
+  }
+}
