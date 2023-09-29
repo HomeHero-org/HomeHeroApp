@@ -33,14 +33,11 @@ const CreateForm = (props) => {
       } catch (error) {
         console.error("Error creating request:", error);
       }
-     
     };
-   
 
     return (
         <React.Fragment>
-            <div>
-                
+            <div>              
             </div>
             <form className={styles.CreateForm} onSubmit={handleSubmit}>
                 <input
@@ -100,10 +97,6 @@ const CreateForm = (props) => {
                 />
                 <Button color='greenBtn' content="Crear" icon="fa-solid fa-square-plus fa-lg" />
             </form>
-            
-           
-            
-           
         </React.Fragment>
         
     );
