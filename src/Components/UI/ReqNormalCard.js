@@ -1,5 +1,6 @@
 import React from "react";
 import styles from './ReqNormalCard.module.css';
+import RequestDefaultImage from '../../Images/DefaultRequestIMG.jpg';
 
 const ReqNormalCard = (props) => {
     
@@ -10,7 +11,7 @@ const ReqNormalCard = (props) => {
     return(
         <div className={styles.card} onClick={cardInfoExtHandler}>
             <div className={styles.requestImg}>
-                <img src={props.infoReq.image} alt="Imagen que describe la solicitud"/>
+                <img src={props.picture || RequestDefaultImage} alt="Imagen que describe la solicitud"/>
             </div>
             <div className={styles.requestContent}>
                 <h2 className={styles.requestTitle}>{props.infoReq.title}</h2>

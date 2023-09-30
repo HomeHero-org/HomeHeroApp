@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 /**Componentes para las vistas principales ------------------------------*/
 import CreateRequest from "./Components/CreateRequest";
 import SearchRequest from "./Components/SearchRequest";
@@ -14,9 +14,10 @@ import TutorialsView from "./Components/TutorialsView";
 import Navbar from "./Components/Navbar";
 import Sidebar from "./Components/Sidebar";
 import styles from "./App.module.css";
+import PageContext from "./Store/page-context";
 
 function App() {
-
+    const ctx = useContext(PageContext);
     const listViews = {
         ['CreateRequest']: <CreateRequest/>,
         ['SearchRequest']: <SearchRequest/>,
@@ -45,7 +46,7 @@ function App() {
         <div className={`${styles.main_content} ${isCollapseMenu ? styles.menu_collapsed: undefined}`}>
             <Sidebar getViewHandler={getViewHandler} isCollapseMenu={isCollapseMenu} />
             <Navbar collapseMenuHandler={collapseMenuHandler}></Navbar>
-            {mainView}
+            {ctx.mainView}
         </div>
     );
 }

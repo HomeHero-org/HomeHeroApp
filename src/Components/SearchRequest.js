@@ -1,20 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./SearchRequest.module.css";
 import MainBanner from "./UI/MainBanner";
 import QuoteMessage from "./UI/QuoteMessage";
-import CreateForm from "./CreateForm";
 import InfoSection from "./UI/InfoSection";
 import ReqNormalCard from "./UI/ReqNormalCard";
 import ExtendedCard from "./UI/ExtendedCard";
+import PageContext from "../Store/page-context";
 
-/** IMAGENES DE LOS REQUESTS DE PRUEBA
- */
-import req01 from "../Images/req01.jpg";
-import req02 from "../Images/req02.jpg";
-import req03 from "../Images/req03.jpg";
-import req04 from "../Images/req04.jpg";
-import req05 from "../Images/req05.jpg";
-import req06 from "../Images/req06.jpg";
+const Requestlist = (props) => {
+    const ctx = useContext(PageContext);
+
+    if (ctx.isLoading) {
+        return <h2>Loading.....</h2>;
+    } else {
+        return (
+            <>
+                {ctx.requests.map((request) => (
+                    <ReqNormalCard
+                        key={request.requestID}
+                        picture={`data:image/jpeg;base64,${request.requestPicture}`}
+                        infoReq={{
+                            title: request.requestTitle,
+                            location: request.locationServiceID, // puedes mapear el ID a una ubicación real
+                            description: request.requestContent,
+                            numHeroes: request.membersNeeded,
+                            date: new Date(
+                                request.publicationReqDate
+                            ).toLocaleDateString(),
+                            category: "", // si la API no proporciona la categoría, necesitas proporcionarla de alguna otra forma
+                        }}
+                        showExtendInfo={() => props.showExtendedInfoHandler(request)}
+                    />
+                ))}
+            </>
+        );
+    }
+};
 
 const AdvancedFilters = (props) => {
     return (
@@ -41,75 +62,16 @@ const AdvancedFilters = (props) => {
     );
 };
 
-const SearchRequest = () => {
+const SearchRequest = (props) => {
     /** Guardar la consulta de request */
-    const requests = [
-        {
-            title: "Titulo Solicitud #1 de almenos varias lineas",
-            description:
-                "Lorem ipsum dolor sit amet consectetur. Massa lorem pellentesque sed pellentesque malesuada diam. Nec mattis velit ac odio duis. Diam adipiscing risus eget nunc nisl convallis. Felis vitae duis in vitae consectetur. Lacus tempus est est nulla.Luctus urna arcu interdum est sagittis arcu egestas elit suspendisse.",
-            location: "Municipio",
-            numHeroes: "##",
-            date: "##/##/####",
-            category: "Nombre Categoria",
-            image: req01,
-        },
-        {
-            title: "Titulo Solicitud #2 de almenos varias lineas",
-            description:
-                "Lorem ipsum dolor sit amet consectetur. Massa lorem pellentesque sed pellentesque malesuada diam. Nec mattis velit ac odio duis. Diam adipiscing risus eget nunc nisl convallis. Felis vitae duis in vitae consectetur. Lacus tempus est est nulla.Luctus urna arcu interdum est sagittis arcu egestas elit suspendisse.",
-            location: "Municipio",
-            numHeroes: "##",
-            date: "##/##/####",
-            category: "Nombre Categoria",
-            image: req02,
-        },
-        {
-            title: "Titulo Solicitud #3 de almenos varias lineas",
-            description:
-                "Lorem ipsum dolor sit amet consectetur. Massa lorem pellentesque sed pellentesque malesuada diam. Nec mattis velit ac odio duis. Diam adipiscing risus eget nunc nisl convallis. Felis vitae duis in vitae consectetur. Lacus tempus est est nulla.Luctus urna arcu interdum est sagittis arcu egestas elit suspendisse.",
-            location: "Municipio",
-            numHeroes: "##",
-            date: "##/##/####",
-            category: "Nombre Categoria",
-            image: req03,
-        },
-        {
-            title: "Titulo Solicitud #4 de almenos varias lineas",
-            description:
-                "Lorem ipsum dolor sit amet consectetur. Massa lorem pellentesque sed pellentesque malesuada diam. Nec mattis velit ac odio duis. Diam adipiscing risus eget nunc nisl convallis. Felis vitae duis in vitae consectetur. Lacus tempus est est nulla.Luctus urna arcu interdum est sagittis arcu egestas elit suspendisse.",
-            location: "Municipio",
-            numHeroes: "##",
-            date: "##/##/####",
-            category: "Nombre Categoria",
-            image: req04,
-        },
-        {
-            title: "Titulo Solicitud #5 de almenos varias lineas",
-            description:
-                "Lorem ipsum dolor sit amet consectetur. Massa lorem pellentesque sed pellentesque malesuada diam. Nec mattis velit ac odio duis. Diam adipiscing risus eget nunc nisl convallis. Felis vitae duis in vitae consectetur. Lacus tempus est est nulla.Luctus urna arcu interdum est sagittis arcu egestas elit suspendisse.",
-            location: "Municipio",
-            numHeroes: "##",
-            date: "##/##/####",
-            category: "Nombre Categoria",
-            image: req05,
-        },
-        {
-            title: "Titulo Solicitud #6 de almenos varias lineas",
-            description:
-                "Lorem ipsum dolor sit amet consectetur. Massa lorem pellentesque sed pellentesque malesuada diam. Nec mattis velit ac odio duis. Diam adipiscing risus eget nunc nisl convallis. Felis vitae duis in vitae consectetur. Lacus tempus est est nulla.Luctus urna arcu interdum est sagittis arcu egestas elit suspendisse.",
-            location: "Municipio",
-            numHeroes: "##",
-            date: "##/##/####",
-            category: "Nombre Categoria",
-            image: req06,
-        },
-    ];
-
-    let selectedCard = null;
+    const ctx = useContext(PageContext);
     const [isShowCard, setShowCard] = useState(false);
+    const [showExtendedCard, setShowExtendedCard] = useState(false);
+    const [selectedRequest, setSelectedRequest] = useState(null);
     const [isShowExtendCard, setShowExtendCard] = useState(false);
     const [isShowFilters, setShowFilters] = useState(false);
+
+    let selectedCard = null;
 
     const showFiltersHandler = () => {
         setShowFilters(!isShowFilters);
@@ -125,6 +87,12 @@ const SearchRequest = () => {
         document.body.style.overflow = "hidden";
     };
 
+    const showExtendedInfoHandler = (request) => {
+        console.log("a");
+        setShowExtendedCard(true);
+        setSelectedRequest(request);
+    };
+
     const clearExtendCard = () => {
         setShowExtendCard(false);
         document.body.style.overflow = "auto";
@@ -134,7 +102,7 @@ const SearchRequest = () => {
         <React.Fragment>
             {isShowExtendCard && (
                 <ExtendedCard
-                    infoReq={requests[1]}
+                    infoReq={ctx.requests[1]}
                     clearExtendCard={clearExtendCard}
                 />
             )}
@@ -158,23 +126,16 @@ const SearchRequest = () => {
                         <span>Filtros</span>
                         <i
                             onClick={showFiltersHandler}
-                            className={`fa-solid fa-circle-chevron-down fa-lg ${isShowFilters ? styles.open : ''}`}
+                            className={`fa-solid fa-circle-chevron-down fa-lg ${
+                                isShowFilters ? styles.open : ""
+                            }`}
                         ></i>
-                        {isShowFilters && <AdvancedFilters/>}
+                        {isShowFilters && <AdvancedFilters />}
                     </div>
                 </div>
             </MainBanner>
             <InfoSection>
-                {requests &&
-                    requests.map((request, index) => {
-                        return (
-                            <ReqNormalCard
-                                key={index}
-                                infoReq={request}
-                                showExtendInfo={showExtendInfo}
-                            />
-                        );
-                    })}
+                <Requestlist showExtendedInfoHandler={showExtendedInfoHandler}/>
             </InfoSection>
         </React.Fragment>
     );

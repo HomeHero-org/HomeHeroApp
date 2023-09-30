@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import ReactDOM from "react-dom";
 import styles from "./Sidebar.module.css";
 import imgProfile from "../Images/userPf1.jpg";
+import PageContext from "../Store/page-context";
 
 const ItemMenu = (props) => {
+    const ctx = useContext(PageContext);
     const [isShowSubmenu, setShowSubmenu] = useState(false);
     const showSubmenuHandler = () => {
         setShowSubmenu(!isShowSubmenu);
@@ -32,7 +34,7 @@ const ItemMenu = (props) => {
                     {props.infoItem.subItems.map((subItem, index) => {
                         return (
                             <li key={index}>
-                                <a className={styles.subItem_menu} onClick={() => props.getViewHandler(subItem.id)}>{subItem.name}</a>
+                                <a className={styles.subItem_menu} onClick={() => ctx.onGetView(subItem.id)}>{subItem.name}</a>
                             </li>
                         );
                     })}
@@ -57,86 +59,7 @@ const ItemMenu = (props) => {
 };
 
 const MainSidebar = (props) => {
-    const itemsMenu = [
-        {
-            itemName: "Solicitudes",
-            icon: "fa-solid fa-hand-holding-heart",
-            subItems: [
-                {
-                    id:'CreateRequest',
-                    name: "Crear Solicitud",
-                },
-                {
-                    id:'SearchRequest',
-                    name: "Buscar Solicitudes",
-                },
-                {
-                    id:'MyRequests',
-                    name: "Mis Solicitudes",
-                },
-                {
-                    id:'MyPostulations',
-                    name: "Mis Postulaciones",
-                },
-            ],
-        },
-        {
-            itemName: "Chats",
-            icon: "fa-solid fa-comments",
-            subItems: [
-                {
-                    id:'ChatsView',
-                    name: "Todos",
-                },
-                {
-                    id:'ChatsView',
-                    name: "Chat 1",
-                },
-                {
-                    id:'ChatsView',
-                    name: "Chat 2",
-                },
-                {
-                    id:'ChatsView',
-                    name: "Chat 3",
-                },
-                {
-                    id:'ChatsView',
-                    name: "Chat 4",
-                },
-            ],
-        },
-        {
-            itemName: "Ayuda",
-            icon: "fa-regular fa-circle-question",
-            subItems: [
-                {
-                    id:'TutorialsView',
-                    name: "Tutoriales",
-                },
-                {
-                    id:'QuestionView',
-                    name: "Escribenos tus preguntas",
-                },
-                {
-                    id:'ReportsView',
-                    name: "Reportar Error",
-                },
-            ],
-        },
-        {
-            id:"ComplaintView",
-            itemName: "Reclamos",
-            icon: "fa-solid fa-file-circle-exclamation",
-            subItems: null,
-        },
-        {
-            id:"SettingsView",
-            itemName: "Configuración",
-            icon: "fa-solid fa-gear",
-            subItems: null,
-        },
-    ];
+    const ctx = useContext(PageContext);
 
     return (
         <div className={`${styles.sidebar} ${props.isCollapseMenu ? styles.close : undefined }`}>
@@ -145,7 +68,7 @@ const MainSidebar = (props) => {
                 <span className={styles.logo_name}>HomeHero</span>
             </div>
             <ul className={styles.nav_links}>
-                {itemsMenu.map((item, index) => {
+                {ctx.itemsMenu.map((item, index) => {
                     return <ItemMenu getViewHandler={props.getViewHandler} key={index} infoItem={item} />;
                 })}
                 <li>
