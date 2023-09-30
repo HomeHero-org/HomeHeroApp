@@ -66,7 +66,6 @@ const SearchRequest = (props) => {
     /** Guardar la consulta de request */
     const ctx = useContext(PageContext);
     const [isShowCard, setShowCard] = useState(false);
-    const [showExtendedCard, setShowExtendedCard] = useState(false);
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [isShowExtendCard, setShowExtendCard] = useState(false);
     const [isShowFilters, setShowFilters] = useState(false);
@@ -81,15 +80,13 @@ const SearchRequest = (props) => {
         setShowCard(info);
     };
     const showExtendInfo = (isShow, reqInfo) => {
-        console.log(reqInfo);
         setShowExtendCard(isShow);
         selectedCard = reqInfo;
         document.body.style.overflow = "hidden";
     };
 
     const showExtendedInfoHandler = (request) => {
-        console.log("a");
-        setShowExtendedCard(true);
+        setShowExtendCard(true);
         setSelectedRequest(request);
     };
 
@@ -102,7 +99,7 @@ const SearchRequest = (props) => {
         <React.Fragment>
             {isShowExtendCard && (
                 <ExtendedCard
-                    infoReq={ctx.requests[1]}
+                    infoReq={selectedRequest}
                     clearExtendCard={clearExtendCard}
                 />
             )}

@@ -76,35 +76,41 @@ const FooterCard = (props) => {
 };
 
 const Modal = (props) => {
+    const date = new Date(
+        props.infoReq.publicationReqDate
+    ).toLocaleDateString();
+
+    const picture= `data:image/jpeg;base64,${props.infoReq.requestPicture}`;
+
     return (
         <div className={styles.extendedCard}>
             <div className={styles.requestImg}>
                 <img
-                    src={props.infoReq.image}
+                    src={picture}
                     alt="Imagen que describe la solicitud"
                 />
             </div>
             <div className={styles.requestContent}>
-                <h2 className={styles.requestTitle}>{props.infoReq.title}</h2>
+                <h2 className={styles.requestTitle}>{props.infoReq.requestTitle}</h2>
                 <div className={styles.InfoGroup}>
                     <h6>Ubicación</h6>
-                    <p>{props.infoReq.location}</p>
+                    <p>{props.infoReq.locationServiceID}</p>
                 </div>
                 <div className={`${styles.InfoGroup} ${styles.description}`}>
                     <h6>Descripción</h6>
-                    <p>{props.infoReq.description}</p>
+                    <p>{props.infoReq.requestContent}</p>
                 </div>
                 <div className={styles.InfoGroup}>
                     <h6>Heroes Solicitados</h6>
-                    <p>{props.infoReq.numHeroes}</p>
+                    <p>{props.infoReq.membersNeeded}</p>
                 </div>
                 <div className={styles.InfoGroup}>
                     <h6>Fecha</h6>
-                    <p>{props.infoReq.date}</p>
+                    <p>{date}</p>
                 </div>
                 <div className={styles.InfoGroup}>
                     <h6>Categoria</h6>
-                    <p>{props.infoReq.category}</p>
+                    <p>{'Pendiente'}</p>
                 </div>
             </div>
             <FooterCard onClick={props.onClick}/>
