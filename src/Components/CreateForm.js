@@ -6,6 +6,7 @@ import PageContext from "../Store/page-context";
 const CreateForm = (props) => {
     const ctx = useContext(PageContext);
     const [locationServiceID, setLocationServiceID] = useState(0);
+    const [areaServiceID, setAreaServiceID] = useState(0);
     const [requestContent, setRequestContent] = useState("");
     const [publicationReqDate, setPublicationReqDate] = useState(
         new Date().toISOString().slice(0, 10)
@@ -22,6 +23,7 @@ const CreateForm = (props) => {
         formData.append("RequestContent", requestContent);
         formData.append("PublicationReqDate", publicationReqDate);
         formData.append("MembersNeeded", membersNeeded);
+        formData.append("AreaID_Request", areaServiceID);
         if (requestPicture) formData.append("RequestPicture", requestPicture);
         formData.append("RequestTitle", requestTitle);
         ctx.onSetForm(formData);
@@ -84,6 +86,21 @@ const CreateForm = (props) => {
                         onChange={(e) => setMembersNeeded(e.target.value)}
                     />
                 </div>
+                <select
+                    className={styles.customInput}
+                    id="categoria"
+                    value={areaServiceID}
+                    onChange={(e) => setAreaServiceID(e.target.value)}
+                >
+                    <option value="0" disabled>
+                        Area
+                    </option>
+                    <option value="1">Fontaneria</option>
+                    <option value="2">Educacion</option>
+                    <option value="3">Mascotas</option>
+                    <option value="4">Medicina</option>
+                    <option value="4">Construccion</option>
+                </select>
                 <textarea
                     className={styles.customInput}
                     id="descripcion"

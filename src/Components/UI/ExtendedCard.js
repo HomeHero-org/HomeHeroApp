@@ -76,6 +76,7 @@ const FooterCard = (props) => {
 };
 
 const Modal = (props) => {
+    console.log(props);
     const date = new Date(
         props.infoReq.publicationReqDate
     ).toLocaleDateString();
@@ -94,7 +95,7 @@ const Modal = (props) => {
                 <h2 className={styles.requestTitle}>{props.infoReq.requestTitle}</h2>
                 <div className={styles.InfoGroup}>
                     <h6>Ubicación</h6>
-                    <p>{props.infoReq.locationServiceID}</p>
+                    <p>{props.infoReq.requestLocation}</p>
                 </div>
                 <div className={`${styles.InfoGroup} ${styles.description}`}>
                     <h6>Descripción</h6>
@@ -110,7 +111,7 @@ const Modal = (props) => {
                 </div>
                 <div className={styles.InfoGroup}>
                     <h6>Categoria</h6>
-                    <p>{'Pendiente'}</p>
+                    <p>{props.infoReq.requestArea}</p>
                 </div>
             </div>
             <FooterCard onClick={props.onClick}/>

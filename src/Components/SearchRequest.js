@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
+
 import styles from "./SearchRequest.module.css";
 import MainBanner from "./UI/MainBanner";
 import QuoteMessage from "./UI/QuoteMessage";
@@ -10,24 +11,42 @@ import PageContext from "../Store/page-context";
 const Requestlist = (props) => {
     const ctx = useContext(PageContext);
 
+    const filteredRequests = useMemo(() => {
+        if (!Array.isArray(ctx.requests)) return [];
+       
+        return ctx.requests.filter(request => {
+            if (props.selectedCategory && request.requestArea !== props.selectedCategory) {
+                return false;
+            }
+            if (props.selectedMunicipio && request.requestLocation !== props.selectedMunicipio) {
+                return false;
+            }
+            if (props.searchText && !request.requestTitle.toLowerCase().includes(props.searchText.toLowerCase())) {
+                return false;
+            }
+           
+            return true;
+        });
+    }, [ctx.requests, props.selectedCategory, props.selectedMunicipio, props.searchText]);
+
     if (ctx.isLoading) {
         return <h2>Loading.....</h2>;
     } else {
         return (
             <>
-                {ctx.requests.map((request) => (
+                {filteredRequests.map(request => (
                     <ReqNormalCard
                         key={request.requestID}
                         picture={`data:image/jpeg;base64,${request.requestPicture}`}
                         infoReq={{
                             title: request.requestTitle,
-                            location: request.locationServiceID, // puedes mapear el ID a una ubicación real
+                            location: request.requestLocation,
                             description: request.requestContent,
                             numHeroes: request.membersNeeded,
                             date: new Date(
                                 request.publicationReqDate
                             ).toLocaleDateString(),
-                            category: "", // si la API no proporciona la categoría, necesitas proporcionarla de alguna otra forma
+                            category: request.requestArea,
                         }}
                         showExtendInfo={() => props.showExtendedInfoHandler(request)}
                     />
@@ -37,25 +56,36 @@ const Requestlist = (props) => {
     }
 };
 
+
+
 const AdvancedFilters = (props) => {
+    const setSelectedCategory = props.setSelectedCategory;
+    const setSelectedMunicipio = props.setSelectedMunicipio;
+
     return (
         <div className={styles.advancedFiltersContainer}>
             <div className={styles.inputGroup}>
                 <label>Categoria</label>
-                <select>
-                    <option value="opcion1">Fontanería</option>
-                    <option value="opcion2">Educación</option>
-                    <option value="opcion3">Mascotas</option>
-                    <option value="opcion4">Medicina</option>
+                <select onChange={e => {
+                    const selectedContent = e.target.options[e.target.selectedIndex].textContent;                   
+                    setSelectedCategory(selectedContent);
+                }}>
+                    <option value="1">Fontanería</option>
+                    <option value="2">Educación</option>
+                    <option value="3">Mascotas</option>
+                    <option value="4">Medicina</option>
                 </select>
             </div>
             <div className={styles.inputGroup}>
                 <label>Municipio</label>
-                <select>
-                    <option value="opcion1">Facatativa</option>
-                    <option value="opcion2">San Juan</option>
-                    <option value="opcion3">Bogota</option>
-                    <option value="opcion4">Madrid</option>
+                <select onChange={e => {
+                    const selectedContent = e.target.options[e.target.selectedIndex].textContent;
+                    setSelectedMunicipio(selectedContent);
+                }}>
+                    <option value="1">Facatativa</option>
+                    <option value="2">San Juan</option>
+                    <option value="3">Bogota</option>
+                    <option value="4">Madrid</option>
                 </select>
             </div>
         </div>
@@ -69,6 +99,15 @@ const SearchRequest = (props) => {
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [isShowExtendCard, setShowExtendCard] = useState(false);
     const [isShowFilters, setShowFilters] = useState(false);
+
+    //
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedMunicipio, setSelectedMunicipio] = useState(null);
+    const [searchText, setSearchText] = useState('');
+
+    const handleSearchChange = (event) => {
+        setSearchText(event.target.value);
+    };
 
     let selectedCard = null;
 
@@ -116,23 +155,34 @@ const SearchRequest = (props) => {
                 </div>
                 <div className={styles.filters}>
                     <div className={styles.searchBar}>
-                        <input placeholder="Buscar" />
+                        <input
+                            placeholder="Buscar"
+                            value={searchText}
+                            onChange={handleSearchChange}
+                        />
                         <i className="fa-solid fa-magnifying-glass"></i>
                     </div>
                     <div className={styles.advancedFilters}>
                         <span>Filtros</span>
                         <i
                             onClick={showFiltersHandler}
-                            className={`fa-solid fa-circle-chevron-down fa-lg ${
-                                isShowFilters ? styles.open : ""
-                            }`}
+                            className={`fa-solid fa-circle-chevron-down fa-lg ${isShowFilters ? styles.open : ""
+                                }`}
                         ></i>
-                        {isShowFilters && <AdvancedFilters />}
+                        {isShowFilters && <AdvancedFilters
+                            setSelectedCategory={setSelectedCategory}
+                            setSelectedMunicipio={setSelectedMunicipio}
+                        />}
                     </div>
                 </div>
             </MainBanner>
             <InfoSection>
-                <Requestlist showExtendedInfoHandler={showExtendedInfoHandler}/>
+                <Requestlist
+                    showExtendedInfoHandler={showExtendedInfoHandler}
+                    selectedCategory={selectedCategory}
+                    selectedMunicipio={selectedMunicipio}
+                    searchText={searchText} // Pasa searchText como prop
+                />
             </InfoSection>
         </React.Fragment>
     );
