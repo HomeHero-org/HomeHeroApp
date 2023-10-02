@@ -1,17 +1,17 @@
 import React from "react";
 import styles from './ReqNormalCard.module.css';
-import requestImage from '../Images/req01.jpg';
+import RequestDefaultImage from '../../Images/DefaultRequestIMG.jpg';
 
 const ReqNormalCard = (props) => {
     
     const cardInfoExtHandler = () => {
-        props.showExtendInfo();
+        props.showExtendInfo(true,props.infoReq);
     }
 
     return(
         <div className={styles.card} onClick={cardInfoExtHandler}>
-            <div className={styles.requestImg}>          
-                <img src={props.picture || requestImage} alt="Imagen que describe la solicitud"/>
+            <div className={styles.requestImg}>
+                <img src={props.picture || RequestDefaultImage} alt="Imagen que describe la solicitud"/>
             </div>
             <div className={styles.requestContent}>
                 <h2 className={styles.requestTitle}>{props.infoReq.title}</h2>
@@ -27,10 +27,10 @@ const ReqNormalCard = (props) => {
                     <h6>Fecha</h6>
                     <p>{props.infoReq.date}</p>
                 </div>
-                {/* <div className={styles.InfoGroup}>
+                <div className={styles.InfoGroup}>
                     <h6>Categoria</h6>
                     <p>{props.infoReq.category}</p>
-                </div> */}
+                </div>
             </div>
         </div>
     );

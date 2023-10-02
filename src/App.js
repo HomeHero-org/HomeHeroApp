@@ -1,59 +1,53 @@
-import React, {useState} from "react";
-import styles from "./App.module.css";
+import React, { useState, useContext } from "react";
+/**Componentes para las vistas principales ------------------------------*/
+import CreateRequest from "./Components/CreateRequest";
+import SearchRequest from "./Components/SearchRequest";
+import MyRequest from "./Components/MyRequests";
+import ChatsView from "./Components/ChatsView";
+import ComplaintView from "./Components/ComplaintView";
+import MyPostulations from "./Components/MyPostulations";
+import QuestionView from "./Components/QuestionView";
+import ReportsView from "./Components/ReportsView";
+import SettingsView from "./Components/SettingsView";
+import TutorialsView from "./Components/TutorialsView";
+/** ---------------------------------------------------------------------*/
 import Navbar from "./Components/Navbar";
-import MainBanner from "./Components/UI/MainBanner";
-import QuoteMessage from "./Components/QuoteMessage";
-import CreateForm from "./Components/CreateForm";
-import InfoSection from "./Components/UI/InfoSection";
-import ReqNormalCard from "./Components/ReqNormalCard";
-import ExtendedCard from "./Components/ExtendedCard";
+import Sidebar from "./Components/Sidebar";
+import styles from "./App.module.css";
+import PageContext from "./Store/page-context";
+
 function App() {
+    const ctx = useContext(PageContext);
+    const listViews = {
+        ['CreateRequest']: <CreateRequest/>,
+        ['SearchRequest']: <SearchRequest/>,
+        ['MyRequests']:<MyRequest/>,
+        ['ChatsView']:<ChatsView/>,
+        ['ComplaintView']:<ComplaintView/>,
+        ['MyPostulations']:<MyPostulations/>,
+        ['QuestionView']:<QuestionView/>,
+        ['ReportsView']:<ReportsView/>,
+        ['SettingsView']:<SettingsView/>,
+        ['TutorialsView']:<TutorialsView/>
+    }
 
-    /* Consultar la informacion*/
+    const [isCollapseMenu, setCollapseMenu] = useState(false);
+    const [mainView,setMainView] = useState(<></>);
 
-    const infoReq = {
-        title: 'Titulo Solicitud #1 de almenos varias lineas',
-        description: 'Lorem ipsum dolor sit amet consectetur. Massa lorem pellentesque sed pellentesque malesuada diam. Nec mattis velit ac odio duis. Diam adipiscing risus eget nunc nisl convallis. Felis vitae duis in vitae consectetur. Lacus tempus est est nulla.Luctus urna arcu interdum est sagittis arcu egestas elit suspendisse.',
-        location: 'Municipio',
-        numHeroes: '##',
-        date: '##/##/####',
-        category: 'Nombre Categoria'
+    const collapseMenuHandler = () => {
+        setCollapseMenu(!isCollapseMenu);
     };
 
-    const [isShowCard,setShowCard] = useState(false);
-    const [isShowExtendCard,setShowExtendCard] = useState(false);
-
-    const onShowCard = (info) => {
-        setShowCard(info);
-    }
-    const showExtendInfo = (info) => {
-        setShowExtendCard(info);
-        document.body.style.overflow = "hidden";
-    }
-
-    const clearExtendCard = () => {
-        setShowExtendCard(false);
-        document.body.style.overflow = "auto";
+    const getViewHandler = (nameComponent) => {
+        setMainView(listViews[nameComponent]);
     }
 
     return (
-        <React.Fragment>
-            {isShowExtendCard && <ExtendedCard infoReq={infoReq} clearExtendCard={clearExtendCard}/>}
-            <Navbar></Navbar>
-            <MainBanner>
-                <div className={styles.bannerMessage}>
-                    <div className={styles.mainMessage}>
-                        <h1>Creacion</h1>
-                        <h2>de solicitud</h2>
-                    </div>
-                    <QuoteMessage />
-                </div>
-                <CreateForm onShowCard={onShowCard}/>
-            </MainBanner>
-            <InfoSection>
-                {isShowCard && <ReqNormalCard infoReq={infoReq} showExtendInfo={showExtendInfo}/>}
-            </InfoSection>
-        </React.Fragment>
+        <div className={`${styles.main_content} ${isCollapseMenu ? styles.menu_collapsed: undefined}`}>
+            <Sidebar getViewHandler={getViewHandler} isCollapseMenu={isCollapseMenu} />
+            <Navbar collapseMenuHandler={collapseMenuHandler}></Navbar>
+            {ctx.mainView}
+        </div>
     );
 }
 

@@ -1,9 +1,9 @@
 .navbar {
-    top: 20px;
     display: flex;
     color: #296152;
     align-items: center;
-    margin: 20px 2%;
+    margin: 0px 2%;
+    padding-top: 5px;
 }
 
 .navbar h1 {
@@ -19,7 +19,8 @@
 
 .navbar i{
     max-height: 32px;
-    margin-right: 36px;
+    margin-right: 16px;
+    cursor: pointer;
 }
 
 .userImg{
@@ -36,3 +37,4 @@
     height: 100%;
     object-fit: cover;
 }
+
