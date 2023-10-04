@@ -1,26 +1,34 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
+import { useNavigate } from "react-router-dom";
+import PageContext from "../../Store/page-context";
 import styles from "./Login.module.css";
 import loginImg from "../../Images/Login-Logo.svg";
 const Login = () => {
+    const navigate = useNavigate();
     const [isRemember,setRemember] = useState(false);
-
     const setRememberHandler = () => {
         setRemember((prevState) => !prevState);
     }
+    const ctx = useContext(PageContext);
+    const loginHandler = (event) => {
+        event.preventDefault();
+        ctx.onSetLogged(true);
+        navigate("/");
+    };
 
     return (
         <div className={styles.main_container}>
-            <form className={styles.login_form}>
+            <form onSubmit={loginHandler} className={styles.login_form}>
                 <h2>Inicio de Sesión</h2>
                 <div className={styles.input_group}>
-                    <label>Correo</label>
+                    <label>CORREO</label>
                     <input
                         type="email"
                         placeholder="Ejemplo@ejemplo.com"
                     ></input>
                 </div>
                 <div className={styles.input_group}>
-                    <label>Constraseña</label>
+                    <label>CONTRASEÑA</label>
                     <input type="password" placeholder="********"></input>
                     <span>Olvidaste tu contraseña?</span>
                 </div>

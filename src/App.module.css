@@ -33,3 +33,8 @@ body::-webkit-scrollbar-thumb:hover {
     width: calc(100% - 78px);
     background-size: 460px;
 }
+
+.no_navbar{
+    left: 0;
+    width: 100%;
+}

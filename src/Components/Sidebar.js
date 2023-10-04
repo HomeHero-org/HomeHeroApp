@@ -3,8 +3,10 @@ import ReactDOM from "react-dom";
 import styles from "./Sidebar.module.css";
 import imgProfile from "../Images/userPf1.jpg";
 import PageContext from "../Store/page-context";
+import { useNavigate } from "react-router-dom";
 
 const ItemMenu = (props) => {
+    const navigate = useNavigate();
     const ctx = useContext(PageContext);
     const [isShowSubmenu, setShowSubmenu] = useState(false);
     const showSubmenuHandler = () => {
@@ -34,7 +36,7 @@ const ItemMenu = (props) => {
                     {props.infoItem.subItems.map((subItem, index) => {
                         return (
                             <li key={index}>
-                                <a className={styles.subItem_menu} onClick={() => ctx.onGetView(subItem.id)}>{subItem.name}</a>
+                                <a className={styles.subItem_menu} onClick={() => navigate(`/${subItem.id}`)}>{subItem.name}</a>
                             </li>
                         );
                     })}

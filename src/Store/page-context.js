@@ -40,18 +40,6 @@ const PageContext = React.createContext({
 });
 
 export const PageContextProvider = (props) => {
-    const listViews = {
-        ["CreateRequest"]: <CreateRequest />,
-        ["SearchRequest"]: <SearchRequest />,
-        ["MyRequests"]: <MyRequest />,
-        ["ChatsView"]: <ChatsView />,
-        ["ComplaintView"]: <ComplaintView />,
-        ["MyPostulations"]: <MyPostulations />,
-        ["QuestionView"]: <QuestionView />,
-        ["ReportsView"]: <ReportsView />,
-        ["SettingsView"]: <SettingsView />,
-        ["TutorialsView"]: <TutorialsView />,
-    };
 
     const itemsMenu = [
         {
@@ -71,7 +59,7 @@ export const PageContextProvider = (props) => {
                     name: "Mis Solicitudes",
                 },
                 {
-                    id: "MyPostulations",
+                    id: "Postulations",
                     name: "Mis Postulaciones",
                 },
             ],
@@ -81,23 +69,23 @@ export const PageContextProvider = (props) => {
             icon: "fa-solid fa-comments",
             subItems: [
                 {
-                    id: "ChatsView",
+                    id: "Chats",
                     name: "Todos",
                 },
                 {
-                    id: "ChatsView",
+                    id: "Chats",
                     name: "Chat 1",
                 },
                 {
-                    id: "ChatsView",
+                    id: "Chats",
                     name: "Chat 2",
                 },
                 {
-                    id: "ChatsView",
+                    id: "Chats",
                     name: "Chat 3",
                 },
                 {
-                    id: "ChatsView",
+                    id: "Chats",
                     name: "Chat 4",
                 },
             ],
@@ -107,27 +95,27 @@ export const PageContextProvider = (props) => {
             icon: "fa-regular fa-circle-question",
             subItems: [
                 {
-                    id: "TutorialsView",
+                    id: "Tutorials",
                     name: "Tutoriales",
                 },
                 {
-                    id: "QuestionView",
+                    id: "Questions",
                     name: "Escribenos tus preguntas",
                 },
                 {
-                    id: "ReportsView",
+                    id: "Reports",
                     name: "Reportar Error",
                 },
             ],
         },
         {
-            id: "ComplaintView",
+            id: "Complaints",
             itemName: "Reclamos",
             icon: "fa-solid fa-file-circle-exclamation",
             subItems: null,
         },
         {
-            id: "SettingsView",
+            id: "Settings",
             itemName: "Configuración",
             icon: "fa-solid fa-gear",
             subItems: null,
@@ -158,7 +146,7 @@ export const PageContextProvider = (props) => {
         if (nameComponent === "SearchRequest") {
             setRequestAction("NORMAL_SEARCH");
         }
-        setMainView(listViews[nameComponent]);
+        //setMainView(listViews[nameComponent]);
     };
 
     const normalSearchFetch = async () => {
@@ -175,7 +163,6 @@ export const PageContextProvider = (props) => {
     return (
         <PageContext.Provider
             value={{
-                listView: listViews,
                 mainView: mainView,
                 onGetView: getViewHandler,
                 itemsMenu: itemsMenu,
