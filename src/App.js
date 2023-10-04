@@ -1,5 +1,7 @@
 import React, { useState, useContext } from "react";
 import HomePage from "./Components/UI/HomePage/HomePage";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Login from "./Pages/LoginPage/Login";
 /**Componentes para las vistas principales ------------------------------*/
 import CreateRequest from "./Components/CreateRequest";
 import SearchRequest from "./Components/SearchRequest";
@@ -18,40 +20,40 @@ import styles from "./App.module.css";
 import PageContext from "./Store/page-context";
 
 function App() {
-    /*const ctx = useContext(PageContext);
-    const listViews = {
-        ['CreateRequest']: <CreateRequest/>,
-        ['SearchRequest']: <SearchRequest/>,
-        ['MyRequests']:<MyRequest/>,
-        ['ChatsView']:<ChatsView/>,
-        ['ComplaintView']:<ComplaintView/>,
-        ['MyPostulations']:<MyPostulations/>,
-        ['QuestionView']:<QuestionView/>,
-        ['ReportsView']:<ReportsView/>,
-        ['SettingsView']:<SettingsView/>,
-        ['TutorialsView']:<TutorialsView/>
-    }
+    /*   const ctx = useContext(PageContext);
 
     const [isCollapseMenu, setCollapseMenu] = useState(false);
-    const [mainView,setMainView] = useState(<></>);
-
     const collapseMenuHandler = () => {
         setCollapseMenu(!isCollapseMenu);
     };
 
     const getViewHandler = (nameComponent) => {
-        setMainView(listViews[nameComponent]);
-    }*/
+        ctx.onGetView(nameComponent);
+    }
+
+    if(ctx.isLogged){
+        return (
+            <div className={`${styles.main_content} ${isCollapseMenu ? styles.menu_collapsed: undefined}`}>
+                <Sidebar getViewHandler={getViewHandler} isCollapseMenu={isCollapseMenu} />
+                <Navbar collapseMenuHandler={collapseMenuHandler}></Navbar>
+                {ctx.mainView}
+            </div>
+        );
+    };
 
     return (
-        /*<div className={`${styles.main_content} ${isCollapseMenu ? styles.menu_collapsed: undefined}`}>
-            <Sidebar getViewHandler={getViewHandler} isCollapseMenu={isCollapseMenu} />
-            <Navbar collapseMenuHandler={collapseMenuHandler}></Navbar>
-            {ctx.mainView}
-        </div>*/
         <div className={styles.background_home}>
             <HomePage />
         </div>
+    );*/
+
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<HomePage/> } />
+                <Route path="/login" element={<Login/> } />
+            </Routes>
+        </Router>
     );
 }
 

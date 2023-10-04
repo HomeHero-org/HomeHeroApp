@@ -6,12 +6,13 @@ import Login_Logo from "../../../Images/Login-Logo.svg";
 import Signup_Logo from "../../../Images/Sign-Up-Logo.svg";
 
 const HomePage = () => {
-    return(
+
+    return (
         <section>
-            <HomeBanner/>
+            <HomeBanner />
             <div className={styles.accessContent}>
-                <AccessButton img={Signup_Logo} title="Registrarse"/>
-                <AccessButton img={Login_Logo} title="Iniciar Sesion"/>
+                <AccessButton route="/signup" img={Signup_Logo} title="Registrarse" />
+                <AccessButton route="/login" img={Login_Logo} title="Iniciar Sesion" />
             </div>
         </section>
     );

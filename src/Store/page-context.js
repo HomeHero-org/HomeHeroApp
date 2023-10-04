@@ -34,7 +34,9 @@ const PageContext = React.createContext({
     onSetRequestAction: () => {},
     requests: [],
     isLoading: true,
-    onSetForm: () => {}
+    onSetForm: () => {},
+    isLogged: true,
+    onSetLogged: (info) => {}
 });
 
 export const PageContextProvider = (props) => {
@@ -137,6 +139,7 @@ export const PageContextProvider = (props) => {
     const [requestAction, setRequestAction] = useState("");
     const [requests, setRequests] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isLogged, setIsLogged] = useState(false);
 
     useEffect(() => {
         if (requestAction === "NORMAL_SEARCH") {
@@ -180,7 +183,9 @@ export const PageContextProvider = (props) => {
                 requestAction: requestAction,
                 isLoading: isLoading,
                 onSetForm: setFormData,
-                onSetRequestAction: setRequestAction
+                onSetRequestAction: setRequestAction,
+                isLogged: isLogged,
+                onSetLogged: setIsLogged
             }}
         >
             {props.children}
