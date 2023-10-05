@@ -1,3 +1,5 @@
 const API_ENDPOINT = 'https://localhost:7119/api/';
 
-export { API_ENDPOINT };
+const API_COLOMBIA = 'https://api-colombia.com/api/v1/';
+
+export { API_ENDPOINT , API_COLOMBIA};
