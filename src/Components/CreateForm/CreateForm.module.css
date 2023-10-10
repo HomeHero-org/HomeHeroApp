@@ -1,0 +1,115 @@
+.CreateForm {
+    margin: 1% 0%;
+    width: 45%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: end;
+    align-content: space-around;
+}
+
+.CreateForm * {
+    margin: 10px 0;
+}
+
+.CreateForm .customInput {
+    width: 100%;
+    border-radius: 8px;
+    background: #d9d9d9;
+    border: none;
+    font-family: Signika Negative;
+    font-size: 20px;
+    box-shadow: 0px 3px 6px #244a41;
+    padding: 2%;
+    resize: none;
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.CreateForm .customInput:focus {
+    outline: none;
+}
+
+.CreateForm select{
+    color: rgba(0, 0, 0, 0.4);
+}
+
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.CreateForm .smallInput {
+    padding:0;
+    width: 15%;
+    min-height: 50px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.pointer {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pointer:hover {
+    color: rgb(0, 0, 0);
+    transition: 200ms;
+    background: #c3f5d7;
+}
+
+.fileInput {
+    display: none;
+}
+
+.CreateForm label {
+    color: #fff;
+    font-family: Signika Negative;
+    width: 85%;
+    margin: 0%;
+    font-size: 2vw;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+    letter-spacing: 0.4px;
+}
+
+.CreateForm textarea {
+    width: 100%;
+    overflow-y: hidden;
+}
+
+.inputGroup{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.select_group{
+    width: 100%;
+}
+
+.select_group label{
+    font-size: 20px;
+}
+
+.select_group select{
+    padding: 10px;
+    height: auto;
+}
+
+@media (width <= 1024px){
+    .CreateForm {
+        width: 40%;
+        margin: 1% auto;
+    }
+    .CreateForm .smallInput{
+        min-height: 40px;
+        min-width: 54px;
+    }
+}
+
+@media (width <= 980px){
+    .CreateForm{
+        width: 80%;
+    }
+}

@@ -16,7 +16,7 @@ const HomePage = () => {
         <section>
             <HomeBanner />
             <div className={styles.accessContent}>
-                <AccessButton route="/Signup" img={Signup_Logo} title="Registrarse" />
+                <AccessButton route="/sign_up" img={Signup_Logo} title="Registrarse" />
                 <AccessButton route="/Login" img={Login_Logo} title="Iniciar Sesion" />
             </div>
         </section>

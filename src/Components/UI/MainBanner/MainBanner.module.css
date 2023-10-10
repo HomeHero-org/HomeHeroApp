@@ -1,0 +1,11 @@
+.mainBanner{
+    background: url(../../../Images/MainBanner.png);
+    background-size: 60%;
+    margin: 20px 2%;
+    height: max-content;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}

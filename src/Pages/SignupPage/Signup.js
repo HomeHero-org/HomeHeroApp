@@ -87,7 +87,7 @@ const Signup = () => {
     const navigate = useNavigate();
     const ctx = useContext(PageContext);
     const [errorMessage, setErrorMessage] = useState();
-    const [loginData, setLoginData] = useReducer(SignupValitadion, {
+    const [signupData, setSignupData] = useReducer(SignupValitadion, {
         names: {
             value: null,
             isValid: false,
@@ -114,12 +114,12 @@ const Signup = () => {
     });
 
     useEffect(() => {
-        if (loginData.confPassword.isValid) {
+        if (signupData.confPassword.isValid) {
             setErrorMessage(null);
-        } else if (loginData.confPassword.value) {
+        } else if (signupData.confPassword.value) {
             setErrorMessage("Las contraseñas deben ser iguales");
         }
-    }, [loginData.confPassword.value]);
+    }, [signupData.confPassword.value]);
 
     //#region useStates form managing the error input and aria-describedly
     const [isNamesFocus, setNamesFocus] = useState({
@@ -138,40 +138,43 @@ const Signup = () => {
         style: false,
         add: false,
     });
-    const [isSamePassword, setSamePassword] = useState({
-        style: false,
-        add: false,
-    });
 
     //#endregion
-    const loginHandler = (event) => {
+    const signupHandler = (event) => {
         event.preventDefault();
-        if(!loginData.names.isValid || !loginData.surnames.isValid || !loginData.email.isValid || !loginData.password.isValid || loginData.city > 0){
+        if (
+            !signupData.names.isValid ||
+            !signupData.surnames.isValid ||
+            !signupData.email.isValid ||
+            !signupData.password.isValid ||
+            signupData.city > 0
+        ) {
             setErrorMessage("Hay Datos Incorrectos");
-        }else{
+        } else {
             setErrorMessage(null);
             ctx.onSetForm({
-                namesUser: loginData.names.value,
-                surnamesUser: loginData.surnames.value,
-                email: loginData.email.value,
-                password: loginData.password.value,
-                cityID: parseInt(loginData.city.value),
+                namesUser: signupData.names.value,
+                surnamesUser: signupData.surnames.value,
+                email: signupData.email.value,
+                password: signupData.password.value,
+                cityID: parseInt(signupData.city.value),
                 roleID_User: 2,
             });
             ctx.onSetRequestAction("SIGN_UP");
         }
     };
 
-    useEffect(() =>{
-        console.log("status " + ctx.statusResponse);
-        if(ctx.statusResponse == 409){
-            setErrorMessage("Ya existe un usuario registrado con ese correo electronico");
+    useEffect(() => {
+        console.log("signup status " + ctx.statusResponse);
+        if (ctx.statusResponse == 409) {
+            setErrorMessage(
+                "Ya existe un usuario registrado con ese correo electronico"
+            );
         }
-        if(ctx.statusResponse == 200){
-            ctx.onSetLogged(true);
-            navigate("/");
+        if (ctx.statusResponse == 200) {
+            navigate("/1017/home");
         }
-    },[ctx.statusResponse]);
+    }, [ctx.statusResponse]);
 
     const onVisibleHandler = (info) => {
         if (info === "NAMES") {
@@ -242,26 +245,26 @@ const Signup = () => {
 
     return (
         <div className={styles.main_container}>
-            <form onSubmit={loginHandler} className={styles.login_form}>
+            <form onSubmit={signupHandler} className={styles.login_form}>
                 <h2>REGISTRO</h2>
                 <div className={styles.input_group}>
                     <label>NOMBRES</label>
-                    {!loginData.names.isValid &&
-                        loginData.names.value != null && (
+                    {!signupData.names.isValid &&
+                        signupData.names.value != null && (
                             <i
                                 className={`fa-solid fa-xmark ${styles.mark}`}
                             ></i>
                         )}
-                    {loginData.names.isValid &&
-                        loginData.names.value != null && (
+                    {signupData.names.isValid &&
+                        signupData.names.value != null && (
                             <i
                                 className={`fa-solid fa-check ${styles.mark} ${styles.green}`}
                             ></i>
                         )}
                     <input
                         className={
-                            !loginData.names.isValid &&
-                            loginData.names.value != null
+                            !signupData.names.isValid &&
+                            signupData.names.value != null
                                 ? styles.invalid_input
                                 : undefined
                         }
@@ -271,7 +274,7 @@ const Signup = () => {
                         onFocus={() => onVisibleHandler("NAMES")}
                         onBlur={() => onVisibleHandler("NAMES")}
                         onChange={(e) =>
-                            setLoginData({
+                            setSignupData({
                                 type: "NAMES_INPUT",
                                 val: e.target.value,
                             })
@@ -294,22 +297,22 @@ const Signup = () => {
                 </div>
                 <div className={styles.input_group}>
                     <label>APELLIDOS</label>
-                    {!loginData.surnames.isValid &&
-                        loginData.surnames.value != null && (
+                    {!signupData.surnames.isValid &&
+                        signupData.surnames.value != null && (
                             <i
                                 className={`fa-solid fa-xmark ${styles.mark}`}
                             ></i>
                         )}
-                    {loginData.surnames.isValid &&
-                        loginData.surnames.value != null && (
+                    {signupData.surnames.isValid &&
+                        signupData.surnames.value != null && (
                             <i
                                 className={`fa-solid fa-check ${styles.mark} ${styles.green}`}
                             ></i>
                         )}
                     <input
                         className={
-                            !loginData.surnames.isValid &&
-                            loginData.surnames.value != null
+                            !signupData.surnames.isValid &&
+                            signupData.surnames.value != null
                                 ? styles.invalid_input
                                 : undefined
                         }
@@ -318,7 +321,7 @@ const Signup = () => {
                         onFocus={() => onVisibleHandler("SURNAMES")}
                         onBlur={() => onVisibleHandler("SURNAMES")}
                         onChange={(e) =>
-                            setLoginData({
+                            setSignupData({
                                 type: "SURNAMES_INPUT",
                                 val: e.target.value,
                             })
@@ -341,22 +344,22 @@ const Signup = () => {
                 </div>
                 <div className={styles.input_group}>
                     <label>CORREO</label>
-                    {!loginData.email.isValid &&
-                        loginData.email.value != null && (
+                    {!signupData.email.isValid &&
+                        signupData.email.value != null && (
                             <i
                                 className={`fa-solid fa-xmark ${styles.mark}`}
                             ></i>
                         )}
-                    {loginData.email.isValid &&
-                        loginData.email.value != null && (
+                    {signupData.email.isValid &&
+                        signupData.email.value != null && (
                             <i
                                 className={`fa-solid fa-check ${styles.mark} ${styles.green}`}
                             ></i>
                         )}
                     <input
                         className={
-                            !loginData.email.isValid &&
-                            loginData.email.value != null
+                            !signupData.email.isValid &&
+                            signupData.email.value != null
                                 ? styles.invalid_input
                                 : undefined
                         }
@@ -365,7 +368,7 @@ const Signup = () => {
                         onFocus={() => onVisibleHandler("EMAIL")}
                         onBlur={() => onVisibleHandler("EMAIL")}
                         onChange={(e) =>
-                            setLoginData({
+                            setSignupData({
                                 type: "EMAIL_INPUT",
                                 val: e.target.value,
                             })
@@ -394,7 +397,7 @@ const Signup = () => {
                         defaultValue={0}
                         onClick={(e) => {
                             ctx.SetSelDepartment(e.target.value);
-                            setLoginData({ type: "CITY_INPUT", val: 0 });
+                            setSignupData({ type: "CITY_INPUT", val: 0 });
                         }}
                     >
                         <option value="0" disabled>
@@ -417,12 +420,12 @@ const Signup = () => {
                         id="ciudad"
                         defaultValue={0}
                         className={
-                            loginData.city.value == 0
+                            signupData.city.value == 0
                                 ? styles.invalid_input
                                 : undefined
                         }
                         onClick={(e) =>
-                            setLoginData({
+                            setSignupData({
                                 type: "CITY_INPUT",
                                 val: e.target.value,
                             })
@@ -441,22 +444,22 @@ const Signup = () => {
                 </div>
                 <div className={styles.input_group}>
                     <label>CONTRASEÑA</label>
-                    {!loginData.password.isValid &&
-                        loginData.password.value != null && (
+                    {!signupData.password.isValid &&
+                        signupData.password.value != null && (
                             <i
                                 className={`fa-solid fa-xmark ${styles.mark}`}
                             ></i>
                         )}
-                    {loginData.password.isValid &&
-                        loginData.password.value != null && (
+                    {signupData.password.isValid &&
+                        signupData.password.value != null && (
                             <i
                                 className={`fa-solid fa-check ${styles.mark} ${styles.green}`}
                             ></i>
                         )}
                     <input
                         className={
-                            !loginData.password.isValid &&
-                            loginData.password.value != null
+                            !signupData.password.isValid &&
+                            signupData.password.value != null
                                 ? styles.invalid_input
                                 : undefined
                         }
@@ -465,7 +468,7 @@ const Signup = () => {
                         onFocus={() => onVisibleHandler("PWD")}
                         onBlur={() => onVisibleHandler("PWD")}
                         onChange={(e) =>
-                            setLoginData({
+                            setSignupData({
                                 type: "PWD_INPUT",
                                 val: e.target.value,
                             })
@@ -492,7 +495,7 @@ const Signup = () => {
                         type="password"
                         placeholder="********"
                         onChange={(e) => {
-                            setLoginData({
+                            setSignupData({
                                 type: "PWD_CONF_INPUT",
                                 val: e.target.value,
                             });

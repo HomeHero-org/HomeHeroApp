@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { API_ENDPOINT, API_COLOMBIA } from "../config";
-import CreateRequest from "../Components/CreateRequest";
-import SearchRequest from "../Components/SearchRequest";
-import MyRequest from "../Components/MyRequests";
-import ChatsView from "../Components/ChatsView";
-import ComplaintView from "../Components/ComplaintView";
-import MyPostulations from "../Components/MyPostulations";
-import QuestionView from "../Components/QuestionView";
-import ReportsView from "../Components/ReportsView";
-import SettingsView from "../Components/SettingsView";
-import TutorialsView from "../Components/TutorialsView";
+import { axiosPrivate } from "../config";
+import CreateRequest from "../Pages/CreateRequest/CreateRequest";
+import SearchRequest from "../Pages/SearchRequest/SearchRequest";
+import MyRequest from "../Pages/UserOwnRequest/MyRequests";
+import ChatsView from "../Pages/ChatPage/ChatsView";
+import ComplaintView from "../Pages/Complaints/ComplaintView";
+import MyPostulations from "../Pages/UserPostulations/MyPostulations";
+import QuestionView from "../Pages/Questions/QuestionView";
+import ReportsView from "../Pages/Reports/ReportsView";
+import SettingsView from "../Pages/Settings/SettingsView";
+import TutorialsView from "../Pages/Tutorials/TutorialsView";
 
 const createRequest = async (formData) => {
     try {
@@ -37,7 +38,9 @@ const PageContext = React.createContext({
     departamentList: [],
     citiesList: [],
     SetSelDepartment: (idDep) => {},
-    statusResponse: ""
+    statusResponse: "",
+    token: null,
+    codeRole: ""
 });
 
 export const PageContextProvider = (props) => {
@@ -47,11 +50,11 @@ export const PageContextProvider = (props) => {
             icon: "fa-solid fa-hand-holding-heart",
             subItems: [
                 {
-                    id: "CreateRequest",
+                    id: "create_request",
                     name: "Crear Solicitud",
                 },
                 {
-                    id: "SearchRequest",
+                    id: "search-request",
                     name: "Buscar Solicitudes",
                 },
                 {
@@ -132,11 +135,13 @@ export const PageContextProvider = (props) => {
     const [departamentList, setDepartamentList] = useState();
     const [citiesList, setCitiesList] = useState();
     const [selectedDepartment, setSelDepartment] = useState(0);
+    const [tokenData,setTokenData] = useState(null);
+    const [codeRole,setCodeRole] = useState("");
 
     useEffect(() => {
+        console.log("Cambio request action ",requestAction);
         if (requestAction === "NORMAL_SEARCH") {
             setRequests(normalSearchFetch);
-            setRequestAction("");
         }
         if (requestAction === "CREATE_REQUEST") {
             createRequest(formData);
@@ -144,10 +149,20 @@ export const PageContextProvider = (props) => {
         if(requestAction === "SIGN_UP"){
             signUp(formData);
         }
+        if(requestAction === "LOGIN"){
+            Login(formData);
+        }
+        if(requestAction === "REFRESH"){
+            
+        }
+    }, [requestAction]);
+
+
+    useEffect(() => {
         if (requests && !(requests instanceof Promise)) {
             setIsLoading(false);
         }
-    }, [requestAction, requests]);
+    }, [requests]);
 
     useEffect(() => {
         getDepartments();
@@ -159,17 +174,12 @@ export const PageContextProvider = (props) => {
         }
     }, [selectedDepartment]);
 
-    const getViewHandler = (nameComponent) => {
-        if (nameComponent === "SearchRequest") {
-            setRequestAction("NORMAL_SEARCH");
-        }
-        //setMainView(listViews[nameComponent]);
-    };
+    
 
     const normalSearchFetch = async () => {
         try {
             setIsLoading(true);
-            const response = await axios.get(`${API_ENDPOINT}Request`);
+            const response = await axiosPrivate.get(`Request`);
             setRequests(response.data.result);
         } catch (error) {
             console.error("Error fetching requests:", error);
@@ -229,11 +239,25 @@ export const PageContextProvider = (props) => {
         
     };
 
+    const Login = async (data) => {
+        console.log("se enviará lo siguiente al login: ");
+        console.log(data);
+        try {
+            const response = await axios.post(`${API_ENDPOINT}user/login`,data);
+            console.log(response);
+            setstatusResponse(response.data.statusCode);
+            setTokenData(response.data.result.token);
+        } catch (error) {
+            console.error("Error creating request:", error);
+            setstatusResponse(error.response.data.statusCode);
+        }
+        
+    };
+
     return (
         <PageContext.Provider
             value={{
                 mainView: mainView,
-                onGetView: getViewHandler,
                 itemsMenu: itemsMenu,
                 requests: requests,
                 requestAction: requestAction,
@@ -245,7 +269,9 @@ export const PageContextProvider = (props) => {
                 departamentList: departamentList,
                 citiesList: citiesList,
                 SetSelDepartment: setSelDepartment,
-                statusResponse: statusResponse
+                statusResponse: statusResponse,
+                token: tokenData,
+                codeRole: codeRole
             }}
         >
             {props.children}
