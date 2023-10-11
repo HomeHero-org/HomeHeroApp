@@ -2,8 +2,8 @@ import axios from "axios";
 import { API_ENDPOINT } from "../config";
 import useCtx from "./useCtx";
 
-const UseRefresherToken = () => {
-    const {tokenData} = useCtx();
+const useRefresherToken = () => {
+    const {setToken} = useCtx();
 
     const refresh = async () => {
         console.log("HEREEEE!!");
@@ -11,9 +11,9 @@ const UseRefresherToken = () => {
             headers: { "Content-Type": "application/json"},
             withCredentials: true
         });
-        tokenData(prev => {
-            console.log(JSON.stringify(prev));
-            console.log(respone.data.accessToken);
+        setToken(prev => {
+            console.log("antiguo",JSON.stringify(prev));
+            console.log("nuevo",respone.data.accessToken);
             return respone.data.accessToken;
         });
         return respone.data.accessToken;
@@ -21,4 +21,4 @@ const UseRefresherToken = () => {
     return refresh;
 };
 
-export default UseRefresherToken; 
+export default useRefresherToken; 

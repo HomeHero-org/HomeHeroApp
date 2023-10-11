@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
+import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
 import useCtx from "../../Hooks/useCtx";
 import styles from "./SearchRequest.module.css";
-import UseRefresherToken from "../../Hooks/useRefresherToken";
 import MainBanner from "../../Components/UI/MainBanner/MainBanner";
 import QuoteMessage from "../../Components/UI/QuoteMessage/QuoteMessage";
 import InfoSection from "../../Components/UI/InfoSection/InfoSection";
@@ -10,11 +10,28 @@ import ExtendedCard from "../../Components/UI/ExtendedCard/ExtendedCard";
 
 const Requestlist = (props) => {
     const ctx = useCtx();
-    const refresh = UseRefresherToken();
+    const axiosPrivate = useAxiosPrivate();
+    
     useEffect(() => {
-        console.log("Refresh");
-        refresh();
-       // ctx.onSetRequestAction("NORMAL_SEARCH");
+        let isMounted = true;
+        const controller = new AbortController();
+        const normalSearchFetch = async () => {
+            try {
+                ctx.setIsLoading(true);
+                const response = await axiosPrivate.get(`Request`, {
+                    signal: controller.signal,
+                });
+                ctx.setRequests(response.data.result);
+            } catch (error) {
+                console.error("Error fetching requests:", error);
+            }
+        };
+        normalSearchFetch();
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        }
     }, []);
 
     const filteredRequests = useMemo(() => {
@@ -124,7 +141,6 @@ const AdvancedFilters = (props) => {
 
 const SearchRequest = (props) => {
     /** Guardar la consulta de request */
-    const ctx = useCtx();
     const [isShowCard, setShowCard] = useState(false);
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [isShowExtendCard, setShowExtendCard] = useState(false);
