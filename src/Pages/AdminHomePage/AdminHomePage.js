@@ -1,9 +1,9 @@
 import styles from './AdminHomePage.module.css';
 import { useState } from 'react';
-import Sidebar from '../../Components/Sidebar/Sidebar';
-import Navbar from '../../Components/Navbar/Navbar';
 
 const AdminHomePage = () => {
+
+    console.log("Entro aqui");
 
     const [isCollapseMenu, setCollapseMenu] = useState(true);
     const collapseMenuHandler = () => {
@@ -14,9 +14,7 @@ const AdminHomePage = () => {
     };
 
     return (
-        <div className={`${styles.main_content} ${isCollapseMenu ? styles.menu_collapsed: undefined}`}>
-            <Sidebar getViewHandler={getViewHandler} isCollapseMenu={isCollapseMenu} />
-            <Navbar collapseMenuHandler={collapseMenuHandler}></Navbar>
+        <div className={styles.main_content}>
             <h1>Hola esta es la pagina para el admin</h1>
         </div>
 

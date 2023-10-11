@@ -40,10 +40,14 @@ const PageContext = React.createContext({
     citiesList: [],
     SetSelDepartment: (idDep) => {},
     statusResponse: "",
+    setstatusResponse: () => {},
     token: null,
     setToken: () => {},
     codeRole: "",
+    setCodeRole: () => {},
     axiosPrivate: () => {},
+    remeberLogin: false,
+    setRememberLogin: () => {},
 });
 
 export const PageContextProvider = (props) => {
@@ -140,6 +144,8 @@ export const PageContextProvider = (props) => {
     const [selectedDepartment, setSelDepartment] = useState(0);
     const [tokenData, setTokenData] = useState(null);
     const [codeRole, setCodeRole] = useState("");
+    const [remeberLogin,setRememberLogin] = useState(JSON.parse(localStorage.getItem('persist')) || false);
+    
 
     useEffect(() => {
         if (requestAction === "CREATE_REQUEST") {
@@ -162,8 +168,15 @@ export const PageContextProvider = (props) => {
     }, [requests]);
 
     useEffect(() => {
+        localStorage.setItem("persist",remeberLogin);
+    }, [remeberLogin]);
+
+    useEffect(() => {
         if (tokenData && !(tokenData instanceof Promise)) {
             console.log("el token guardado en token es:", tokenData);
+        }
+        if (tokenData && !codeRole){
+
         }
     }, [tokenData]);
 
@@ -233,8 +246,6 @@ export const PageContextProvider = (props) => {
     };
 
     const Login = async (data) => {
-        console.log("se enviará lo siguiente al login: ");
-        console.log(data);
         try {
             const response = await axios.post(
                 `${API_ENDPOINT}user/login`,
@@ -267,9 +278,13 @@ export const PageContextProvider = (props) => {
                 citiesList: citiesList,
                 SetSelDepartment: setSelDepartment,
                 statusResponse: statusResponse,
+                setstatusResponse: setstatusResponse,
                 token: tokenData,
                 setToken: setTokenData,
                 codeRole: codeRole,
+                setCodeRole: setCodeRole,
+                remeberLogin: remeberLogin,
+                setRememberLogin: setRememberLogin
             }}
         >
             {props.children}

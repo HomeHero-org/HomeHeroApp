@@ -1,10 +1,10 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import { useState } from "react";
 import useCtx from "../../Hooks/useCtx";
-import decodeJWT from "../../Hooks/decodeJWT";
 import Sidebar from "../Sidebar/Sidebar";
 import Navbar from "../Navbar/Navbar";
 import styles from './RequireAuth.module.css';
+import getRole from "../../Hooks/getRole";
 
 const RequireAuth = ({ allowedRoles }) => {
     const [isCollapseMenu, setCollapseMenu] = useState(true);
@@ -14,10 +14,11 @@ const RequireAuth = ({ allowedRoles }) => {
 
     const getViewHandler = (nameComponent) => {};
 
-    const { token} = useCtx();
-    const decodedToken = token ? decodeJWT(token) : null;
+    const { token } = useCtx();
+    const role = getRole(token)
+    console.log("code role",role);
     const location = useLocation();
-    return allowedRoles.includes(decodedToken?.role) ? (
+    return allowedRoles.includes(role) ? (
         <div
             className={`${styles.main_content} ${
                 isCollapseMenu ? styles.menu_collapsed : undefined
@@ -30,7 +31,7 @@ const RequireAuth = ({ allowedRoles }) => {
             <Navbar collapseMenuHandler={collapseMenuHandler}></Navbar>
             <Outlet />
         </div>
-    ) : decodedToken ? (
+    ) : token ? (
         <Navigate to="/not_found" state={{ from: location }} replace />
     ) : (
         <Navigate to="/login" state={{ from: location }} replace />

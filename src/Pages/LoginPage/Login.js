@@ -1,6 +1,7 @@
 import React, { useState, useReducer, useEffect } from "react";
 import useCtx from "../../Hooks/useCtx";
-import { useNavigate, useLocation } from "react-router-dom";
+import getRole from "../../Hooks/getRole";
+import { useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
 import loginImg from "../../Images/Login-Logo.svg";
 
@@ -37,7 +38,7 @@ const LoginValitadion = (state, action) => {
 const Login = () => {
     const ctx = useCtx();
     const navigate = useNavigate();
-    const location = useLocation();
+    //const location = useLocation();
     //const from = location.state?.from?.pathname || '/'; -> for take the url clicked before to access to login url
     const [loginData, setLoginData] = useReducer(LoginValitadion, {
         email: {
@@ -50,9 +51,9 @@ const Login = () => {
         },
     });
     const [errorMessage, setErrorMessage] = useState();
-    const [isRemember, setRemember] = useState(false);
+
     const setRememberHandler = () => {
-        setRemember((prevState) => !prevState);
+        ctx.setRememberLogin((prevState) => !prevState);
     };
     const loginHandler = (event) => {
         event.preventDefault();
@@ -60,19 +61,18 @@ const Login = () => {
         ctx.onSetForm({
             Email: loginData.email.value,
             Password: loginData.password.value,
+            RememberLogin: ctx.remeberLogin,
         });
         ctx.onSetRequestAction("LOGIN");
     };
 
     useEffect(() => {
-        console.log("login status " + ctx.statusResponse);
-        if (ctx.statusResponse == 400) {
-            setErrorMessage(
-                "Email o Contraseña incorrecta"
-            );
-        } 
-        if (ctx.statusResponse == 200) {
-            navigate("/1017/home", { replace: true });
+        if (ctx.statusResponse === 400) {
+            setErrorMessage("Email o Contraseña incorrecta");
+        }
+        if (ctx.statusResponse === 200) {
+            navigate(`/~/${getRole(ctx.token)}/home`, { replace: true });
+            ctx.setstatusResponse(null);
         }
     }, [ctx.statusResponse]);
 
@@ -226,7 +226,9 @@ const Login = () => {
                     >
                         <i
                             className={`fa-solid fa-check ${
-                                isRemember ? styles.check : styles.no_check
+                                ctx.remeberLogin
+                                    ? styles.check
+                                    : styles.no_check
                             }`}
                         ></i>
                     </div>
@@ -241,6 +243,7 @@ const Login = () => {
                 <div className={styles.signup_option}>
                     <label>¿No estas registrado?</label>
                     <button
+                        onClick={() => navigate("/sign_up")}
                         className={`${styles.btn_group} ${styles.signup_btn}`}
                     >
                         <i className="fa-solid fa-user-plus"></i>
@@ -249,7 +252,7 @@ const Login = () => {
                 </div>
             </form>
             <div className={styles.img_container}>
-                <img src={loginImg} />
+                <img alt="Perfil Imagen" src={loginImg} />
             </div>
         </div>
     );

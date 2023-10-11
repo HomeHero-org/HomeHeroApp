@@ -1,7 +1,6 @@
 import React, { useState, useContext, useReducer, useEffect } from "react";
 import PageContext from "../../Store/page-context";
 import { useNavigate } from "react-router-dom";
-import { API_ENDPOINT } from "../../config";
 import styles from "./Signup.module.css";
 import SignupImg from "../../Images/Sign-Up-Logo.svg";
 
@@ -21,7 +20,6 @@ const SignupValitadion = (state, action) => {
                 isValid: nameValidation.test(action.val.trim()),
             },
         };
-        console.log(data);
         return data;
     }
     if (action.type === "SURNAMES_INPUT") {
@@ -32,7 +30,6 @@ const SignupValitadion = (state, action) => {
                 isValid: nameValidation.test(action.val),
             },
         };
-        console.log(data);
         return data;
     }
     if (action.type === "EMAIL_INPUT") {
@@ -43,7 +40,6 @@ const SignupValitadion = (state, action) => {
                 isValid: emailValidation.test(action.val),
             },
         };
-        console.log(data);
         return data;
     }
     if (action.type === "PWD_INPUT") {
@@ -54,7 +50,6 @@ const SignupValitadion = (state, action) => {
                 isValid: pwdValidation.test(action.val),
             },
         };
-        console.log(data);
         return data;
     }
     if (action.type === "PWD_CONF_INPUT") {
@@ -67,7 +62,6 @@ const SignupValitadion = (state, action) => {
                     action.val === state.password.value,
             },
         };
-        console.log(data);
         return data;
     }
     if (action.type === "CITY_INPUT") {
@@ -77,7 +71,6 @@ const SignupValitadion = (state, action) => {
                 value: action.val,
             },
         };
-        console.log(data);
         return data;
     }
     return { ...state };
@@ -119,7 +112,7 @@ const Signup = () => {
         } else if (signupData.confPassword.value) {
             setErrorMessage("Las contraseñas deben ser iguales");
         }
-    }, [signupData.confPassword.value]);
+    }, [signupData.confPassword]);
 
     //#region useStates form managing the error input and aria-describedly
     const [isNamesFocus, setNamesFocus] = useState({
@@ -165,16 +158,23 @@ const Signup = () => {
     };
 
     useEffect(() => {
-        console.log("signup status " + ctx.statusResponse);
-        if (ctx.statusResponse == 409) {
+        if (ctx.statusResponse === 409) {
             setErrorMessage(
                 "Ya existe un usuario registrado con ese correo electronico"
             );
         }
-        if (ctx.statusResponse == 200) {
-            navigate("/1017/home");
+        if (ctx.statusResponse === 200 && !ctx.token) {
+            ctx.onSetForm({
+                Email: signupData.email.value,
+                Password: signupData.password.value,
+                RememberLogin: false,
+            });
+            ctx.onSetRequestAction("LOGIN");
         }
-    }, [ctx.statusResponse]);
+        if (ctx.statusResponse === 200 && ctx.token) {
+            navigate("/");
+        }
+    }, [ctx.statusResponse,ctx.token, signupData.email.value, signupData.password.value]);
 
     const onVisibleHandler = (info) => {
         if (info === "NAMES") {
@@ -420,7 +420,7 @@ const Signup = () => {
                         id="ciudad"
                         defaultValue={0}
                         className={
-                            signupData.city.value == 0
+                            signupData.city.value === 0
                                 ? styles.invalid_input
                                 : undefined
                         }
@@ -512,6 +512,7 @@ const Signup = () => {
                 <div className={styles.login_option}>
                     <label>¿Ya estas registrado?</label>
                     <button
+                        onClick={() => navigate('/login')}
                         className={`${styles.btn_group} ${styles.login_btn}`}
                     >
                         <i className="fa-solid fa-right-to-bracket"></i>
@@ -520,7 +521,7 @@ const Signup = () => {
                 </div>
             </form>
             <div className={styles.img_container}>
-                <img src={SignupImg} />
+                <img alt="Sign up decoration" src={SignupImg} />
             </div>
         </div>
     );

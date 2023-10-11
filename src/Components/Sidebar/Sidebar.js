@@ -1,13 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useState} from "react";
 import ReactDOM from "react-dom";
 import styles from "./Sidebar.module.css";
 import imgProfile from "../../Images/userPf1.jpg";
-import PageContext from "../../Store/page-context";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
+import useCtx from "../../Hooks/useCtx";
+import { API_ENDPOINT } from "../../config";
 const ItemMenu = (props) => {
     const navigate = useNavigate();
-    const ctx = useContext(PageContext);
     const [isShowSubmenu, setShowSubmenu] = useState(false);
     const showSubmenuHandler = () => {
         setShowSubmenu(!isShowSubmenu);
@@ -36,7 +36,7 @@ const ItemMenu = (props) => {
                     {props.infoItem.subItems.map((subItem, index) => {
                         return (
                             <li key={index}>
-                                <a className={styles.subItem_menu} onClick={() => navigate(`/1017/${subItem.id}`)}>{subItem.name}</a>
+                                <a className={styles.subItem_menu} onClick={() => navigate(`/~/1017/${subItem.id}`)}>{subItem.name}</a>
                             </li>
                         );
                     })}
@@ -61,7 +61,23 @@ const ItemMenu = (props) => {
 };
 
 const MainSidebar = (props) => {
-    const ctx = useContext(PageContext);
+    const navigate = useNavigate();
+    const {setToken,itemsMenu,setRememberLogin,remeberLogin} = useCtx();
+
+    const logoutHandler = async () => {
+        console.log("trying to log ");
+
+        try {
+            await axios.delete(`${API_ENDPOINT}user/logout`, {
+                withCredentials: true
+            });
+            setToken(null);
+            setRememberLogin(false);
+            navigate('/');
+        } catch (error) {
+            console.error("Error fetching logout:", error);
+        }
+    };
 
     return (
         <div className={`${styles.sidebar} ${props.isCollapseMenu ? styles.close : undefined }`}>
@@ -70,7 +86,7 @@ const MainSidebar = (props) => {
                 <span className={styles.logo_name}>HomeHero</span>
             </div>
             <ul className={styles.nav_links}>
-                {ctx.itemsMenu.map((item, index) => {
+                {itemsMenu.map((item, index) => {
                     return <ItemMenu getViewHandler={props.getViewHandler} key={index} infoItem={item} />;
                 })}
                 <li>
@@ -84,7 +100,7 @@ const MainSidebar = (props) => {
                             </p>
                             <p className={styles.role}>Begginer</p>
                         </div>
-                        <i className="bx bx-log-out bx-sm"></i>
+                        <i onClick={logoutHandler} className="bx bx-log-out bx-sm"></i>
                     </div>
                 </li>
             </ul>

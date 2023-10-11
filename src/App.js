@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import HomePage from "./Components/UI/HomePage/HomePage";
-import AdminHomePage from "./Pages/AdminHomePage/AdminHomePage";
 import UserHomePage from "./Pages/UserHomePage/UserHomePage";
+import AdminHomePage from "./Pages/AdminHomePage/AdminHomePage";
 import NotFound from "./Pages/NotFound/NotFound";
 /**Componentes para las vistas principales ------------------------------*/
 import Login from "./Pages/LoginPage/Login";
@@ -20,6 +20,7 @@ import TutorialsView from "./Pages/Tutorials/TutorialsView";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./Components/Layout";
 import RequireAuth from "./Components/RequireAuth/RequireAuth";
+import PersistLogin from "./Components/PersistLogin";
 function App() {
     return (
         <Routes>
@@ -29,11 +30,34 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/not_found" element={<NotFound />} />
                 <Route path="/sign_up" element={<Signup />} />
-                <Route path="/Home_2001" element={<AdminHomePage />} />
-                <Route element={<RequireAuth allowedRoles={['1017','2001']}/>}>
-                    <Route path="/1017/home" element={<UserHomePage />} />
-                    <Route path="/1017/create_request" element={<CreateRequest />} />
-                    <Route path="/1017/search-request" element={<SearchRequest />} />
+
+                {/*Protected routes*/}
+                <Route path="/~" element={<PersistLogin />}>
+                    <Route
+                        path="/~/1017"
+                        element={
+                            <RequireAuth allowedRoles={["1017", "2001"]} />
+                        }
+                    >
+                        <Route path="/~/1017/home" element={<UserHomePage />} />
+                        <Route
+                            path="/~/1017/create_request"
+                            element={<CreateRequest />}
+                        />
+                        <Route
+                            path="/~/1017/search-request"
+                            element={<SearchRequest />}
+                        />
+                    </Route>
+                    <Route
+                        path="/~/2001"
+                        element={<RequireAuth allowedRoles={["2001"]} />}
+                    >
+                        <Route
+                            path="/~/2001/home"
+                            element={<AdminHomePage />}
+                        />
+                    </Route>
                 </Route>
             </Route>
         </Routes>

@@ -6,7 +6,6 @@ import useCtx from "./useCtx";
 const useAxiosPrivate = () => {
     const refresh = useRefresherToken();
     const ctx = useCtx();
-    console.log("tokenPrivate",ctx.token);
     useEffect(() => {
         const requestIntercept = axiosPrivate.interceptors.request.use(
             (config) => {
@@ -17,14 +16,17 @@ const useAxiosPrivate = () => {
                 }
                 return config;
             },
-            (error) => Promise.reject(error)
+            (error) => {
+                console.log("llego al error");
+                return Promise.reject(error);
+            }
         );
 
         const responseIntercept = axiosPrivate.interceptors.response.use(
             (response) => response,
             async (error) => {
                 const prevRequest = error?.config;
-                if (error?.response?.status === 403 && !prevRequest.sent) {
+                if (error?.response?.status === 401 && !prevRequest.sent) {
                     prevRequest.sent = true;
                     const newAccessToken = await refresh();
                     prevRequest.headers[
