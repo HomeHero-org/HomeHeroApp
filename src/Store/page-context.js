@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { API_ENDPOINT, API_COLOMBIA } from "../config";
-import useAxiosPrivate from "../Hooks/useAxiosPrivate";
-import CreateRequest from "../Pages/CreateRequest/CreateRequest";
-import SearchRequest from "../Pages/SearchRequest/SearchRequest";
-import MyRequest from "../Pages/UserOwnRequest/MyRequests";
-import ChatsView from "../Pages/ChatPage/ChatsView";
-import ComplaintView from "../Pages/Complaints/ComplaintView";
-import MyPostulations from "../Pages/UserPostulations/MyPostulations";
-import QuestionView from "../Pages/Questions/QuestionView";
-import ReportsView from "../Pages/Reports/ReportsView";
-import SettingsView from "../Pages/Settings/SettingsView";
-import TutorialsView from "../Pages/Tutorials/TutorialsView";
 
+/** Create Request HTTP Post handler function
+ * Function that Post the information of a new request to the API for Create a Request and save in the BD
+ * @param {*} formData contains all the new Request Information
+ */
 const createRequest = async (formData) => {
     try {
         const response = await axios.post(`${API_ENDPOINT}Request`, formData);
@@ -22,6 +15,13 @@ const createRequest = async (formData) => {
     }
 };
 
+/** PageContext
+ *  Component for using the React Context API for use data among components
+ *  () => {} Represents a functions
+ * {} Represents object
+ * <></> Represets component
+ * [] Represents array
+ */
 const PageContext = React.createContext({
     listView: {},
     mainView: <></>,
@@ -50,7 +50,13 @@ const PageContext = React.createContext({
     setRememberLogin: () => {},
 });
 
+/** Page React Context API Provider
+ *
+ * @param {*} props allows the children inside this component
+ * @returns a empty component that allows other components inside and pass values for set pageContext variable values
+ */
 export const PageContextProvider = (props) => {
+    // Info about the diferent pages of user and their routes (id)
     const itemsMenu = [
         {
             itemName: "Solicitudes",
@@ -131,7 +137,7 @@ export const PageContextProvider = (props) => {
             subItems: null,
         },
     ];
-
+    //#region States For Provides value to createRequest
     const [formData, setFormData] = useState(new FormData());
     const [statusResponse, setstatusResponse] = useState();
     const [mainView, setMainView] = useState(<></>);
@@ -139,14 +145,42 @@ export const PageContextProvider = (props) => {
     const [requests, setRequests] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isLogged, setIsLogged] = useState(false);
-    const [departamentList, setDepartamentList] = useState();
+    const [departamentList, setDepartamentList] = useState(null);
     const [citiesList, setCitiesList] = useState();
     const [selectedDepartment, setSelDepartment] = useState(0);
     const [tokenData, setTokenData] = useState(null);
     const [codeRole, setCodeRole] = useState("");
-    const [remeberLogin,setRememberLogin] = useState(JSON.parse(localStorage.getItem('persist')) || false);
-    
+    const [remeberLogin, setRememberLogin] = useState(
+        JSON.parse(localStorage.getItem("persist")) || false
+    );
+    //#endregion
 
+    //useEffect for manage the search view correctly while request list provides for Home Hero API charge
+    useEffect(() => {
+        if (requests && !(requests instanceof Promise)) {
+            setIsLoading(false);
+        }
+    }, [requests]);
+
+    //UseEffect for putting a variable named "rememberLogin" in localstorage for persistant login
+    useEffect(() => {
+        localStorage.setItem("persist", remeberLogin);
+    }, [remeberLogin]);
+    //UseEffect for execute getDepartements HTTP GET endpoint
+    useEffect(() => {
+        if (departamentList === null) {
+            getDepartments();
+        }
+    }, [departamentList]);
+    //UseEffect for execute getCities HTTP GET endpoint
+    useEffect(() => {
+        if (selectedDepartment != 0) {
+            getCites();
+        }
+    }, [selectedDepartment]);
+
+    //#region Management of Http Request Actions
+    // UseEffect for recieve a request name action
     useEffect(() => {
         if (requestAction === "CREATE_REQUEST") {
             createRequest(formData);
@@ -157,40 +191,8 @@ export const PageContextProvider = (props) => {
         if (requestAction === "LOGIN") {
             Login(formData);
         }
-        if (requestAction === "REFRESH") {
-        }
     }, [requestAction]);
-
-    useEffect(() => {
-        if (requests && !(requests instanceof Promise)) {
-            setIsLoading(false);
-        }
-    }, [requests]);
-
-    useEffect(() => {
-        localStorage.setItem("persist",remeberLogin);
-    }, [remeberLogin]);
-
-    useEffect(() => {
-        if (tokenData && !(tokenData instanceof Promise)) {
-            console.log("el token guardado en token es:", tokenData);
-        }
-        if (tokenData && !codeRole){
-
-        }
-    }, [tokenData]);
-
-    useEffect(() => {
-        getDepartments();
-    }, []);
-
-    useEffect(() => {
-        if (selectedDepartment != 0) {
-            getCites();
-        }
-    }, [selectedDepartment]);
-
-
+    // HTTP GET for get the names and id of all departments in colombia summons by COLOMBIA API
     const getDepartments = async () => {
         try {
             const response = await axios.get(`${API_COLOMBIA}Department`);
@@ -204,7 +206,7 @@ export const PageContextProvider = (props) => {
             return [];
         }
     };
-
+    // HTTP GET for get the names and id of all cities depends of the selected department in colombia summons by COLOMBIA API
     const getCites = async () => {
         try {
             const response = await axios.get(
@@ -229,7 +231,7 @@ export const PageContextProvider = (props) => {
             return [];
         }
     };
-
+    // HTTP POST for pass the user data needed in the Home Hero API for register a new Normal user
     const signUp = async (data) => {
         console.log("se registrara lo siguiente: ");
         console.log(data);
@@ -244,7 +246,10 @@ export const PageContextProvider = (props) => {
             setstatusResponse(error.response.data.statusCode);
         }
     };
-
+    /** HTTP Post for login a user (Any Role)
+     *  [This method generates a token for access to authenticated endpoints and routes]
+     *  [WithCredentials: true needed for set the refresh token cookie correctly]
+     */
     const Login = async (data) => {
         try {
             const response = await axios.post(
@@ -259,6 +264,7 @@ export const PageContextProvider = (props) => {
             setstatusResponse(error.response.data.statusCode);
         }
     };
+    //#endregion
 
     return (
         <PageContext.Provider
@@ -284,7 +290,7 @@ export const PageContextProvider = (props) => {
                 codeRole: codeRole,
                 setCodeRole: setCodeRole,
                 remeberLogin: remeberLogin,
-                setRememberLogin: setRememberLogin
+                setRememberLogin: setRememberLogin,
             }}
         >
             {props.children}
