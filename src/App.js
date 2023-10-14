@@ -8,14 +8,7 @@ import Login from "./Pages/LoginPage/Login";
 import Signup from "./Pages/SignupPage/Signup";
 import CreateRequest from "./Pages/CreateRequest/CreateRequest";
 import SearchRequest from "./Pages/SearchRequest/SearchRequest";
-import MyRequest from "./Pages/UserOwnRequest/MyRequests";
-import ChatsView from "./Pages/ChatPage/ChatsView";
-import ComplaintView from "./Pages/Complaints/ComplaintView";
-import MyPostulations from "./Pages/UserPostulations/MyPostulations";
-import QuestionView from "./Pages/Questions/QuestionView";
-import ReportsView from "./Pages/Reports/ReportsView";
-import SettingsView from "./Pages/Settings/SettingsView";
-import TutorialsView from "./Pages/Tutorials/TutorialsView";
+import SettingsView from './Pages/Settings/SettingsView';
 /*-------------------------------------------------------------------------- */
 import { Routes, Route } from "react-router-dom";
 import Layout from "./Components/Layout";
@@ -30,6 +23,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/not_found" element={<NotFound />} />
                 <Route path="/sign_up" element={<Signup />} />
+                <Route path="/settings" element={<SettingsView />} />
 
                 {/*Protected routes*/}
                 <Route path="/~" element={<PersistLogin />}>

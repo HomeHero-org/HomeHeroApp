@@ -63,19 +63,19 @@ export const PageContextProvider = (props) => {
             icon: "fa-solid fa-hand-holding-heart",
             subItems: [
                 {
-                    id: "create_request",
+                    id: "/~/1017/create_request",
                     name: "Crear Solicitud",
                 },
                 {
-                    id: "search-request",
+                    id: "/~/1017/search-request",
                     name: "Buscar Solicitudes",
                 },
                 {
-                    id: "MyRequests",
+                    id: "/~/1017/MyRequests",
                     name: "Mis Solicitudes",
                 },
                 {
-                    id: "Postulations",
+                    id: "/~/1017/Postulations",
                     name: "Mis Postulaciones",
                 },
             ],
@@ -131,7 +131,7 @@ export const PageContextProvider = (props) => {
             subItems: null,
         },
         {
-            id: "Settings",
+            id: "/settings",
             itemName: "Configuración",
             icon: "fa-solid fa-gear",
             subItems: null,

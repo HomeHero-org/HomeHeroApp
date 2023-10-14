@@ -36,7 +36,7 @@ const ItemMenu = (props) => {
                     {props.infoItem.subItems.map((subItem, index) => {
                         return (
                             <li key={index}>
-                                <a className={styles.subItem_menu} onClick={() => navigate(`/~/1017/${subItem.id}`)}>{subItem.name}</a>
+                                <a className={styles.subItem_menu} onClick={() => navigate(`${subItem.id}`)}>{subItem.name}</a>
                             </li>
                         );
                     })}
