@@ -14,6 +14,7 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "./Components/Layout";
 import RequireAuth from "./Components/RequireAuth/RequireAuth";
 import PersistLogin from "./Components/PersistLogin";
+import ResetPassword from "./Pages/ResetPassword/ResetPassword";
 function App() {
     return (
         <Routes>
@@ -24,6 +25,8 @@ function App() {
                 <Route path="/not_found" element={<NotFound />} />
                 <Route path="/sign_up" element={<Signup />} />
                 <Route path="/settings" element={<SettingsView />} />
+                <Route path="/reset_password" element={<ResetPassword />} />
+
 
                 {/*Protected routes*/}
                 <Route path="/~" element={<PersistLogin />}>

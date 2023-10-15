@@ -2,16 +2,17 @@ import React, { useState, useReducer, useEffect } from "react";
 import useCtx from "../../Hooks/useCtx";
 import getRole from "../../Hooks/getRole";
 import { useNavigate } from "react-router-dom";
-import styles from "./Login.module.css";
-import loginImg from "../../Images/Login-Logo.svg";
+import styles from "./ResetPassword.module.css";
+import resetPWDImg from "../../Images/Reset password-amico.svg";
+import useCountDown from "../../Hooks/useCountDown";
 
 /** Login Validation Function inserted in the useReducer
  *
- * @param {*} state Provides the last values of the object returnet for 'LoginData' useReducer function
+ * @param {*} state Provides the last values of the object returnet for 'newPasswordData' useReducer function
  * @param {*} action Provides the current values set in the last call to the useReducer Function
  * @returns //Returns an object with the user information for can login {Password, Email}
  */
-const LoginValitadion = (state, action) => {
+const ResetPasswordData = (state, action) => {
     //#region Regular Expressions for validations
     const emailValidation =
         /^[a-zA-Z0-9._%+-]{3,30}@[a-zA-Z0-9.-]{2,30}\.[a-zA-Z]{2,}$/;
@@ -46,23 +47,26 @@ const LoginValitadion = (state, action) => {
  *
  * @returns a component composed to the login form with Email and Password inputs, and an Image as login banner
  */
-const Login = () => {
+const ResetPassword = () => {
     const ctx = useCtx();
     const navigate = useNavigate();
     //const location = useLocation();
     //const from = location.state?.from?.pathname || '/'; -> for take the url clicked before to access to login url
 
     //use Reducer for management of the login data
-    const [loginData, setLoginData] = useReducer(LoginValitadion, {
-        email: {
-            value: null,
-            isValid: false,
-        },
-        password: {
-            value: null,
-            isValid: false,
-        },
-    });
+    const [newPasswordData, setNewPasswordData] = useReducer(
+        ResetPasswordData,
+        {
+            email: {
+                value: null,
+                isValid: false,
+            },
+            password: {
+                value: null,
+                isValid: false,
+            },
+        }
+    );
     //use State for set error messages
     const [errorMessage, setErrorMessage] = useState();
 
@@ -74,8 +78,8 @@ const Login = () => {
         event.preventDefault();
         //navigate(from, {replace: true}); // -> this is the way for charge a url clicked for the user before to access at login view
         ctx.onSetForm({
-            Email: loginData.email.value,
-            Password: loginData.password.value,
+            Email: newPasswordData.email.value,
+            Password: newPasswordData.password.value,
             RememberLogin: ctx.remeberLogin,
         });
         ctx.onSetRequestAction("LOGIN");
@@ -141,28 +145,76 @@ const Login = () => {
     };
     //#endregion
 
+    const [digit, setDigit] = useState(["", "", "", "", "", ""]);
+    const {secondsLeft, start } = useCountDown();
+    const [showTimer, setShowTimer] = useState(false);
+    const [timerPos,setTimerPost] = useState('fa-hourglass-start');
+    const onlyDigitHandler = (e, i) => {
+        const value = e.target.value;
+        if (/^[0-9]*$/.test(value)) {
+            setDigit((prevState) => {
+                const newArray = [...prevState];
+                newArray[i] = value;
+                console.log(newArray);
+                return newArray;
+            });
+        }
+    };
+
+    const sendCodeHanlder = (e) => {
+        e.preventDefault();
+        setShowTimer(true);
+        start(60);
+    }
+
+    const validateCodeHanlder = (e) => {
+        e.preventDefault();
+    }
+
+    useEffect(() => {
+        if(secondsLeft < 1){
+            setShowTimer(false);
+        }
+        if(timerPos === 'fa-hourglass-start'){
+            setTimerPost('fa-hourglass-half');
+        }
+        else if(timerPos === 'fa-hourglass-half'){
+            setTimerPost('fa-hourglass-end');
+        }
+        else if(timerPos === 'fa-hourglass-end'){
+            setTimerPost('fa-hourglass');
+        }
+        else{ 
+            setTimerPost('fa-hourglass-start');
+        }
+    },[secondsLeft]);
+
+
     return (
         <div className={styles.main_container}>
+            <div className={styles.img_container}>
+                <img alt="Reset password Image" src={resetPWDImg} />
+            </div>
             <form onSubmit={loginHandler} className={styles.login_form}>
-                <h2>Inicio de Sesión</h2>
+                <h2>Nueva Contraseña</h2>
                 <div className={styles.input_group}>
-                    <label>CORREO</label>
-                    {!loginData.email.isValid &&
-                        loginData.email.value != null && (
+                    <label>CORRREO CON EL QUE TE REGISTRASTE</label>
+                    {!newPasswordData.email.isValid &&
+                        newPasswordData.email.value != null && (
                             <i
                                 className={`fa-solid fa-xmark ${styles.mark}`}
                             ></i>
                         )}
-                    {loginData.email.isValid &&
-                        loginData.email.value != null && (
+                    {newPasswordData.email.isValid &&
+                        newPasswordData.email.value != null && (
                             <i
                                 className={`fa-solid fa-check ${styles.mark} ${styles.green}`}
                             ></i>
                         )}
                     <input
                         className={
-                            !loginData.email.isValid &&
-                            loginData.email.value != null
+                            !newPasswordData.email.isValid &&
+                            newPasswordData.email.value != null
                                 ? styles.invalid_input
                                 : undefined
                         }
@@ -171,7 +223,7 @@ const Login = () => {
                         onFocus={() => onVisibleHandler("EMAIL")}
                         onBlur={() => onVisibleHandler("EMAIL")}
                         onChange={(e) =>
-                            setLoginData({
+                            setNewPasswordData({
                                 type: "EMAIL_INPUT",
                                 val: e.target.value,
                             })
@@ -192,24 +244,82 @@ const Login = () => {
                         </p>
                     )}
                 </div>
+                <button onClick={sendCodeHanlder} className={`${styles.btn_group} ${styles.code_btn}`}>
+                    <i className="fa-solid fa-paper-plane"></i>
+                    <span>Pedir codigo de recuperación</span>
+                </button>
+                <div className={styles.code_group}>
+                    <label>INGRESA EL CODIGO ENVIADO</label>
+                    <input
+                        className={styles.numImput}
+                        autoComplete="-" //this is a little random but if you put any text different to off or false autocomplete 'off' works
+                        value={digit[0]}
+                        maxLength={1}
+                        onChange={(e) => onlyDigitHandler(e, 0)}
+                    ></input>
+                    <input
+                        className={styles.numImput}
+                        autoComplete="-"
+                        value={digit[1]}
+                        maxLength={1}
+                        onChange={(e) => onlyDigitHandler(e, 1)}
+                    ></input>
+                    <input
+                        className={styles.numImput}
+                        autoComplete="-"
+                        value={digit[2]}
+                        maxLength={1}
+                        onChange={(e) => onlyDigitHandler(e, 2)}
+                    ></input>
+                    <input
+                        className={styles.numImput}
+                        autoComplete="-"
+                        value={digit[3]}
+                        maxLength={1}
+                        onChange={(e) => onlyDigitHandler(e, 3)}
+                    ></input>
+                    <input
+                        className={styles.numImput}
+                        autoComplete="-"
+                        value={digit[4]}
+                        maxLength={1}
+                        onChange={(e) => onlyDigitHandler(e, 4)}
+                    ></input>
+                    <input
+                        className={styles.numImput}
+                        autoComplete="-"
+                        value={digit[5]}
+                        maxLength={1}
+                        onChange={(e) => onlyDigitHandler(e, 5)}
+                    ></input>
+                    <div className={`${styles.timerCode} ${showTimer ? styles.timer_show : styles.timer_hide}`}>
+                    <span>{secondsLeft}s</span>
+                    <i className={`fa-solid ${timerPos}`}></i>
+
+                    </div>
+                </div>
+                <button onClick={validateCodeHanlder} className={`${styles.btn_group} ${styles.validate_btn}`}>
+                    <i className="fa-solid fa-circle-check"></i>
+                    <span>Validar</span>
+                </button>
                 <div className={styles.input_group}>
-                    <label>CONTRASEÑA</label>
-                    {!loginData.password.isValid &&
-                        loginData.password.value != null && (
+                    <label>NUEVA CONTRASEÑA</label>
+                    {!newPasswordData.password.isValid &&
+                        newPasswordData.password.value != null && (
                             <i
                                 className={`fa-solid fa-xmark ${styles.mark}`}
                             ></i>
                         )}
-                    {loginData.password.isValid &&
-                        loginData.password.value != null && (
+                    {newPasswordData.password.isValid &&
+                        newPasswordData.password.value != null && (
                             <i
                                 className={`fa-solid fa-check ${styles.mark} ${styles.green}`}
                             ></i>
                         )}
                     <input
                         className={
-                            !loginData.password.isValid &&
-                            loginData.password.value != null
+                            !newPasswordData.password.isValid &&
+                            newPasswordData.password.value != null
                                 ? styles.invalid_input
                                 : undefined
                         }
@@ -218,7 +328,7 @@ const Login = () => {
                         onFocus={() => onVisibleHandler("PWD")}
                         onBlur={() => onVisibleHandler("PWD")}
                         onChange={(e) =>
-                            setLoginData({
+                            setNewPasswordData({
                                 type: "PWD_INPUT",
                                 val: e.target.value,
                             })
@@ -238,32 +348,10 @@ const Login = () => {
                             y 1 Numero
                         </p>
                     )}
-                    <span
-                        onClick={() =>
-                            navigate("/reset_password", { replace: true })
-                        }
-                    >
-                        ¿Olvidaste tu contaseña?
-                    </span>
                 </div>
-                <div className={styles.remember_validation}>
-                    <label>¿Recordar inicio de sesión?</label>
-                    <div
-                        onClick={setRememberHandler}
-                        className={styles.checkbox}
-                    >
-                        <i
-                            className={`fa-solid fa-check ${
-                                ctx.remeberLogin
-                                    ? styles.check
-                                    : styles.no_check
-                            }`}
-                        ></i>
-                    </div>
-                </div>
-                <button className={`${styles.btn_group} ${styles.login_btn}`}>
+                <button className={`${styles.btn_group} ${styles.reset_btn}`}>
                     <i className="fa-solid fa-right-to-bracket"></i>
-                    <span>Iniciar Sesion</span>
+                    <span>Reestablecer Contraseña</span>
                 </button>
                 {errorMessage && (
                     <p className={styles.login_info_process}>{errorMessage}</p>
@@ -279,11 +367,8 @@ const Login = () => {
                     </button>
                 </div>
             </form>
-            <div className={styles.img_container}>
-                <img alt="Perfil Imagen" src={loginImg} />
-            </div>
         </div>
     );
 };
 
-export default Login;
+export default ResetPassword;
