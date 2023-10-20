@@ -4,7 +4,7 @@
     justify-content: space-around;
     border-radius: 8px;
     border: none;
-    padding: 8px 2px;
+    padding: 8px 5px;
     text-align: center;
     font-family: Signika Negative;
     font-size: 26px;
@@ -14,6 +14,10 @@
     letter-spacing: 0.39px;
     width: max(30%,150px);
     cursor: pointer;
+}
+
+.button i{
+    padding: 0 8px;
 }
 
 .greenBtn:hover{

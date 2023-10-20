@@ -218,7 +218,7 @@
 .sidebar .profile_details img {
     height: 48px;
     width: 48px;
-    object-fit: cover;
+    object-fit: cover;      
     border-radius: 8px;
     margin: 0 14px 0 12px;
     background: #fff;

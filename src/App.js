@@ -8,13 +8,14 @@ import Login from "./Pages/LoginPage/Login";
 import Signup from "./Pages/SignupPage/Signup";
 import CreateRequest from "./Pages/CreateRequest/CreateRequest";
 import SearchRequest from "./Pages/SearchRequest/SearchRequest";
-import SettingsView from './Pages/Settings/SettingsView';
+import SettingsView from "./Pages/Settings/SettingsView";
 /*-------------------------------------------------------------------------- */
 import { Routes, Route } from "react-router-dom";
 import Layout from "./Components/Layout";
 import RequireAuth from "./Components/RequireAuth/RequireAuth";
 import PersistLogin from "./Components/PersistLogin";
 import ResetPassword from "./Pages/ResetPassword/ResetPassword";
+import UserProfile from "./Pages/UserProfile/UserProfile";
 function App() {
     return (
         <Routes>
@@ -24,9 +25,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/not_found" element={<NotFound />} />
                 <Route path="/sign_up" element={<Signup />} />
-                <Route path="/settings" element={<SettingsView />} />
                 <Route path="/reset_password" element={<ResetPassword />} />
-
 
                 {/*Protected routes*/}
                 <Route path="/~" element={<PersistLogin />}>
@@ -44,6 +43,14 @@ function App() {
                         <Route
                             path="/~/1017/search-request"
                             element={<SearchRequest />}
+                        />
+                        <Route
+                            path="/~/1017/profile"
+                            element={<UserProfile />}
+                        />
+                        <Route
+                            path="/~/1017/settings"
+                            element={<SettingsView />}
                         />
                     </Route>
                     <Route
