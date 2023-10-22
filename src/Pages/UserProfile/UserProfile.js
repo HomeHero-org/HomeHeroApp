@@ -29,6 +29,8 @@ const UserProfile = () => {
         gender: "Masculino",
         curriculum: viewPDF,
     };
+    const qualification = 3.2;
+    const qualificationQuantity = 25;
 
     const viewPDFHandler = (pdfFile) => {
         if (pdfFile) {
@@ -40,15 +42,11 @@ const UserProfile = () => {
 
     return (
         <div className={styles.main_content}>
-            <h1 className={styles.motivational_phrase}>
-                Nos alegra que estes hoy en HomeHero!
-            </h1>
             <InfoUser
                 userInfo={userInfo}
                 percentage={getPercentage(userInfo)}
                 viewPDFHandler={viewPDFHandler}
             />
-            
             {viewPDF && (
                 <section id="pdf_container" className={styles.pdf_container}>
                     <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
@@ -56,8 +54,7 @@ const UserProfile = () => {
                     </Worker>
                 </section>
             )}
-            <InfoQualification/>
-            <InfoRequest />
+            <InfoQualification userQualification = {qualification} qualificationQuantity={qualificationQuantity}/>
         </div>
     );
 };

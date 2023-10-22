@@ -2,5 +2,91 @@
     width: 48%;
     background: #5e8872;
     border-radius: 8px;
-    max-height: 105vh;
+    max-height: 110vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: start;
+    overflow: scroll;
+    row-gap: 10px;
+    font-family: Signika Negative;
+}
+
+.info_qualification::-webkit-scrollbar {
+    width: 0px; 
+}
+
+.main_title{
+    width: 100%;
+    text-align: center;
+    color: #204e41;
+    font-size: 28px;
+}
+
+.star_rate_group{
+    width: 80%;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    color: rgb(216, 168, 46);
+    background: #204e41;
+    border-radius: 8px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.star_rate_group h2{
+    margin: 0;
+    padding: 0;
+    width: fit-content;
+    font-size: 45px;
+}
+
+.start_container{
+    width: fit-content;
+    height: fit-content;
+    font-size: 40px;
+    box-sizing: border-box;
+    padding-top: 8px;
+}
+
+.star_rate_group .qualification_quantity{
+    width: 100%;
+    font-size: 20px;
+    margin: 6px;
+}
+
+.last_comments{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 15px;
+}
+
+.comment{
+    width: 90%;
+    background: #204e41;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 20px;
+    color: aliceblue;
+    position: relative;
+}
+
+.head_comment{
+    font-size: 20px;
+}
+
+.head_comment strong{ 
+    color: rgb(216, 168, 46);
+}
+
+.comment time{
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    color: rgb(216, 168, 46);
 }

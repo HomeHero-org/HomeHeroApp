@@ -8,21 +8,10 @@
     gap: 10px 20px;
 }
 
-.motivational_phrase{
-    font-size: 32px;
-    color: #296152;
-    width: 100%;
-    padding: 0 20px;
-    font-family: Signika Negative;
-    font-weight: 600;
-    font-style: normal;
-    line-height: normal;
-    margin: 0;
-}
 .pdf_container{
     width: 48%;
     background: #5e8872;
     border-radius: 8px;
-    max-height: 90vh;
+    max-height: 110vh;
     padding: 10px;
 }

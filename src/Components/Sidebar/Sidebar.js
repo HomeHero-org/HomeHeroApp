@@ -82,7 +82,7 @@ const MainSidebar = (props) => {
 
     return (
         <div className={`${styles.sidebar} ${props.isCollapseMenu ? styles.close : undefined }`}>
-            <div className={styles.logo_details}>
+            <div onClick={() => navigate(`/~/${codeRole}/home`)} className={styles.logo_details}>
                 <i className="fa-solid fa-heading"></i>
                 <span className={styles.logo_name}>HomeHero</span>
             </div>

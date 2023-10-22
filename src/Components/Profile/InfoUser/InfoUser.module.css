@@ -191,7 +191,7 @@
     column-gap: 5px;
     align-items: center;
     border-radius: 20px;
-    background-color: #c8d2ca86;
+    background-color: #3c3c3c;
     box-sizing: border-box;
     width: 90%;
     padding: 4px 2px;
@@ -210,5 +210,5 @@
 }
 
 .warning{
-    color: #e8ce23;
+    color: rgb(216, 168, 46);
 }
