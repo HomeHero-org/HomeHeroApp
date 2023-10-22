@@ -2,19 +2,25 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import styles from "./ExtendedCard.module.css";
 import Button from "../Button/Button";
+import { useTranslation } from 'react-i18next';
+
 
 const Backdrop = (props) => {
+    
     return <div className={styles.backdrop} onClick={props.onClick} />;
 };
 
 const FooterCard = (props) => {
+
+
     const [enableConfirm, setEnableConfirm] = useState(false);
     const [valuePost, setValuePost] = useState(0);
     const [currency, setCurrency] = useState('COP');
-
+    const { t } = useTranslation();
     const enableConfirmHandler = () => {
         setEnableConfirm(true);
     }
+
 
     const getValuePostHandler = (event) => {
         setValuePost(event.target.value);
@@ -22,9 +28,11 @@ const FooterCard = (props) => {
 
     const getCurrencyHandler = (event) => {
         setCurrency(event.target.value);
+
     }
 
-    const postulationHandler = () =>{
+    const postulationHandler = () => {
+
         /**
          * ACA VA LO DE ENVIAR A LA BD
          * Variable valuePost tiene el dinero solicitado ya se actualiza solo [pendientes validaciones]
@@ -32,20 +40,22 @@ const FooterCard = (props) => {
          */
         props.onClick();
     }
+   
 
     if (enableConfirm) {
+
         return (
             <div className={styles.footerCard}>
                 <Button
                     onClick={postulationHandler}
-                    content="Confirmar"
+                    content={t('confirm')}
                     color="blueBtn"
                     icon="fa-solid fa-square-check"
                 />
                 <input
                     onChange={getValuePostHandler}
                     className={`${styles.customInput} ${styles.bigInput}`}
-                    placeholder="Dinero que quieres pedir"
+                    placeholder={t('money')}
                     type="number"
                     id="valuePost"
                 />
@@ -53,11 +63,12 @@ const FooterCard = (props) => {
                     onChange={getCurrencyHandler}
                     className={styles.customInput}
                     id="currency"
+                    
                 >
-                    <option value="COP">Pesos COL</option>
-                    <option value="USD">Dolares</option>
-                    <option value="EUR">Euros</option>
-                    <option value="GBP">Libras</option>
+                    <option value="COP">COL</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
                 </select>
             </div>
         );
@@ -66,7 +77,7 @@ const FooterCard = (props) => {
             <div className={styles.footerCard}>
                 <Button
                 onClick={enableConfirmHandler}
-                    content="Postularse"
+                    content={t('apply')}
                     color="blueBtn"
                     icon="fa-solid fa-handshake-angle"
                 />
@@ -82,7 +93,7 @@ const Modal = (props) => {
     ).toLocaleDateString();
 
     const picture= `data:image/jpeg;base64,${props.infoReq.requestPicture}`;
-
+    const { t } = useTranslation();
     return (
         <div className={styles.extendedCard}>
             <div className={styles.requestImg}>
@@ -94,23 +105,23 @@ const Modal = (props) => {
             <div className={styles.requestContent}>
                 <h2 className={styles.requestTitle}>{props.infoReq.requestTitle}</h2>
                 <div className={styles.InfoGroup}>
-                    <h6>Ubicación</h6>
+                    <h6>{t('location')}</h6>
                     <p>{props.infoReq.requestLocation}</p>
                 </div>
                 <div className={`${styles.InfoGroup} ${styles.description}`}>
-                    <h6>Descripción</h6>
+                    <h6>{t('description')}</h6>
                     <p>{props.infoReq.requestContent}</p>
                 </div>
                 <div className={styles.InfoGroup}>
-                    <h6>Heroes Solicitados</h6>
+                    <h6>{t('heroes_requested')}</h6>
                     <p>{props.infoReq.membersNeeded}</p>
                 </div>
                 <div className={styles.InfoGroup}>
-                    <h6>Fecha</h6>
+                    <h6>{t('date')}</h6>
                     <p>{date}</p>
                 </div>
                 <div className={styles.InfoGroup}>
-                    <h6>Categoria</h6>
+                    <h6>{t('category')}</h6>
                     <p>{props.infoReq.requestArea}</p>
                 </div>
             </div>

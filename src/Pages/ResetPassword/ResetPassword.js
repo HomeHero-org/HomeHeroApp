@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./ResetPassword.module.css";
 import resetPWDImg from "../../Images/Reset password-amico.svg";
 import useCountDown from "../../Hooks/useCountDown";
-
+import { useTranslation } from 'react-i18next';
 /** Login Validation Function inserted in the useReducer
  *
  * @param {*} state Provides the last values of the object returnet for 'newPasswordData' useReducer function
@@ -189,16 +189,16 @@ const ResetPassword = () => {
         }
     },[secondsLeft]);
 
-
+    const { t } = useTranslation();
     return (
         <div className={styles.main_container}>
             <div className={styles.img_container}>
                 <img alt="Reset password Image" src={resetPWDImg} />
             </div>
             <form onSubmit={loginHandler} className={styles.login_form}>
-                <h2>Nueva Contraseña</h2>
+                <h2>{t('NEWPASSWORD')}</h2>
                 <div className={styles.input_group}>
-                    <label>CORRREO CON EL QUE TE REGISTRASTE</label>
+                    <label>{t('EMAIL_USED_FOR_REGISTRATION')}</label>
                     {!newPasswordData.email.isValid &&
                         newPasswordData.email.value != null && (
                             <i
@@ -219,7 +219,7 @@ const ResetPassword = () => {
                                 : undefined
                         }
                         type="email"
-                        placeholder="Ejemplo@ejemplo.com"
+                        placeholder={t('Email_Example') }
                         onFocus={() => onVisibleHandler("EMAIL")}
                         onBlur={() => onVisibleHandler("EMAIL")}
                         onChange={(e) =>
@@ -238,18 +238,16 @@ const ResetPassword = () => {
                                     : styles.hide_description
                             }
                         >
-                            Minimo 3 letras y Maximo 100 <br />
-                            Se permiten Minusculas,Mayusculas, caracteres
-                            especiales y conectores "- . _"
+                            {t('es1')} <br />{t('sePermitenCaracteres')}
                         </p>
                     )}
                 </div>
                 <button onClick={sendCodeHanlder} className={`${styles.btn_group} ${styles.code_btn}`}>
                     <i className="fa-solid fa-paper-plane"></i>
-                    <span>Pedir codigo de recuperación</span>
+                    <span>{t('REQUEST_RECOVERY_CODE')}</span>
                 </button>
                 <div className={styles.code_group}>
-                    <label>INGRESA EL CODIGO ENVIADO</label>
+                    <label>{t('ENTER_SENT_CODE')}</label>
                     <input
                         className={styles.numImput}
                         autoComplete="-" //this is a little random but if you put any text different to off or false autocomplete 'off' works
@@ -300,10 +298,10 @@ const ResetPassword = () => {
                 </div>
                 <button onClick={validateCodeHanlder} className={`${styles.btn_group} ${styles.validate_btn}`}>
                     <i className="fa-solid fa-circle-check"></i>
-                    <span>Validar</span>
+                    <span>{t('VALIDATE')}</span>
                 </button>
                 <div className={styles.input_group}>
-                    <label>NUEVA CONTRASEÑA</label>
+                    <label>{t('NEWPASSWORD')}</label>
                     {!newPasswordData.password.isValid &&
                         newPasswordData.password.value != null && (
                             <i
@@ -343,27 +341,26 @@ const ResetPassword = () => {
                                     : styles.hide_description
                             }
                         >
-                            Minimo 8 caracteres <br />
-                            Debe usar al menos: <br />1 Minusculas, 1 Mayusculas
-                            y 1 Numero
+                            {t('PASSWORD_MIN_LENGTH')}<br />
+                            {t('minimumRequirements')}<br />{t('passwordRequirements')}
                         </p>
                     )}
                 </div>
                 <button className={`${styles.btn_group} ${styles.reset_btn}`}>
                     <i className="fa-solid fa-right-to-bracket"></i>
-                    <span>Reestablecer Contraseña</span>
+                    <span>{t('RESET_PASSWORD') }</span>
                 </button>
                 {errorMessage && (
                     <p className={styles.login_info_process}>{errorMessage}</p>
                 )}
                 <div className={styles.signup_option}>
-                    <label>¿No estas registrado?</label>
+                    <label>{t('not_registered')}</label>
                     <button
                         onClick={() => navigate("/sign_up")}
                         className={`${styles.btn_group} ${styles.signup_btn}`}
                     >
                         <i className="fa-solid fa-user-plus"></i>
-                        <span>Registrarse</span>
+                        <span>{t('register')}</span>
                     </button>
                 </div>
             </form>

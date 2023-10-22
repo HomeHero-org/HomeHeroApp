@@ -3,7 +3,7 @@ import PageContext from "../../Store/page-context";
 import { useNavigate } from "react-router-dom";
 import styles from "./Signup.module.css";
 import SignupImg from "../../Images/Sign-Up-Logo.svg";
-
+import { useTranslation } from 'react-i18next';
 const SignupValitadion = (state, action) => {
     //#region Regular Expressions for validations
     const nameValidation = /^[\p{L} '-]{3,100}$/u;
@@ -110,7 +110,7 @@ const Signup = () => {
         if (signupData.confPassword.isValid) {
             setErrorMessage(null);
         } else if (signupData.confPassword.value) {
-            setErrorMessage("Las contraseñas deben ser iguales");
+            setErrorMessage(t('PASSWORDS_MUST_MATCH') );
         }
     }, [signupData.confPassword]);
 
@@ -142,7 +142,8 @@ const Signup = () => {
             !signupData.password.isValid ||
             signupData.city > 0
         ) {
-            setErrorMessage("Hay Datos Incorrectos");
+            setErrorMessage(t('INVALID_DATA'));
+          
         } else {
             setErrorMessage(null);
             ctx.onSetForm({
@@ -160,7 +161,7 @@ const Signup = () => {
     useEffect(() => {
         if (ctx.statusResponse === 409) {
             setErrorMessage(
-                "Ya existe un usuario registrado con ese correo electronico"
+                 t('EMAIL_ALREADY_REGISTERED') 
             );
         }
         if (ctx.statusResponse === 200 && !ctx.token) {
@@ -242,13 +243,14 @@ const Signup = () => {
             }
         }
     };
+    const { t } = useTranslation();
 
     return (
         <div className={styles.main_container}>
             <form onSubmit={signupHandler} className={styles.login_form}>
-                <h2>REGISTRO</h2>
+                <h2>{t('registration')}</h2>
                 <div className={styles.input_group}>
-                    <label>NOMBRES</label>
+                    <label>{t('names')}</label>
                     {!signupData.names.isValid &&
                         signupData.names.value != null && (
                             <i
@@ -289,14 +291,13 @@ const Signup = () => {
                                     : styles.hide_description
                             }
                         >
-                            Minimo 3 letras y Maximo 100 <br />
-                            Se permiten Minusculas,Mayusculas y caracteres
-                            especiales
+                            {t('es1')} <br />{t('sePermitenCaracteres')} 
+                           
                         </p>
                     )}
                 </div>
                 <div className={styles.input_group}>
-                    <label>APELLIDOS</label>
+                    <label>{t('LAST_NAMES')}</label>
                     {!signupData.surnames.isValid &&
                         signupData.surnames.value != null && (
                             <i
@@ -317,7 +318,7 @@ const Signup = () => {
                                 : undefined
                         }
                         type="text"
-                        placeholder='"Escribe tus apellidos aquí"'
+                        placeholder={t("writeYourLastNamesHere")}
                         onFocus={() => onVisibleHandler("SURNAMES")}
                         onBlur={() => onVisibleHandler("SURNAMES")}
                         onChange={(e) =>
@@ -336,14 +337,12 @@ const Signup = () => {
                                     : styles.hide_description
                             }
                         >
-                            Minimo 3 letras y Maximo 100 <br />
-                            Se permiten Minusculas,Mayusculas y caracteres
-                            especiales
+                            {t('es1')} <br />{t('sePermitenCaracteres')}
                         </p>
                     )}
                 </div>
                 <div className={styles.input_group}>
-                    <label>CORREO</label>
+                    <label>{ t('EMAIL')}</label>
                     {!signupData.email.isValid &&
                         signupData.email.value != null && (
                             <i
@@ -364,7 +363,7 @@ const Signup = () => {
                                 : undefined
                         }
                         type="email"
-                        placeholder="Ejemplo@ejemplo.com"
+                        placeholder={t('Email_Example')}
                         onFocus={() => onVisibleHandler("EMAIL")}
                         onBlur={() => onVisibleHandler("EMAIL")}
                         onChange={(e) =>
@@ -383,14 +382,12 @@ const Signup = () => {
                                     : styles.hide_description
                             }
                         >
-                            Minimo 3 letras y Maximo 100 <br />
-                            Se permiten Minusculas,Mayusculas, caracteres
-                            especiales y conectores '-''.''_'
+                            {t('es1')} <br />{t('sePermitenCaracteres')}
                         </p>
                     )}
                 </div>
                 <div className={styles.input_group}>
-                    <label>DEPARTAMENTO</label>
+                    <label>{t('DEPARTAMENTO')}</label>
                     <select
                         className={styles.customInput}
                         id="department"
@@ -401,7 +398,7 @@ const Signup = () => {
                         }}
                     >
                         <option value="0" disabled>
-                            Departamento
+                            {t('DEPARTAMENTO1')}
                         </option>
                         {ctx.departamentList &&
                             ctx.departamentList.map((department) => (
@@ -415,7 +412,7 @@ const Signup = () => {
                     </select>
                 </div>
                 <div className={styles.input_group}>
-                    <label>CIUDAD DONDE VIVES</label>
+                    <label>{t('CITY_WHERE_YOU_LIVE')}</label>
                     <select
                         id="ciudad"
                         defaultValue={0}
@@ -432,7 +429,7 @@ const Signup = () => {
                         }
                     >
                         <option value="0" disabled>
-                            Ciudad
+                            {t('city')}
                         </option>
                         {ctx.citiesList &&
                             ctx.citiesList.map((city) => (
@@ -443,7 +440,7 @@ const Signup = () => {
                     </select>
                 </div>
                 <div className={styles.input_group}>
-                    <label>CONTRASEÑA</label>
+                    <label>{t('PASSWORD')}</label>
                     {!signupData.password.isValid &&
                         signupData.password.value != null && (
                             <i
@@ -483,14 +480,13 @@ const Signup = () => {
                                     : styles.hide_description
                             }
                         >
-                            Minimo 8 caracteres <br />
-                            Debe usar al menos: <br />1 Minusculas, 1 Mayusculas
-                            y 1 Numero
+                            {t('PASSWORD_MIN_LENGTH')}<br />
+                            {t('minimumRequirements')}<br />{t('passwordRequirements')}
                         </p>
                     )}
                 </div>
                 <div className={styles.input_group}>
-                    <label>CONFIRMAR CONTRASEÑA</label>
+                    <label>{t('CONFIRM_PASSWORD')}</label>
                     <input
                         type="password"
                         placeholder="********"
@@ -504,19 +500,19 @@ const Signup = () => {
                 </div>
                 <button className={`${styles.btn_group} ${styles.signup_btn}`}>
                     <i className="fa-solid fa-user-plus"></i>
-                    <span>Registrarse</span>
+                    <span>{t('REGISTER')}</span>
                 </button>
                 {errorMessage && (
                     <p className={styles.signup_info_process}>{errorMessage}</p>
                 )}
                 <div className={styles.login_option}>
-                    <label>¿Ya estas registrado?</label>
+                    <label>{t('ALREADY_REGISTERED')}</label>
                     <button
                         onClick={() => navigate('/login')}
                         className={`${styles.btn_group} ${styles.login_btn}`}
                     >
                         <i className="fa-solid fa-right-to-bracket"></i>
-                        <span>Iniciar Sesión</span>
+                        <span>{t('Log_In')}</span>
                     </button>
                 </div>
             </form>

@@ -8,11 +8,13 @@ import Signup_Logo from "../../../Images/Sign-Up-Logo.svg";
 import { useLocation , Navigate } from "react-router-dom";
 import useRefresherToken from "../../../Hooks/useRefresherToken";
 import getRole from "../../../Hooks/getRole";
+import { useTranslation } from 'react-i18next';
 
 const HomePage = () => {
     const location = useLocation();
     const { token } = useCtx();
     const refresh = useRefresherToken();
+    const { t } = useTranslation();
     
     if (token == null) {
         refresh();
@@ -26,12 +28,12 @@ const HomePage = () => {
                 <AccessButton
                     route="/sign_up"
                     img={Signup_Logo}
-                    title="Registrarse"
+                    title={t('register')}
                 />
                 <AccessButton
                     route="/login"
                     img={Login_Logo}
-                    title="Iniciar Sesion"
+                    title={t('Log_In')}
                 />
             </div>
         </section>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+ import React, { useState, useEffect, useMemo } from "react";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
 import useCtx from "../../Hooks/useCtx";
 import styles from "./SearchRequest.module.css";
@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 const Requestlist = (props) => {
     const ctx = useCtx();
     const axiosPrivate = useAxiosPrivate();
+    const { t } = useTranslation();
 
     
     useEffect(() => {
@@ -69,10 +70,9 @@ const Requestlist = (props) => {
         props.selectedMunicipio,
         props.searchText,
     ]);
-    const { t } = useTranslation();
 
     if (ctx.isLoading) {
-        return <h2>{t('es') }</h2>;
+        return <h2>{t('loading')}</h2>;
     } else {
         return (
             <>
@@ -184,6 +184,7 @@ const SearchRequest = (props) => {
         document.body.style.overflow = "auto";
     };
     const { t } = useTranslation();
+
     return (
         <React.Fragment>
             {isShowExtendCard && (
@@ -196,17 +197,17 @@ const SearchRequest = (props) => {
                 <div className={styles.bannerMessage}>
                     <div className={styles.mainMessage}>
                         <h1>{t('Search')}</h1>
-                        <h2>{t('of_request')}</h2>
+                        <h2>{t('of solutions')}</h2>
                     </div>
                     <QuoteMessage
                         messageHead={t('What_do_you_want_to_attend_to_today')}
-                        messagePg={t('What_ever_it_is_we_know_you_will_do_it_well') }
+                        messagePg={t('What_ever_it_is_we_know_you_will_do_it_well')}
                     />
                 </div>
                 <div className={styles.filters}>
                     <div className={styles.searchBar}>
                         <input
-                            placeholder={t('Search')}
+                            placeholder={t("Explore") }
                             value={searchText}
                             onChange={handleSearchChange}
                         />

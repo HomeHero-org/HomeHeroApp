@@ -4,6 +4,7 @@ import getRole from "../../Hooks/getRole";
 import { useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
 import loginImg from "../../Images/Login-Logo.svg";
+import { useTranslation } from 'react-i18next';
 
 /** Login Validation Function inserted in the useReducer
  *
@@ -140,13 +141,14 @@ const Login = () => {
         }
     };
     //#endregion
+    const { t } = useTranslation();
 
     return (
         <div className={styles.main_container}>
             <form onSubmit={loginHandler} className={styles.login_form}>
-                <h2>Inicio de Sesión</h2>
+                <h2>{t('Log_In')}</h2>
                 <div className={styles.input_group}>
-                    <label>CORREO</label>
+                    <label>{t("Email")}</label>
                     {!loginData.email.isValid &&
                         loginData.email.value != null && (
                             <i
@@ -167,7 +169,7 @@ const Login = () => {
                                 : undefined
                         }
                         type="email"
-                        placeholder="Ejemplo@ejemplo.com"
+                        placeholder={t('Email_Example')}
                         onFocus={() => onVisibleHandler("EMAIL")}
                         onBlur={() => onVisibleHandler("EMAIL")}
                         onChange={(e) =>
@@ -186,14 +188,14 @@ const Login = () => {
                                     : styles.hide_description
                             }
                         >
-                            Minimo 3 letras y Maximo 100 <br />
-                            Se permiten Minusculas,Mayusculas, caracteres
-                            especiales y conectores "- . _"
+                            {t('es1') }<br />
+                            {t('sePermitenCaracteres')}<br />
+                            {t('especialesYConectores')}
                         </p>
                     )}
                 </div>
                 <div className={styles.input_group}>
-                    <label>CONTRASEÑA</label>
+                    <label>{t('Password')}</label>
                     {!loginData.password.isValid &&
                         loginData.password.value != null && (
                             <i
@@ -233,9 +235,8 @@ const Login = () => {
                                     : styles.hide_description
                             }
                         >
-                            Minimo 8 caracteres <br />
-                            Debe usar al menos: <br />1 Minusculas, 1 Mayusculas
-                            y 1 Numero
+                            {t('debeContenerAlMenos1Caracter')} <br />
+                            {t('debeUsarAlMenos')}<br />{t('requerimientos')}
                         </p>
                     )}
                     <span
@@ -243,11 +244,11 @@ const Login = () => {
                             navigate("/reset_password", { replace: true })
                         }
                     >
-                        ¿Olvidaste tu contaseña?
+                        {t('forgot_password')}
                     </span>
                 </div>
                 <div className={styles.remember_validation}>
-                    <label>¿Recordar inicio de sesión?</label>
+                    <label>{t('remember_login')}</label>
                     <div
                         onClick={setRememberHandler}
                         className={styles.checkbox}
@@ -263,19 +264,19 @@ const Login = () => {
                 </div>
                 <button className={`${styles.btn_group} ${styles.login_btn}`}>
                     <i className="fa-solid fa-right-to-bracket"></i>
-                    <span>Iniciar Sesion</span>
+                    <span>{t('Log_In')}</span>
                 </button>
                 {errorMessage && (
                     <p className={styles.login_info_process}>{errorMessage}</p>
                 )}
                 <div className={styles.signup_option}>
-                    <label>¿No estas registrado?</label>
+                    <label>{t('not_registered')}</label>
                     <button
                         onClick={() => navigate("/sign_up")}
                         className={`${styles.btn_group} ${styles.signup_btn}`}
                     >
                         <i className="fa-solid fa-user-plus"></i>
-                        <span>Registrarse</span>
+                        <span>{t('register')}</span>
                     </button>
                 </div>
             </form>
