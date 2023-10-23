@@ -1,0 +1,244 @@
+.main_content{
+    margin: 0 20px;
+    padding: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 20px;
+    font-family: Signika Negative;
+}
+
+.own_request_section{
+    width: 40%;
+    background: #204e41;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: start;
+    row-gap: 10px;
+}
+
+.own_request_section .request_filter{
+    box-sizing: border-box;
+    margin: 10px;
+    background: #5e8872;
+    border-radius: 4px;
+    height: fit-content;
+}
+
+.request_filter h2{
+    width: 100%;
+    text-align: center;
+    margin: 0 0 15px 0;
+}
+
+.input_group{
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.select_group{
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.select_group label{
+    width: 30%;
+    text-align: start;
+    font-weight: 600;
+    font-size: 20px;
+    text-align: center;
+}
+
+.select_group select{
+    width: 60%;
+    padding: 10px;
+    height: auto;
+}
+
+
+.own_request_list{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    background: #204e41;
+    border-radius: 4px;
+    overflow: auto;
+    max-height: 100vh;
+}
+
+.own_request_list::-webkit-scrollbar{
+    width: 0;
+}
+
+.request_summary{
+    display: flex;
+    flex-wrap: wrap;
+    background: #5e8872;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.img_container{
+    box-sizing: border-box;
+    padding: 2px;
+    width: 30%;
+    display: flex;
+    aspect-ratio: 1/1;
+}
+
+.request_summary .request_summary_info{
+    width: 70%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px 0px;
+}
+
+.request_summary_info h2, .request_summary_info p{
+    width: 100%;
+    margin: 0%;
+    padding: 4px 0 4px 20px;
+    box-sizing: border-box;
+    height: fit-content;
+}
+
+.request_summary_info .request_state{
+    background-color: goldenrod;
+    color: rgb(100, 67, 28);
+    margin-left: auto;
+    margin-right: 20px;
+    border-radius: 20px;
+    width: auto;
+    display: flex;
+    justify-content: end;
+    column-gap: 4px;
+    padding: 4px 8px;
+    font-size: 18px;
+    align-items: center;
+}
+
+
+.img_container img{
+    border-radius: 4px 0 0 4px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.postulations_section{
+    width: 55%;
+    background: #204e41;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.request_extended_header{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+}
+
+.request_extended_header h2{
+    width: 100%;
+    text-align: center;
+    margin: 0%;
+    color: aliceblue;
+}
+
+.request_extended_header .request_state{
+    position:absolute;
+    right: 0;
+    margin: 0%;
+    background-color: #5e8872;
+    padding: 4px 20px;
+    display: flex;
+    column-gap: 4px;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.request_extended_header .member_status{
+    background: #5e8872;
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+    margin-top: 20px;
+    border-radius: 4px;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 8px;
+    row-gap: 8px;
+    color: #222222;
+}
+
+.request_extended_header .member_status h3{
+    width: 100%;
+    font-size: 22px;
+    margin: 0%;
+    text-align: center;
+}
+
+.request_extended_header .member_status p{
+    margin: 0%;
+    width: 30%;
+    text-align: center;
+    font-size: 18px;
+}
+
+.request_extended_header .member_status p strong{
+    margin-right: 4px;
+}
+
+.request_extended_info{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    background: #5e8872;
+    font-size: 18px;
+    margin-top: 20px;
+    border-radius: 15px 0 15px 0;
+}
+
+.request_extended_info p{
+    width: 40%;
+    text-align: center;
+    margin: 20px 0 0 0;
+}
+
+.request_extended_info .description{
+    width: 100%;
+    text-align: justify;
+    box-sizing: border-box;
+    padding: 10px 20px 20px 20px;
+}
+
+.request_postulations h2{
+    text-align: center;
+    color: aliceblue;
+}
+
+.postulants_container{
+    width: 100%;
+    background-color: #5e8872;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.postulants_container h3{
+    text-align: center;
+    margin: 0;
+    margin-bottom: 16px;
+    font-size: 20px;
+    color: lightgrey;
+}

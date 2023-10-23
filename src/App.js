@@ -1,21 +1,21 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import HomePage from "./Components/UI/HomePage/HomePage";
 import UserHomePage from "./Pages/UserHomePage/UserHomePage";
 import AdminHomePage from "./Pages/AdminHomePage/AdminHomePage";
 import NotFound from "./Pages/NotFound/NotFound";
-/**Componentes para las vistas principales ------------------------------*/
 import Login from "./Pages/LoginPage/Login";
 import Signup from "./Pages/SignupPage/Signup";
 import CreateRequest from "./Pages/CreateRequest/CreateRequest";
 import SearchRequest from "./Pages/SearchRequest/SearchRequest";
 import SettingsView from "./Pages/Settings/SettingsView";
-/*-------------------------------------------------------------------------- */
 import { Routes, Route } from "react-router-dom";
 import Layout from "./Components/Layout";
 import RequireAuth from "./Components/RequireAuth/RequireAuth";
 import PersistLogin from "./Components/PersistLogin";
 import ResetPassword from "./Pages/ResetPassword/ResetPassword";
 import UserProfile from "./Pages/UserProfile/UserProfile";
+import MyRequest from "./Pages/UserOwnRequest/MyRequests";
+
 function App() {
     return (
         <Routes>
@@ -47,6 +47,10 @@ function App() {
                         <Route
                             path="/~/1017/profile"
                             element={<UserProfile />}
+                        />
+                        <Route
+                            path="/~/1017/MyRequests"
+                            element={<MyRequest/>}
                         />
                         <Route
                             path="/~/1017/settings"

@@ -16,7 +16,7 @@ body::-webkit-scrollbar-thumb:hover {
     background: url(../../Images/BackgroundPatternTools.jpg) repeat;
     background-size: 460px;
     position: relative;
-    height: fit-content;
+    min-height: 100vh;
     left: 260px;
     width: calc(100% - 260px);
     transition: all 0.5s ease;
