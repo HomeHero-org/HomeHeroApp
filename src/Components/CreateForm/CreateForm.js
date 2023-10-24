@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import useCtx from "../../Hooks/useCtx";
 import styles from "./CreateForm.module.css";
 import Button from "../UI/Button/Button";
+import { useTranslation } from 'react-i18next';
+
 
 const CreateForm = (props) => {
+    const { t } = useTranslation();
     const ctx = useCtx();
     const [locationServiceID, setLocationServiceID] = useState(0);
     const [areaServiceID, setAreaServiceID] = useState(0);
@@ -50,10 +53,11 @@ const CreateForm = (props) => {
                     className={styles.customInput}
                     type="text"
                     id="titulo"
-                    placeholder="Introduce el titulo"
+                    placeholder={t('enter_title')}
                     value={requestTitle}
                     onChange={(e) => setRequestTitle(e.target.value)}
                 />
+
                 <input
                     className={styles.customInput}
                     type="date"
@@ -62,7 +66,7 @@ const CreateForm = (props) => {
                     onChange={(e) => setPublicationReqDate(e.target.value)}
                 />
                 <div className={`${styles.input_group} ${styles.select_group}`}>
-                    <label>DEPARTAMENTO </label>
+                   <label>{t('department_where_you_live')}</label>
                     <select
                         className={styles.customInput}
                         id="department"
@@ -72,7 +76,7 @@ const CreateForm = (props) => {
                         }}
                     >
                         <option value="0" disabled>
-                            Departamento
+                            {t('departamento')}
                         </option>
                         {ctx.departamentList &&
                             ctx.departamentList.map((department) => (
@@ -86,7 +90,7 @@ const CreateForm = (props) => {
                     </select>
                 </div>
                 <div className={`${styles.input_group} ${styles.select_group}`}>
-                    <label>CIUDAD </label>
+                    <label>{t('City where you live')}</label>
                     <select
                         id="ciudad"
                         defaultValue={0}
@@ -98,7 +102,7 @@ const CreateForm = (props) => {
                         onClick={(e) => setLocationServiceID(e.target.value)}
                     >
                         <option value="0" disabled>
-                            Ciudad
+                            <label>{t('city')}</label>
                         </option>
                         {ctx.citiesList &&
                             ctx.citiesList.map((city) => (
@@ -109,10 +113,8 @@ const CreateForm = (props) => {
                     </select>
                 </div>
                 <div className={styles.inputGroup}>
-                    <label htmlFor="numMb">
-                        Cantidad de miembros necesitados
-                    </label>
-                    <input
+                    <label htmlFor="numMb">{t('number_of_members_needed')}</label>
+                    <input 
                         className={`${styles.smallInput} ${styles.customInput}`}
                         type="number"
                         id="numMb"
@@ -124,20 +126,18 @@ const CreateForm = (props) => {
                 </div>
                 
                 <div className={`${styles.input_group} ${styles.select_group}`}>
-                    <label>AREA</label>
+                    <label>{t('area')}</label>
                     <select
                     className={styles.customInput}
                     id="categoria"
                     value={areaServiceID}
                     onChange={(e) => setAreaServiceID(e.target.value)}
                 >
-                    <option value="0" disabled>
-                        Area
-                    </option>
-                    <option value="1">Fontaneria</option>
-                    <option value="2">Educacion</option>
-                    <option value="3">Mascotas</option>
-                    <option value="4">Medicina</option>
+                    <option value="0" disabled>{t('area')}</option>
+                        <option value="1">{t('plumbing')}</option>
+                        <option value="2">{t('education')}</option>
+                        <option value="3">{t('pets')}</option>
+                        <option value="4">{t('medicine')}</option>
                     <option value="4">Construccion</option>
                 </select>
                 </div>
@@ -145,13 +145,13 @@ const CreateForm = (props) => {
                     className={styles.customInput}
                     id="descripcion"
                     rows="4"
-                    placeholder="Describe tu solicitud"
+                    placeholder={t('describe_your_request')}
                     maxLength="250"
                     value={requestContent}
                     onChange={(e) => setRequestContent(e.target.value)}
                 ></textarea>
                 <div className={styles.inputGroup}>
-                    <label>Imagen acerca de la solicitud</label>
+                    <label>{t('image_about_request')}</label>
                     <label
                         htmlFor="imagen"
                         className={`${styles.smallInput} ${styles.customInput} ${styles.pointer}`}
@@ -167,9 +167,10 @@ const CreateForm = (props) => {
                 </div>
                 <Button
                     color="greenBtn"
-                    content="Crear"
+                    content={t('create_button')}
                     icon="fa-solid fa-square-plus fa-lg"
                 />
+
             </form>
         </React.Fragment>
     );

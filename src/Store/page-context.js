@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { API_ENDPOINT, API_COLOMBIA } from "../config";
+import { useTranslation } from 'react-i18next';
 
 /** Create Request HTTP Post handler function
  * Function that Post the information of a new request to the API for Create a Request and save in the BD
  * @param {*} formData contains all the new Request Information
  */
+
 const createRequest = async (formData) => {
     try {
         const response = await axios.post(`${API_ENDPOINT}Request`, formData);
@@ -55,28 +57,32 @@ const PageContext = React.createContext({
  * @param {*} props allows the children inside this component
  * @returns a empty component that allows other components inside and pass values for set pageContext variable values
  */
+
 export const PageContextProvider = (props) => {
+    const { t } = useTranslation();
     // Info about the diferent pages of user and their routes (id)
     const itemsMenu = [
         {
-            itemName: "Solicitudes",
+            itemName:t('Inquiries'),
             icon: "fa-solid fa-hand-holding-heart",
             subItems: [
                 {
                     id: "/~/1017/create_request",
-                    name: "Crear Solicitud",
+                    name: t('create_request')
+
+
                 },
                 {
                     id: "/~/1017/search-request",
-                    name: "Buscar Solicitudes",
+                    name: t('search_requests'),
                 },
                 {
                     id: "/~/1017/MyRequests",
-                    name: "Mis Solicitudes",
+                    name: t('my_requests') ,
                 },
                 {
                     id: "/~/1017/Postulations",
-                    name: "Mis Postulaciones",
+                    name: t('my_submissions'),
                 },
             ],
         },
@@ -86,7 +92,7 @@ export const PageContextProvider = (props) => {
             subItems: [
                 {
                     id: "Chats",
-                    name: "Todos",
+                    name: t('all'),
                 },
                 {
                     id: "Chats",
@@ -107,32 +113,34 @@ export const PageContextProvider = (props) => {
             ],
         },
         {
-            itemName: "Ayuda",
+            itemName: t('help'),
             icon: "fa-regular fa-circle-question",
             subItems: [
                 {
                     id: "Tutorials",
-                    name: "Tutoriales",
+                    name: t('tutorials'),
                 },
                 {
                     id: "Questions",
-                    name: "Escribenos tus preguntas",
+                    name: t('write_your_questions'),
                 },
                 {
                     id: "Reports",
-                    name: "Reportar Error",
+                    name: t('report_error')
                 },
             ],
         },
         {
             id: "Complaints",
-            itemName: "Reclamos",
+            itemName: t('claims'),
             icon: "fa-solid fa-file-circle-exclamation",
             subItems: null,
         },
         {
+
             id: "/~/1017/settings",
-            itemName: "Configuración",
+            itemName: t('settings'),
+
             icon: "fa-solid fa-gear",
             subItems: null,
         },

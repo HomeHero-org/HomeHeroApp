@@ -1,7 +1,13 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\public",
+    "\\src",
+    "\\src\\Pages",
+    "\\src\\Pages\\SignupPage",
+    "\\src\\Pages\\UserHomePage",
+    "\\src\\Store"
   ],
-  "SelectedNode": "\\C:\\Users\\juanm\\Source\\Repos\\HomeHeroApp",
+  "SelectedNode": "\\src\\Pages\\SignupPage\\Signup.js",
   "PreviewInSolutionExplorer": false
 }
