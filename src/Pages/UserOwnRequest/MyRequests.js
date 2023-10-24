@@ -124,11 +124,60 @@ const MyRequests = () => {
 
     const postulants = [
         {
+            id: 1,
             profileImg: userImg,
             username: "Martin Eladio Sanchez Martinez",
             qualification: 4.2,
             moneyOrdered: 45000,
-            status: "acepted",
+            status: 1,
+        },
+        {
+            id: 2,
+            profileImg: userImg,
+            username: "Martin Eladio Sanchez Martinez",
+            qualification: 4.2,
+            moneyOrdered: 45000,
+            status: 1,
+        },
+        {
+            id: 3,
+            profileImg: userImg,
+            username: "Mariano Eladio Sanchez Martinez",
+            qualification: 4.2,
+            moneyOrdered: 4500,
+            status: 1,
+        },
+        {
+            id: 4,
+            profileImg: userImg,
+            username: "Rigoberto Eladio Sanchez Martinez",
+            qualification: 3.7,
+            moneyOrdered: 5000,
+            status: 1,
+        },
+        {
+            id: 5,
+            profileImg: userImg,
+            username: "Martin Fabricio Sanchez Martinez",
+            qualification: 2.9,
+            moneyOrdered: 55000,
+            status: 0,
+        },
+        {
+            id: 6,
+            profileImg: userImg,
+            username: "Jose Eladio Sanchez Martinez",
+            qualification: 4.8,
+            moneyOrdered: 45000,
+            status: 0,
+        },
+        {
+            id: 7,
+            profileImg: userImg,
+            username: "Juan Eladio Sanchez Martinez",
+            qualification: 3.2,
+            moneyOrdered: 45000,
+            status: 0,
         },
     ];
 
@@ -249,47 +298,126 @@ const MyRequests = () => {
                             <h2> Postulaciones</h2>
                             <div className={styles.postulants_container}>
                                 <h3>Aceptados</h3>
-                                <div className={styles.postulant_card}>
-                                    <div className={styles.img_container}>
-                                        <img
-                                            alt="Request"
-                                            src={postulants[0].profileImg}
-                                        />
-                                    </div>
-                                    <div className={styles.postulant_info}>
-                                        <h4>{postulants[0].username}</h4>
-                                        <p>
-                                            <strong>Dinero pedido</strong>{" "}
-                                            {postulants[0].moneyOrdered}
-                                        </p>
-                                        <div className={styles.postulant_btns}>
-                                            <button>Rechazar</button>
-                                        </div>
-                                    </div>
-                                </div>
+                                {postulants.map((postulant) => {
+                                    if (postulant.status === 1)
+                                        return (
+                                            <div
+                                                key={postulant.id}
+                                                className={
+                                                    styles.postulant_card
+                                                }
+                                            >
+                                                <div
+                                                    className={
+                                                        styles.img_container
+                                                    }
+                                                >
+                                                    <img
+                                                        alt="Request"
+                                                        src={
+                                                            postulant.profileImg
+                                                        }
+                                                    />
+                                                </div>
+                                                <div
+                                                    className={
+                                                        styles.postulant_info
+                                                    }
+                                                >
+                                                    <h4>
+                                                        {postulant.username}
+                                                    </h4>
+                                                    <p>
+                                                        <strong>
+                                                            Dinero pedido
+                                                        </strong>
+                                                        {postulant.moneyOrdered}
+                                                    </p>
+                                                    <div
+                                                        className={
+                                                            styles.postulant_btns
+                                                        }
+                                                    >
+                                                        <button
+                                                            className={
+                                                                styles.bg_red
+                                                            }
+                                                        >
+                                                            Deshacer Aceptación
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                })}
                             </div>
                             <div className={styles.postulants_container}>
                                 <h3>Pendientes</h3>
-                                <div className={styles.postulant_card}>
-                                    <div className={styles.img_container}>
-                                        <img
-                                            alt="Request"
-                                            src={postulants[0].profileImg}
-                                        />
-                                    </div>
-                                    <div className={styles.postulant_info}>
-                                        <h4>{postulants[0].username}</h4>
-                                        <p>
-                                            <strong>Dinero pedido</strong>{" "}
-                                            {postulants[0].moneyOrdered}
-                                        </p>
-                                        <div className={styles.postulant_btns}>
-                                            <button>Contraoferta</button>
-                                            <button>Aceptar</button>
-                                            <button>Rechazar</button>
-                                        </div>
-                                    </div>
-                                </div>
+                                {postulants.map((postulant) => {
+                                    if (postulant.status === 0)
+                                        return (
+                                            <div
+                                                className={
+                                                    styles.postulant_card
+                                                }
+                                            >
+                                                <div
+                                                    className={
+                                                        styles.img_container
+                                                    }
+                                                >
+                                                    <img
+                                                        alt="Request"
+                                                        src={
+                                                            postulant.profileImg
+                                                        }
+                                                    />
+                                                </div>
+                                                <div
+                                                    className={
+                                                        styles.postulant_info
+                                                    }
+                                                >
+                                                    <h4>
+                                                        {postulant.username}
+                                                    </h4>
+                                                    <p>
+                                                        <strong>
+                                                            Dinero pedido
+                                                        </strong>{" "}
+                                                        {postulant.moneyOrdered}
+                                                    </p>
+                                                    <div
+                                                        className={
+                                                            styles.postulant_btns
+                                                        }
+                                                    >
+                                                        <button
+                                                            className={
+                                                                styles.bg_blue
+                                                            }
+                                                        >
+                                                            Contraoferta
+                                                        </button>
+                                                        <button
+                                                            className={
+                                                                styles.bg_green
+                                                            }
+                                                        >
+                                                            Aceptar
+                                                        </button>
+                                                        <button
+                                                            className={
+                                                                styles.bg_red
+                                                            }
+                                                        >
+                                                            Rechazar
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                })}
                             </div>
                         </section>
                     </>
