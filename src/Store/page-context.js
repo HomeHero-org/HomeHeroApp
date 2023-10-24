@@ -137,8 +137,10 @@ export const PageContextProvider = (props) => {
             subItems: null,
         },
         {
-            id: "/settings",
+
+            id: "/~/1017/settings",
             itemName: t('settings'),
+
             icon: "fa-solid fa-gear",
             subItems: null,
         },

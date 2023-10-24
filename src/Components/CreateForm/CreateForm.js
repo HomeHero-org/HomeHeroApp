@@ -66,7 +66,7 @@ const CreateForm = (props) => {
                     onChange={(e) => setPublicationReqDate(e.target.value)}
                 />
                 <div className={`${styles.input_group} ${styles.select_group}`}>
-                    <label>{t('department_where_you_live')}</label>
+                   <label>{t('department_where_you_live')}</label>
                     <select
                         className={styles.customInput}
                         id="department"

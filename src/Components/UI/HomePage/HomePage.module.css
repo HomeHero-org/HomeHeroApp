@@ -1,4 +1,6 @@
 .accessContent{
+    background: url(../../../Images/BackgroundPatternTools.jpg ) repeat;
+    background-size: 460px; 
     width: 100%;
     display: flex;
     flex-wrap: wrap;

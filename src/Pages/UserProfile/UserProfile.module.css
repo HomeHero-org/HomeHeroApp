@@ -1,0 +1,17 @@
+.main_content{
+    margin: 0 20px;
+    padding: 10px 0;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 20px;
+}
+
+.pdf_container{
+    width: 48%;
+    background: #5e8872;
+    border-radius: 8px;
+    max-height: 110vh;
+    padding: 10px;
+}

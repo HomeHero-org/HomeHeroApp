@@ -1,11 +1,12 @@
 import React, { useState} from "react";
 import ReactDOM from "react-dom";
 import styles from "./Sidebar.module.css";
-import imgProfile from "../../Images/userPf1.jpg";
+import imgProfile from "../../Images/user_default_photo.jpg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useCtx from "../../Hooks/useCtx";
 import { API_ENDPOINT } from "../../config";
+import getRole from "../../Hooks/getRole";
 const ItemMenu = (props) => {
     const navigate = useNavigate();
     const [isShowSubmenu, setShowSubmenu] = useState(false);
@@ -46,14 +47,14 @@ const ItemMenu = (props) => {
     } else {
         return (
             <li className={isShowSubmenu ? styles.show_menu : undefined}>
-                    <a className={styles.pointer} onClick={() => props.getViewHandler(props.infoItem.id)}>
+                    <a className={styles.pointer} onClick={() => navigate(props.infoItem.id)}>
                         <i className={props.infoItem.icon}></i>
                         <span className={styles.link_name}>
                             {props.infoItem.itemName}
                         </span>
                     </a>
                     <ul className={`${styles.sub_menu} ${styles.blank}`}>
-                        <li><a className={styles.link_name} onClick={() => props.getViewHandler(props.infoItem.id)}>{props.infoItem.itemName}</a></li>
+                        <li><a className={styles.link_name} onClick={() => navigate(props.infoItem.id)}>{props.infoItem.itemName}</a></li>
                     </ul>
             </li>
         );
@@ -62,8 +63,8 @@ const ItemMenu = (props) => {
 
 const MainSidebar = (props) => {
     const navigate = useNavigate();
-    const {setToken,itemsMenu,setRememberLogin,remeberLogin} = useCtx();
-
+    const {setToken,itemsMenu,setRememberLogin,token} = useCtx();
+    const codeRole = getRole(token);
     const logoutHandler = async () => {
         console.log("trying to log ");
 
@@ -81,7 +82,7 @@ const MainSidebar = (props) => {
 
     return (
         <div className={`${styles.sidebar} ${props.isCollapseMenu ? styles.close : undefined }`}>
-            <div className={styles.logo_details}>
+            <div onClick={() => navigate(`/~/${codeRole}/home`)} className={styles.logo_details}>
                 <i className="fa-solid fa-heading"></i>
                 <span className={styles.logo_name}>HomeHero</span>
             </div>
@@ -91,10 +92,10 @@ const MainSidebar = (props) => {
                 })}
                 <li>
                     <div className={styles.profile_details}>
-                        <div className={styles.profile_content}>
+                        <div className={`${styles.profile_content} ${styles.pointer}`} onClick={() => navigate(`/~/${codeRole}/profile`)}>
                             <img src={imgProfile} alt="Profile image" />
                         </div>
-                        <div className={styles.profile_info}>
+                        <div onClick={() => navigate(`/~/${codeRole}/profile`)} className={styles.pointer}>
                             <p className={styles.user_name}>
                                 Sebastian Galindo
                             </p>

@@ -3,3 +3,16 @@
     height: 100vh;
     width: 100%;
 }
+
+.motivational_phrase{
+    font-size: 32px;
+    color: #296152;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 20px;
+    font-family: Signika Negative;
+    font-weight: 600;
+    font-style: normal;
+    line-height: normal;
+    margin: 0;
+}

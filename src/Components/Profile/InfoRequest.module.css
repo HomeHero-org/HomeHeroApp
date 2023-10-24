@@ -1,0 +1,11 @@
+.info_request{
+    width: 100%;
+    min-height: 100px;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    row-gap: 20px;
+}
