@@ -6,13 +6,15 @@ import InfoSection from "../../Components/UI/InfoSection/InfoSection";
 import { GrStatusGoodSmall } from "react-icons/gr";
 import imgRequest from "../../Images/req01.jpg";
 import userImg from "../../Images/user_default_photo.jpg";
+import { useTranslation } from 'react-i18next';
 
 const MyRequests = () => {
     const [currentRequest, setCurrentRequest] = useState(null);
+    const { t } = useTranslation();
     const myRequest = [
         {
             id: 1,
-            title: "Title Request",
+            title:  t('Title Request') ,
             area: "Something",
             date: "2023-10-20",
             status: "Not Started",
@@ -23,7 +25,7 @@ const MyRequests = () => {
         },
         {
             id: 2,
-            title: "Title Request",
+            title: t('Title Request'),
             area: "Something",
             date: "2023-10-20",
             status: "Not Started",
@@ -34,7 +36,7 @@ const MyRequests = () => {
         },
         {
             id: 3,
-            title: "Title Request",
+            title: t('Title Request'),
             area: "Something",
             date: "2023-10-20",
             status: "Not Started",
@@ -45,7 +47,7 @@ const MyRequests = () => {
         },
         {
             id: 4,
-            title: "Title Request",
+            title: t('Title Request'),
             area: "Something",
             date: "2023-10-20",
             status: "Not Started",
@@ -56,7 +58,7 @@ const MyRequests = () => {
         },
         {
             id: 5,
-            title: "Title Request",
+            title: t('Title Request'),
             area: "Something",
             date: "2023-10-20",
             status: "Not Started",
@@ -67,7 +69,7 @@ const MyRequests = () => {
         },
         {
             id: 6,
-            title: "Title Request",
+            title: t('Title Request'),
             area: "Something",
             date: "2023-10-20",
             status: "Not Started",
@@ -78,7 +80,7 @@ const MyRequests = () => {
         },
         {
             id: 7,
-            title: "Title Request",
+            title: t('Title Request'),
             area: "Something",
             date: "2023-10-20",
             status: "Not Started",
@@ -89,7 +91,7 @@ const MyRequests = () => {
         },
         {
             id: 8,
-            title: "Title Request",
+            title: t('Title Request'),
             area: "Something",
             date: "2023-10-20",
             status: "Not Started",
@@ -100,7 +102,7 @@ const MyRequests = () => {
         },
         {
             id: 9,
-            title: "Title Request",
+            title: t('Title Request'),
             area: "Something",
             date: "2023-10-20",
             status: "Not Started",
@@ -111,7 +113,7 @@ const MyRequests = () => {
         },
         {
             id: 10,
-            title: "Title Request",
+            title: t('Title Request'),
             area: "Something",
             date: "2023-10-20",
             status: "Not Started",
@@ -180,48 +182,48 @@ const MyRequests = () => {
             status: 0,
         },
     ];
+   
 
     return (
         <div className={styles.main_content}>
             <section className={styles.own_request_section}>
                 <div className={styles.request_filter}>
-                    <h2>Filtros</h2>
+                    <h2>{t('filters')}</h2>
+                  
                     <div
                         className={`${styles.input_group} ${styles.select_group}`}
                     >
-                        <label>Area</label>
+                        <label>{t('area')}</label>
                         <select
                             className={styles.customInput}
                             id="categoria"
                             defaultValue={0}
                         >
                             <option value="0" disabled>
-                                Area
+                                {t('area')}
                             </option>
-                            <option value="1">Fontaneria</option>
-                            <option value="2">Educacion</option>
-                            <option value="3">Mascotas</option>
-                            <option value="4">Medicina</option>
-                            <option value="4">Construccion</option>
+                            <option value="1">{t('plumbing')}</option>
+                            <option value="2">{t('education')}</option>
+                            <option value="3">{t('pets')}</option>
+                            <option value="4">{t('medicine')}</option>
                         </select>
                     </div>
                     <div
                         className={`${styles.input_group} ${styles.select_group}`}
                     >
-                        <label>Status</label>
+                        <label>{t('state')}</label>
                         <select
                             className={styles.customInput}
                             id="categoria"
                             defaultValue={0}
                         >
                             <option value="0" disabled>
-                                Status
+                                {t('state')}
                             </option>
-                            <option value="1">Fontaneria</option>
-                            <option value="2">Educacion</option>
-                            <option value="3">Mascotas</option>
-                            <option value="4">Medicina</option>
-                            <option value="4">Construccion</option>
+                            <option value="1">{t('plumbing')}</option>
+                            <option value="2">{t('education')}</option>
+                            <option value="3">{t('pets')}</option>
+                            <option value="4">{t('medicine')}</option>
                         </select>
                     </div>
                 </div>
@@ -242,10 +244,10 @@ const MyRequests = () => {
                                 <div className={styles.request_summary_info}>
                                     <h2>{request.title}</h2>
                                     <p>
-                                        <strong>Area: </strong> {request.area}
+                                        <strong>{t('area')} </strong> {request.area}
                                     </p>
                                     <p>
-                                        <strong>Date: </strong>{" "}
+                                        <strong>{ t('date')}</strong>{" "}
                                         <time dateTime={request.date}>
                                             {request.date}
                                         </time>
@@ -270,34 +272,34 @@ const MyRequests = () => {
                             </p>
                             <h2>{currentRequest.title}</h2>
                             <div className={styles.member_status}>
-                                <h3>Miembros</h3>
+                                <h3>{t('members')}</h3>
                                 <p>
                                     <strong>Necesitados</strong>{" "}
                                     {currentRequest.membersNeeded}
                                 </p>
                                 <p>
-                                    <strong>Aceptados</strong> 17
+                                    <strong>{t('accepted')}</strong> 17
                                 </p>
                                 <p>
-                                    <strong>Faltantes</strong> 8
+                                    <strong>{t('Faltantes')}</strong> 8
                                 </p>
                             </div>
                         </header>
                         <section className={styles.request_extended_info}>
                             <p>
-                                <strong>Ubicacion</strong> Facatativá
+                                <strong>{t('Ubicacion')}</strong> Facatativá
                             </p>
                             <p>
-                                <strong>Area</strong> {currentRequest.area}
+                                <strong>{t('area1') }</strong> {currentRequest.area}
                             </p>
                             <p className={styles.description}>
                                 {currentRequest.description}
                             </p>
                         </section>
                         <section className={styles.request_postulations}>
-                            <h2> Postulaciones</h2>
+                            <h2> {t('Postulaciones')}</h2>
                             <div className={styles.postulants_container}>
-                                <h3>Aceptados</h3>
+                                <h3>{t('Aceptados')}</h3>
                                 {postulants.map((postulant) => {
                                     if (postulant.status === 1)
                                         return (
@@ -329,7 +331,7 @@ const MyRequests = () => {
                                                     </h4>
                                                     <p>
                                                         <strong>
-                                                            Dinero pedido
+                                                            {t('Dinero pedido')}
                                                         </strong>
                                                         {postulant.moneyOrdered}
                                                     </p>
@@ -343,7 +345,7 @@ const MyRequests = () => {
                                                                 styles.bg_red
                                                             }
                                                         >
-                                                            Deshacer Aceptación
+                                                            {t('Deshacer Aceptación')}
                                                         </button>
                                                     </div>
                                                 </div>
@@ -352,7 +354,7 @@ const MyRequests = () => {
                                 })}
                             </div>
                             <div className={styles.postulants_container}>
-                                <h3>Pendientes</h3>
+                                <h3>{t('Pendientes')}</h3>
                                 {postulants.map((postulant) => {
                                     if (postulant.status === 0)
                                         return (
@@ -383,7 +385,7 @@ const MyRequests = () => {
                                                     </h4>
                                                     <p>
                                                         <strong>
-                                                            Dinero pedido
+                                                            {t('Dinero pedido')}
                                                         </strong>{" "}
                                                         {postulant.moneyOrdered}
                                                     </p>
@@ -397,21 +399,21 @@ const MyRequests = () => {
                                                                 styles.bg_blue
                                                             }
                                                         >
-                                                            Contraoferta
+                                                            {t('Contraoferta')}
                                                         </button>
                                                         <button
                                                             className={
                                                                 styles.bg_green
                                                             }
                                                         >
-                                                            Aceptar
+                                                            {t('Aceptar')}
                                                         </button>
                                                         <button
                                                             className={
                                                                 styles.bg_red
                                                             }
                                                         >
-                                                            Rechazar
+                                                            {t('Rechazar')}
                                                         </button>
                                                     </div>
                                                 </div>

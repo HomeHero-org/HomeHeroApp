@@ -1,5 +1,6 @@
 import styles from "./InfoQualification.module.css";
 import { FaRegStar, FaStar, FaRegStarHalfStroke } from "react-icons/fa6";
+import { useTranslation } from 'react-i18next';
 const InfoQualification = (props) => {
     const start_container = [];
     for (let i = 1; i <= 5; i++) {
@@ -13,26 +14,26 @@ const InfoQualification = (props) => {
             start_container.push(<FaRegStar className={styles.star} />);
         }
     }
-
+    const { t } = useTranslation();
     return (
         <section className={styles.info_qualification}>
-            <h1 className={styles.main_title}>Tu Calificación Promedio</h1>
+            <h1 className={styles.main_title}>{t('yourAverageRating')}</h1>
             <section className={styles.star_rate_group}>
                 <h2>{props.userQualification}/5</h2>
                 <div className={styles.start_container}>{start_container}</div>
                 <p className={styles.qualification_quantity}>
-                    <strong>Calificaciones Recibidas: </strong>{" "}
+                    <strong>{t('receivedRatings')} </strong>{" "}
                     {props.qualificationQuantity}{" "}
                 </p>
             </section>
             <section className={styles.last_comments}>
-                <h1 className={styles.main_title}>Ultimos Comentarios Recibidos</h1>
+                <h1 className={styles.main_title}>{t('recentReceivedComments')}</h1>
                 <div className={styles.comment}>
                     <p className={styles.head_comment}>
-                        <strong>Solicitud Relacionada:</strong> Request Name
+                        <strong>{t('relatedRequest')}</strong> Request Name
                     </p>
                     <p className={styles.head_comment}>
-                        <strong>Persona atendida:</strong> User Name
+                        <strong>{t('personServed')}</strong> User Name
                     </p>
                     <p className={styles.comment_content}>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -50,10 +51,10 @@ const InfoQualification = (props) => {
                 </div>
                 <div className={styles.comment}>
                     <p className={styles.head_comment}>
-                        <strong>Solicitud Relacionada:</strong> Request Name
+                        <strong>{t('relatedRequest')}</strong> Request Name
                     </p>
                     <p className={styles.head_comment}>
-                        <strong>Persona atendida:</strong> User Name
+                        <strong>{t('personServed')}</strong> User Name
                     </p>
                     <p className={styles.comment_content}>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -71,10 +72,10 @@ const InfoQualification = (props) => {
                 </div>
                 <div className={styles.comment}>
                     <p className={styles.head_comment}>
-                        <strong>Solicitud Relacionada:</strong> Request Name
+                        <strong>{t('relatedRequest')}</strong> Request Name
                     </p>
                     <p className={styles.head_comment}>
-                        <strong>Persona atendida:</strong> User Name
+                        <strong>{t('personServed')}</strong> User Name
                     </p>
                     <p className={styles.comment_content}>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.

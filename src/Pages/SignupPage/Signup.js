@@ -272,7 +272,7 @@ const Signup = () => {
                         }
                         aria-describedby="nameNote"
                         type="text"
-                        placeholder='"Escribe tus nombres aquí"'
+                        placeholder={t('writeYourNamesHere')}
                         onFocus={() => onVisibleHandler("NAMES")}
                         onBlur={() => onVisibleHandler("NAMES")}
                         onChange={(e) =>

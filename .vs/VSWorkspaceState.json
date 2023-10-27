@@ -2,12 +2,14 @@
   "ExpandedNodes": [
     "",
     "\\public",
+    "\\public\\locales",
+    "\\public\\locales\\en",
+    "\\public\\locales\\es",
     "\\src",
+    "\\src\\Components",
     "\\src\\Pages",
-    "\\src\\Pages\\SignupPage",
-    "\\src\\Pages\\UserHomePage",
-    "\\src\\Store"
+    "\\src\\Pages\\SearchRequest"
   ],
-  "SelectedNode": "\\src\\Pages\\SignupPage\\Signup.js",
+  "SelectedNode": "\\public\\locales\\es\\translation.json",
   "PreviewInSolutionExplorer": false
 }

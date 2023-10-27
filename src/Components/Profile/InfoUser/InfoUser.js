@@ -6,6 +6,7 @@ import { FaFileCircleCheck, FaFileCircleExclamation } from "react-icons/fa6";
 import axios from "axios";
 import { API_COLOMBIA } from "../../../config";
 import { isEditable } from "@testing-library/user-event/dist/utils";
+import { useTranslation } from 'react-i18next';
 
 const InfoUser = (props) => {
     const initImage = props.userInfo.profileImg
@@ -14,6 +15,7 @@ const InfoUser = (props) => {
     const [citiesList, setCitiesList] = useState([]);
     const [selectedCity, setSelectedCity] = useState();
     const [selectedImage, setSelectedImage] = useState(initImage);
+    const { t } = useTranslation();
     const getCites = async () => {
         try {
             const response = await axios.get(`${API_COLOMBIA}City`);
@@ -42,7 +44,7 @@ const InfoUser = (props) => {
 
     const [editInfo, setEditInfo] = useState(false);
     const [buttonText, setButtonText] = useState(
-        editInfo ? "Guardar" : props.percentage === 100 ? "Editar" : "Completar"
+        editInfo ?  t('save')  : props.percentage === 100 ? t('edit') : t('complete')
     );
     const [pdfFile, setPDFFile] = useState(null);
     const fileType = ["application/pdf"];
@@ -70,13 +72,13 @@ const InfoUser = (props) => {
     }, [pdfFile]);
 
     const userInfoHandler = () => {
-        if (buttonText === "Guardar") {
+        if (buttonText ===  t('save') ) {
             //Call the function for verify data and make Http Request to Update the Info
             setEditInfo(false);
-            setButtonText(props.percentage === 100 ? "Editar" : "Completar");
+            setButtonText(props.percentage === 100 ? t('edit') :  t('complete') );
         } else {
             setEditInfo(true);
-            setButtonText("Guardar");
+            setButtonText( t('save') );
         }
     };
 
@@ -111,7 +113,7 @@ const InfoUser = (props) => {
             a.click();
         }
     };
-
+    
     return (
         <section className={styles.info_profile}>
             <div className={styles.percentage_group}>
@@ -134,7 +136,7 @@ const InfoUser = (props) => {
                         onClick={editPhotoHandler}
                         className={styles.photo_button}
                     >
-                        {editInfo ? "Editar" : "Descargar"}
+                        {editInfo ? t('edit') :  t('download') }
                     </button>
                     <input
                         onChange={imageChangeHandler}
@@ -148,19 +150,19 @@ const InfoUser = (props) => {
                     className={styles.curriculum}
                     onClick={fileSelectorHandler}
                 >
-                    <p>Curriculum</p>
+                    <p>{t('curriculum')}</p>
                     <BsFillFileEarmarkPdfFill size={50} />
                     <p className={styles.curriculum_state}>
                         {!props.userInfo.curriculum ? (
                             <>
-                                <em className={styles.warning}>Pendiente</em>
+                                <em className={styles.warning}>{t('pending')}</em>
                                 <FaFileCircleExclamation
                                     className={styles.warning}
                                 />
                             </>
                         ) : (
                             <>
-                                <em className={styles.green}>Cargado</em>
+                                    <em className={styles.green}>{t('loaded')}</em>
                                 <FaFileCircleCheck className={styles.green} />
                             </>
                         )}
@@ -175,7 +177,7 @@ const InfoUser = (props) => {
                 />
                 <div className={styles.info_item}>
                     <label className={styles.item}>
-                        <strong>Nombres</strong>
+                        <strong>{t('names')}</strong>
                         <input
                             type="text"
                             defaultValue={props.userInfo.names}
@@ -183,7 +185,7 @@ const InfoUser = (props) => {
                         ></input>
                     </label>
                     <label className={styles.item}>
-                        <strong>Apellidos</strong>
+                        <strong>{t('LAST_NAMES')}</strong>
                         <input
                             type="text"
                             defaultValue={props.userInfo.surnames}
@@ -191,7 +193,7 @@ const InfoUser = (props) => {
                         ></input>
                     </label>
                     <label className={`${styles.item}`}>
-                        <strong>Email</strong>
+                        <strong>{t('EMAIL') }</strong>
                         <input
                             className={styles.long_input}
                             type="email"
@@ -200,7 +202,7 @@ const InfoUser = (props) => {
                         ></input>
                     </label>
                     <label className={styles.item}>
-                        <strong>ID</strong>
+                        <strong>{t('identification')}</strong>
                         <input
                             type="text"
                             defaultValue={props.userInfo.id}
@@ -208,7 +210,7 @@ const InfoUser = (props) => {
                         ></input>
                     </label>
                     <label className={styles.item}>
-                        <strong>Ciudad de Residencia</strong>
+                        <strong>{t('city_of_residence')}</strong>
                         <input
                             type="text"
                             defaultValue={selectedCity ? selectedCity.name : ""}
@@ -227,7 +229,7 @@ const InfoUser = (props) => {
                         </datalist>
                     </label>
                     <label className={styles.item}>
-                        <strong>Genero</strong>
+                        <strong>{t('gender')}</strong>
                         <input
                             type="text"
                             defaultValue={props.userInfo.gender}
