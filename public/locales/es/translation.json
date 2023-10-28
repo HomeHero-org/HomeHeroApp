@@ -65,6 +65,7 @@
   "names": "NOMBRE",
   "LAST_NAMES": "APELLIDOS",
   "EMAIL": "CORREO",
+  "departamento": "departamento",
   "DEPARTAMENTO": "DEPARTAMENTO",
   "DEPARTAMENTO1": "Departamento",
   "CITY_WHERE_YOU_LIVE": "CIUDAD DONDE VIVES",

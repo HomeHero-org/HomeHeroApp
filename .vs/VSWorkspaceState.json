@@ -5,10 +5,7 @@
     "\\public\\locales",
     "\\public\\locales\\en",
     "\\public\\locales\\es",
-    "\\src",
-    "\\src\\Components",
-    "\\src\\Pages",
-    "\\src\\Pages\\SearchRequest"
+    "\\src"
   ],
   "SelectedNode": "\\public\\locales\\es\\translation.json",
   "PreviewInSolutionExplorer": false
