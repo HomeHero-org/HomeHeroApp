@@ -1,53 +1,79 @@
-import React, { useState, useContext } from "react";
-/**Componentes para las vistas principales ------------------------------*/
-import CreateRequest from "./Components/CreateRequest";
-import SearchRequest from "./Components/SearchRequest";
-import MyRequest from "./Components/MyRequests";
-import ChatsView from "./Components/ChatsView";
-import ComplaintView from "./Components/ComplaintView";
-import MyPostulations from "./Components/MyPostulations";
-import QuestionView from "./Components/QuestionView";
-import ReportsView from "./Components/ReportsView";
-import SettingsView from "./Components/SettingsView";
-import TutorialsView from "./Components/TutorialsView";
-/** ---------------------------------------------------------------------*/
-import Navbar from "./Components/Navbar";
-import Sidebar from "./Components/Sidebar";
-import styles from "./App.module.css";
-import PageContext from "./Store/page-context";
+import React, { useState, useContext, Suspense } from "react";
+import HomePage from "./Components/UI/HomePage/HomePage";
+import UserHomePage from "./Pages/UserHomePage/UserHomePage";
+import AdminHomePage from "./Pages/AdminHomePage/AdminHomePage";
+import NotFound from "./Pages/NotFound/NotFound";
+import Login from "./Pages/LoginPage/Login";
+import Signup from "./Pages/SignupPage/Signup";
+import CreateRequest from "./Pages/CreateRequest/CreateRequest";
+import SearchRequest from "./Pages/SearchRequest/SearchRequest";
+import SettingsView from "./Pages/Settings/SettingsView";
+import { Routes, Route } from "react-router-dom";
+import Layout from "./Components/Layout";
+import RequireAuth from "./Components/RequireAuth/RequireAuth";
+import PersistLogin from "./Components/PersistLogin";
+import ResetPassword from "./Pages/ResetPassword/ResetPassword";
+import UserProfile from "./Pages/UserProfile/UserProfile";
+import MyRequest from "./Pages/UserOwnRequest/MyRequests";
+
+function Loading() {
+    return (
+        <>Loading...</>
+    )
+}
 
 function App() {
-    const ctx = useContext(PageContext);
-    const listViews = {
-        ['CreateRequest']: <CreateRequest/>,
-        ['SearchRequest']: <SearchRequest/>,
-        ['MyRequests']:<MyRequest/>,
-        ['ChatsView']:<ChatsView/>,
-        ['ComplaintView']:<ComplaintView/>,
-        ['MyPostulations']:<MyPostulations/>,
-        ['QuestionView']:<QuestionView/>,
-        ['ReportsView']:<ReportsView/>,
-        ['SettingsView']:<SettingsView/>,
-        ['TutorialsView']:<TutorialsView/>
-    }
 
-    const [isCollapseMenu, setCollapseMenu] = useState(false);
-    const [mainView,setMainView] = useState(<></>);
-
-    const collapseMenuHandler = () => {
-        setCollapseMenu(!isCollapseMenu);
-    };
-
-    const getViewHandler = (nameComponent) => {
-        setMainView(listViews[nameComponent]);
-    }
 
     return (
-        <div className={`${styles.main_content} ${isCollapseMenu ? styles.menu_collapsed: undefined}`}>
-            <Sidebar getViewHandler={getViewHandler} isCollapseMenu={isCollapseMenu} />
-            <Navbar collapseMenuHandler={collapseMenuHandler}></Navbar>
-            {ctx.mainView}
-        </div>
+
+        <Routes>
+            <Route path="/" element={<Layout />}>
+                {/*Public routes*/}
+                <Route path="/" element={<HomePage />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/not_found" element={<NotFound />} />
+                <Route path="/sign_up" element={<Signup />} />
+                <Route path="/settings" element={<SettingsView />} />
+                <Route path="/reset_password" element={<ResetPassword />} />
+                <Route
+                    path="/~/1017/profile"
+                    element={<UserProfile />}
+                />
+                <Route
+                    path="/~/1017/MyRequests"
+                    element={<MyRequest />}
+                />
+                {/*Protected routes*/}
+                <Route path="/~" element={<PersistLogin />}>
+                    <Route
+                        path="/~/1017"
+                        element={
+                            <RequireAuth allowedRoles={["1017", "2001"]} />
+                        }
+                    >
+                        <Route path="/~/1017/home" element={<UserHomePage />} />
+                        <Route
+                            path="/~/1017/create_request"
+                            element={<CreateRequest />}
+                        />
+                        <Route
+                            path="/~/1017/search-request"
+                            element={<SearchRequest />}
+                        />
+                    </Route>
+                    <Route
+                        path="/~/2001"
+                        element={<RequireAuth allowedRoles={["2001"]} />}
+                    >
+                        <Route
+                            path="/~/2001/home"
+                            element={<AdminHomePage />}
+                        />
+                    </Route>
+                </Route>
+            </Route>
+        </Routes>
     );
 }
 

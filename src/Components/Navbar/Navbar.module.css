@@ -1,0 +1,48 @@
+.navbar {
+    z-index: 200;
+    display: flex;
+    color: #296152;
+    align-items: center;
+    margin: 0px 2%;
+    padding-top: 7px;
+}
+
+.navbar h1 {
+    margin: 0%;
+    color: #296152;
+    font-family: Signika Negative;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -2px;
+    transition: all 0.3s ease-out;
+}
+
+.navbar .hidden{
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease-out;
+}
+
+.navbar i{
+    max-height: 32px;
+    margin-right: 16px;
+    cursor: pointer;
+}
+
+.userImg{
+    width: 48px;
+    height: 48px;
+    overflow: hidden;
+    border: #4A5FA0 2px solid;
+    border-radius: 10px;
+    margin-left: auto;
+}
+
+.userImg img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+

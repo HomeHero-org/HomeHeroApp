@@ -1,0 +1,9 @@
+.main_content{
+    background: url(../../Images/BackgroundPatternTools.jpg) repeat;
+    background-size: 460px;
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    color: darkcyan;
+    transition: all 0.5s ease;
+}

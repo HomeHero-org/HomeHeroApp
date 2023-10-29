@@ -1,29 +1,13 @@
 
 body::-webkit-scrollbar {
-    width: 5px; /* Ancho de la barra de desplazamiento */
+    width: 5px; 
 }
 
 body::-webkit-scrollbar-thumb {
-    background-color: #296152; /* Color del botón de arrastre (puede personalizarse) */
-    border-radius: 2px; /* Bordes redondeados del botón de arrastre */
+    background-color: #296152;
+    border-radius: 2px; 
 }
 
 body::-webkit-scrollbar-thumb:hover {
-    background-color: #193a31; /* Cambio de color al pasar el mouse sobre la barra de desplazamiento */
-}
-
-.main_content{
-    background: url(Images/BackgroundPatternTools.jpg) repeat;
-    background-size: 460px;
-    position: relative;
-    height: 100vh;
-    left: 260px;
-    width: calc(100% - 260px);
-    transition: all 0.5s ease;
-}
-
-.menu_collapsed {
-    left: 78px;
-    width: calc(100% - 78px);
-    background-size: 460px;
+    background-color: #193a31;
 }

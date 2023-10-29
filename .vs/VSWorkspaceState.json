@@ -1,7 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\public",
+    "\\public\\locales",
+    "\\public\\locales\\en",
+    "\\public\\locales\\es",
+    "\\src"
   ],
-  "SelectedNode": "\\C:\\Users\\juanm\\Source\\Repos\\HomeHeroApp",
+  "SelectedNode": "\\public\\locales\\es\\translation.json",
   "PreviewInSolutionExplorer": false
 }

@@ -4,15 +4,25 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { PageContextProvider } from "./Store/page-context";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+const Index = () => {
+
+    return (
+        <React.StrictMode>
+            <PageContextProvider>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/*" element={<App />} />
+                    </Routes>
+                </BrowserRouter>
+            </PageContextProvider>
+        </React.StrictMode>
+    );
+};
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-    <React.StrictMode>
-        <PageContextProvider>
-            <App />
-        </PageContextProvider>
-    </React.StrictMode>
-);
+root.render(<Index />);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
