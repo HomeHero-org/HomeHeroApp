@@ -146,9 +146,9 @@ const ResetPassword = () => {
     //#endregion
 
     const [digit, setDigit] = useState(["", "", "", "", "", ""]);
-    const {secondsLeft, start } = useCountDown();
+    const { secondsLeft, start } = useCountDown();
     const [showTimer, setShowTimer] = useState(false);
-    const [timerPos,setTimerPost] = useState('fa-hourglass-start');
+    const [timerPos, setTimerPost] = useState('fa-hourglass-start');
     const onlyDigitHandler = (e, i) => {
         const value = e.target.value;
         if (/^[0-9]*$/.test(value)) {
@@ -161,33 +161,81 @@ const ResetPassword = () => {
         }
     };
 
-    const sendCodeHanlder = (e) => {
-        e.preventDefault();
-        setShowTimer(true);
-        start(60);
-    }
+    const sendCodeHanlder = async (event) => {
+        event.preventDefault();
+        try {
+            const email = newPasswordData.email.value;
 
-    const validateCodeHanlder = (e) => {
-        e.preventDefault();
-    }
+            if (!email) {
+                console.error("El email no puede estar vacío.");
+                return;
+            }
+
+            setShowTimer(true);
+            start(3600);
+
+            console.log("Data enviada " + email);
+
+            ctx.onSetForm(email);
+            ctx.onSetRequestAction("SENDEMAIL");
+        } catch (error) {
+            console.error("Error al enviar el formulario:", error);
+        }
+    };
+    const setNewPWHanlder = async (event) => {
+        event.preventDefault();
+        try {
+            const email = newPasswordData.email.value;
+            const newPW = newPasswordData.password.value;
+            const code = digit.join('');
+
+            if (!email) {
+                console.error("El email no puede estar vacío.");
+                return;
+            }           
+            if (!code) {
+                console.error("El codigo no puede estar vacío.");
+                return;
+            }
+            if (!newPW) {
+                console.error("La nueva contraseña no puede estar vacío.");
+                return;
+            }
+
+            ctx.onSetForm({
+                email: email,
+                code: code,
+                newPassword: newPW,
+            });
+            ctx.onSetRequestAction("SETPW");
+        } catch (error) {
+            console.error("Error al enviar el formulario:", error);
+        }
+    };
+
+
+
+    //const validateCodeHanlder = (e) => {
+    //    e.preventDefault();
+    //}
 
     useEffect(() => {
-        if(secondsLeft < 1){
+        if (secondsLeft < 1) {
             setShowTimer(false);
         }
-        if(timerPos === 'fa-hourglass-start'){
+        if (timerPos === 'fa-hourglass-start') {
             setTimerPost('fa-hourglass-half');
         }
-        else if(timerPos === 'fa-hourglass-half'){
+        else if (timerPos === 'fa-hourglass-half') {
             setTimerPost('fa-hourglass-end');
         }
-        else if(timerPos === 'fa-hourglass-end'){
+        else if (timerPos === 'fa-hourglass-end') {
             setTimerPost('fa-hourglass');
         }
-        else{ 
+        else {
             setTimerPost('fa-hourglass-start');
         }
-    },[secondsLeft]);
+    }, [secondsLeft]);
 
     const { t } = useTranslation();
     return (
@@ -214,12 +262,12 @@ const ResetPassword = () => {
                     <input
                         className={
                             !newPasswordData.email.isValid &&
-                            newPasswordData.email.value != null
+                                newPasswordData.email.value != null
                                 ? styles.invalid_input
                                 : undefined
                         }
                         type="email"
-                        placeholder={t('Email_Example') }
+                        placeholder={t('Email_Example')}
                         onFocus={() => onVisibleHandler("EMAIL")}
                         onBlur={() => onVisibleHandler("EMAIL")}
                         onChange={(e) =>
@@ -291,15 +339,15 @@ const ResetPassword = () => {
                         onChange={(e) => onlyDigitHandler(e, 5)}
                     ></input>
                     <div className={`${styles.timerCode} ${showTimer ? styles.timer_show : styles.timer_hide}`}>
-                    <span>{secondsLeft}s</span>
-                    <i className={`fa-solid ${timerPos}`}></i>
+                        <span>{secondsLeft}s</span>
+                        <i className={`fa-solid ${timerPos}`}></i>
 
                     </div>
                 </div>
-                <button onClick={validateCodeHanlder} className={`${styles.btn_group} ${styles.validate_btn}`}>
-                    <i className="fa-solid fa-circle-check"></i>
-                    <span>{t('VALIDATE')}</span>
-                </button>
+                {/*<button onClick={validateCodeHanlder} className={`${styles.btn_group} ${styles.validate_btn}`}>*/}
+                {/*    <i className="fa-solid fa-circle-check"></i>*/}
+                {/*    <span>{t('VALIDATE')}</span>*/}
+                {/*</button>*/}
                 <div className={styles.input_group}>
                     <label>{t('NEWPASSWORD')}</label>
                     {!newPasswordData.password.isValid &&
@@ -317,7 +365,7 @@ const ResetPassword = () => {
                     <input
                         className={
                             !newPasswordData.password.isValid &&
-                            newPasswordData.password.value != null
+                                newPasswordData.password.value != null
                                 ? styles.invalid_input
                                 : undefined
                         }
@@ -346,9 +394,9 @@ const ResetPassword = () => {
                         </p>
                     )}
                 </div>
-                <button className={`${styles.btn_group} ${styles.reset_btn}`}>
+                <button onClick={setNewPWHanlder} className={`${styles.btn_group} ${styles.reset_btn}`}>
                     <i className="fa-solid fa-right-to-bracket"></i>
-                    <span>{t('RESET_PASSWORD') }</span>
+                    <span>{t('RESET_PASSWORD')}</span>
                 </button>
                 {errorMessage && (
                     <p className={styles.login_info_process}>{errorMessage}</p>

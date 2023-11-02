@@ -8,6 +8,7 @@ import InfoSection from "../../Components/UI/InfoSection/InfoSection";
 import ReqNormalCard from "../../Components/UI/RequestCard/ReqNormalCard";
 import ExtendedCard from "../../Components/UI/ExtendedCard/ExtendedCard";
 import { useTranslation } from 'react-i18next';
+import { API_COLOMBIA } from "../../config"
 
 const Requestlist = (props) => {
     const ctx = useCtx();
@@ -46,12 +47,10 @@ const Requestlist = (props) => {
             ) {
                 return false;
             }
-            if ( 
-                props.selectedMunicipio &&
-                request.requestLocation !== props.selectedMunicipio
-            ) {
+            if (props.selectedMunicipio && request.requestLocation !== props.selectedMunicipio) {
                 return false;
             }
+
             if (
                 props.searchText &&
                 !request.requestTitle
@@ -71,41 +70,44 @@ const Requestlist = (props) => {
     ]);
     const { t } = useTranslation();
 
+
     if (ctx.isLoading) {
         return <h2>{t('es') }</h2>;
     } else {
         return (
             <>
-                {filteredRequests.map((request) => (
-                    <ReqNormalCard
-                        key={request.requestID}
-                        picture={`data:image/jpeg;base64,${request.requestPicture}`}
-                        infoReq={{
-                            title: request.requestTitle,
-                            location: request.requestLocation,
-                            description: request.requestContent,
-                            numHeroes: request.membersNeeded,
-                            date: new Date(
-                                request.publicationReqDate
-                            ).toLocaleDateString(),
-                            category: request.requestArea,
+                {filteredRequests.map((request) => {
+                    return (
+                        console.log(request),
+                        <ReqNormalCard
+                            key={request.requestID}
+                            picture={`data:image/jpeg;base64,${request.requestPicture}`}
+                            infoReq={{
+                                title: request.requestTitle,
+                                location: request.requestLocation,
+                                description: request.requestContent,
+                                numHeroes: request.membersNeeded,
+                                date: new Date(request.publicationReqDate).toLocaleDateString(),
+                                category: request.requestArea,
                         }}
-                        showExtendInfo={() =>
-                            props.showExtendedInfoHandler(request)
-                        }
-                    />
-                ))}
+                        showExtendInfo={() => props.showExtendedInfoHandler(request)}
+                        />
+                    );
+                })}
+
             </>
         );
     }
 };
 
 const AdvancedFilters = (props) => {
-    const setSelectedCategory = props.setSelectedCategory;
-    const setSelectedMunicipio = props.setSelectedMunicipio;
+    const ctx = useCtx();
     const { t } = useTranslation();
 
+    const setLocationServiceID = props.setLocationServiceID;
+
     return (
+
         <div className={styles.advancedFiltersContainer}>
             <div className={styles.inputGroup}>
                 <label>{t('category')}</label>
@@ -114,7 +116,7 @@ const AdvancedFilters = (props) => {
                         const selectedContent =
                             e.target.options[e.target.selectedIndex]
                                 .textContent;
-                        setSelectedCategory(selectedContent);
+                        props.setSelectedCategory(selectedContent);
                     }}
                 >
                     <option value="1">{t('plumbing')}</option>
@@ -123,25 +125,56 @@ const AdvancedFilters = (props) => {
                     <option value="4">{t('medicine')}</option>
                 </select>
             </div>
-            <div className={styles.inputGroup}>
-                <label>{t('Municipality')}</label>
+            <div className={`${styles.input_group} ${styles.select_group}`}>
+                <label>{t('department_where_you_live')}</label>
                 <select
+                    className={styles.customInput}
+                    id="department"
+                    defaultValue={0}
                     onChange={(e) => {
-                        const selectedContent =
-                            e.target.options[e.target.selectedIndex]
-                                .textContent;
-                        setSelectedMunicipio(selectedContent);
+                        ctx.SetSelDepartment(e.target.value);
                     }}
                 >
-                    <option value="1">Facatativa</option>
-                    <option value="2">San Juan</option>
-                    <option value="3">Bogota</option>
-                    <option value="4">Madrid</option>
+                    <option value="0" disabled>
+                        {t('departamento')}
+                    </option>
+                    {ctx.departamentList &&
+                        ctx.departamentList.map((department) => (
+                            <option
+                                key={department.id}
+                                value={department.id}
+                            >
+                                {department.name}
+                            </option>
+                        ))}
+                </select>
+            </div>
+            <div className={`${styles.input_group} ${styles.select_group}`}>
+                <label>{t('City where you live')}</label>
+                <select
+                    id="ciudad"
+                    defaultValue={0}
+                    onChange={(e) => {
+                        setLocationServiceID(e.target.value);
+                        props.setSelectedMunicipio(e.target.value);
+                    }}
+                >
+
+                    <option value="0" disabled>
+                        {t('city')}
+                    </option>
+                    {ctx.citiesList &&
+                        ctx.citiesList.map((city) => (
+                            <option key={city.id} value={city.id}>
+                                {city.name}
+                            </option>
+                        ))}
                 </select>
             </div>
         </div>
     );
 };
+
 
 const SearchRequest = (props) => {
     /** Guardar la consulta de request */
@@ -149,6 +182,7 @@ const SearchRequest = (props) => {
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [isShowExtendCard, setShowExtendCard] = useState(false);
     const [isShowFilters, setShowFilters] = useState(false);
+    const [locationServiceID, setLocationServiceID] = useState(0);
 
     //
     const [selectedCategory, setSelectedCategory] = useState(null);
@@ -223,8 +257,12 @@ const SearchRequest = (props) => {
                         {isShowFilters && (
                             <AdvancedFilters
                                 setSelectedCategory={setSelectedCategory}
-                                setSelectedMunicipio={setSelectedMunicipio}
+                                setLocationServiceID={setLocationServiceID}
+                                setSelectedMunicipio={setSelectedMunicipio} 
+                                locationServiceID={locationServiceID}
                             />
+
+
                         )}
                     </div>
                 </div>
@@ -234,7 +272,7 @@ const SearchRequest = (props) => {
                     showExtendedInfoHandler={showExtendedInfoHandler}
                     selectedCategory={selectedCategory}
                     selectedMunicipio={selectedMunicipio}
-                    searchText={searchText} // Pasa searchText como prop
+                    searchText={searchText} 
                 />
             </InfoSection>
         </React.Fragment>

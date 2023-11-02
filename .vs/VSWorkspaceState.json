@@ -1,12 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\public",
-    "\\public\\locales",
-    "\\public\\locales\\en",
-    "\\public\\locales\\es",
-    "\\src"
+    "\\src",
+    "\\src\\Components",
+    "\\src\\Components\\UI\\RequestCard",
+    "\\src\\Pages",
+    "\\src\\Pages\\CreateRequest",
+    "\\src\\Pages\\SearchRequest",
+    "\\src\\Pages\\UserPostulations",
+    "\\src\\Pages\\UserPostulations\\SearchRequest",
+    "\\src\\Store"
   ],
-  "SelectedNode": "\\public\\locales\\es\\translation.json",
+  "SelectedNode": "\\src\\Pages\\CreateRequest\\CreateRequest.js",
   "PreviewInSolutionExplorer": false
 }

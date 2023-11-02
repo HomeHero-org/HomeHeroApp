@@ -9,6 +9,7 @@ const CreateForm = (props) => {
     const { t } = useTranslation();
     const ctx = useCtx();
     const [locationServiceID, setLocationServiceID] = useState(0);
+    const [nameLocationService, setnameLocationService] = useState("");
     const [areaServiceID, setAreaServiceID] = useState(0);
     const [requestContent, setRequestContent] = useState("");
     const [publicationReqDate, setPublicationReqDate] = useState(
@@ -28,6 +29,7 @@ const CreateForm = (props) => {
         formData.append("PublicationReqDate", publicationReqDate);
         formData.append("MembersNeeded", membersNeeded);
         formData.append("AreaID_Request", areaServiceID);
+        formData.append("LocationName", nameLocationService);
         if (requestPicture) formData.append("RequestPicture", requestPicture);
         formData.append("RequestTitle", requestTitle);
         ctx.onSetForm(formData);
@@ -99,19 +101,24 @@ const CreateForm = (props) => {
                                 ? styles.invalid_input
                                 : undefined
                         }
-                        onClick={(e) => setLocationServiceID(e.target.value)}
+                        onChange={(e) => {
+                            const selectedOption = e.target.options[e.target.selectedIndex];
+                            setLocationServiceID(selectedOption.value);
+                            setnameLocationService(selectedOption.getAttribute('name'));
+                        }}
                     >
                         <option value="0" disabled>
-                            <label>{t('city')}</label>
+                            {t('city')}
                         </option>
                         {ctx.citiesList &&
                             ctx.citiesList.map((city) => (
-                                <option key={city.id} value={city.id}>
+                                <option key={city.id} value={city.id} name={city.name}>
                                     {city.name}
                                 </option>
                             ))}
                     </select>
                 </div>
+
                 <div className={styles.inputGroup}>
                     <label htmlFor="numMb">{t('number_of_members_needed')}</label>
                     <input 
@@ -133,12 +140,11 @@ const CreateForm = (props) => {
                     value={areaServiceID}
                     onChange={(e) => setAreaServiceID(e.target.value)}
                 >
-                    <option value="0" disabled>{t('area')}</option>
+                        <option value="0" disabled>{t('area')}</option>
                         <option value="1">{t('plumbing')}</option>
                         <option value="2">{t('education')}</option>
                         <option value="3">{t('pets')}</option>
                         <option value="4">{t('medicine')}</option>
-                    <option value="4">Construccion</option>
                 </select>
                 </div>
                 <textarea

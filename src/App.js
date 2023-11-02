@@ -15,7 +15,8 @@ import PersistLogin from "./Components/PersistLogin";
 import ResetPassword from "./Pages/ResetPassword/ResetPassword";
 import UserProfile from "./Pages/UserProfile/UserProfile";
 import MyRequest from "./Pages/UserOwnRequest/MyRequests";
-
+import ReportsView from "./Pages/Reports/ReportsView"
+import MyPostulations from "./Pages/UserPostulations/MyPostulations";
 function Loading() {
     return (
         <>Loading...</>
@@ -34,7 +35,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/not_found" element={<NotFound />} />
                 <Route path="/sign_up" element={<Signup />} />
-                <Route path="/settings" element={<SettingsView />} />
+
                 <Route path="/reset_password" element={<ResetPassword />} />
                 <Route
                     path="/~/1017/profile"
@@ -61,6 +62,12 @@ function App() {
                             path="/~/1017/search-request"
                             element={<SearchRequest />}
                         />
+                        <Route
+                            path="/~/1017/reports"
+                            element={<ReportsView />}
+                        />
+                        <Route path="/~/1017/settings" element={<SettingsView />} />
+                        <Route path="/~/1017/postulations" element={<MyPostulations />} />
                     </Route>
                     <Route
                         path="/~/2001"

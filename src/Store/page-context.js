@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 const createRequest = async (formData) => {
     try {
+        console.log("Vasdas" + formData);
         const response = await axios.post(`${API_ENDPOINT}Request`, formData);
         console.log("Request created successfully:", response.data);
     } catch (error) {
@@ -27,29 +28,29 @@ const createRequest = async (formData) => {
 const PageContext = React.createContext({
     listView: {},
     mainView: <></>,
-    onGetView: (nameComponent) => {},
+    onGetView: (nameComponent) => { },
     itemsMenu: [],
     requestAction: "",
-    onSetRequestAction: () => {},
+    onSetRequestAction: () => { },
     requests: [],
-    setRequests: () => {},
+    setRequests: () => { },
     isLoading: true,
-    setIsLoading: () => {},
-    onSetForm: () => {},
+    setIsLoading: () => { },
+    onSetForm: () => { },
     isLogged: true,
-    onSetLogged: (info) => {},
+    onSetLogged: (info) => { },
     departamentList: [],
     citiesList: [],
-    SetSelDepartment: (idDep) => {},
+    SetSelDepartment: (idDep) => { },
     statusResponse: "",
-    setstatusResponse: () => {},
+    setstatusResponse: () => { },
     token: null,
-    setToken: () => {},
+    setToken: () => { },
     codeRole: "",
-    setCodeRole: () => {},
-    axiosPrivate: () => {},
+    setCodeRole: () => { },
+    axiosPrivate: () => { },
     remeberLogin: false,
-    setRememberLogin: () => {},
+    setRememberLogin: () => { },
 });
 
 /** Page React Context API Provider
@@ -63,14 +64,12 @@ export const PageContextProvider = (props) => {
     // Info about the diferent pages of user and their routes (id)
     const itemsMenu = [
         {
-            itemName:t('Inquiries'),
+            itemName: t('Inquiries'),
             icon: "fa-solid fa-hand-holding-heart",
             subItems: [
                 {
                     id: "/~/1017/create_request",
                     name: t('create_request')
-
-
                 },
                 {
                     id: "/~/1017/search-request",
@@ -78,7 +77,7 @@ export const PageContextProvider = (props) => {
                 },
                 {
                     id: "/~/1017/MyRequests",
-                    name: t('my_requests') ,
+                    name: t('my_requests'),
                 },
                 {
                     id: "/~/1017/Postulations",
@@ -87,52 +86,8 @@ export const PageContextProvider = (props) => {
             ],
         },
         {
-            itemName: "Chats",
-            icon: "fa-solid fa-comments",
-            subItems: [
-                {
-                    id: "Chats",
-                    name: t('all'),
-                },
-                {
-                    id: "Chats",
-                    name: "Chat 1",
-                },
-                {
-                    id: "Chats",
-                    name: "Chat 2",
-                },
-                {
-                    id: "Chats",
-                    name: "Chat 3",
-                },
-                {
-                    id: "Chats",
-                    name: "Chat 4",
-                },
-            ],
-        },
-        {
-            itemName: t('help'),
-            icon: "fa-regular fa-circle-question",
-            subItems: [
-                {
-                    id: "Tutorials",
-                    name: t('tutorials'),
-                },
-                {
-                    id: "Questions",
-                    name: t('write_your_questions'),
-                },
-                {
-                    id: "Reports",
-                    name: t('report_error')
-                },
-            ],
-        },
-        {
-            id: "Complaints",
-            itemName: t('claims'),
+            id: "Reports",
+            itemName: t('Reports'),
             icon: "fa-solid fa-file-circle-exclamation",
             subItems: null,
         },
@@ -198,6 +153,12 @@ export const PageContextProvider = (props) => {
         }
         if (requestAction === "LOGIN") {
             Login(formData);
+        }
+        if (requestAction == "SENDEMAIL") {
+            requestPasswordReset(formData);
+        }
+        if (requestAction == "SETPW") {
+            setPassword(formData);
         }
     }, [requestAction]);
     // HTTP GET for get the names and id of all departments in colombia summons by COLOMBIA API
@@ -272,6 +233,57 @@ export const PageContextProvider = (props) => {
             setstatusResponse(error.response.data.statusCode);
         }
     };
+
+
+
+    /** 
+     * HTTP Post for requesting a password reset.
+     * [This method sends an email to the user with instructions and a code for resetting the password]
+     * [Make sure to handle the response correctly, e.g., show a message to the user indicating the email was sent]
+     */
+    const requestPasswordReset = async (email) => {
+        try {
+            const response = await axios.post(
+                `${API_ENDPOINT}passwordreset/request`,
+                JSON.stringify(email),  // Convertir el email a formato string JSON
+                {
+                    headers: {
+                        'Content-Type': 'application/json-patch+json'
+                    }
+                }
+            );
+            console.log(response.data);
+            setstatusResponse(response.data.statusCode);
+        } catch (error) {
+            console.error("Error al solicitar el restablecimiento de contraseña:", error);
+            setstatusResponse(error.response.data.statusCode);
+        }
+    };
+
+
+
+
+    /** 
+   * HTTP Post for setting a new password after validation.
+   * [This method changes the user's password if provided with a valid email, code, and new password]
+   * [Ensure that the user has the correct code from their email before allowing them to use this function]
+   */
+    const setPassword = async (data) => {
+        try {
+            const response = await axios.post(
+                `${API_ENDPOINT}passwordreset/setpassword`,
+                data
+            );
+            console.log(response.data);
+            setstatusResponse(response.data.statusCode);
+        } catch (error) {
+            console.error("Error al establecer la nueva contraseña:", error);
+            setstatusResponse(error.response.data.statusCode);
+        }
+    };
+
+
+
     //#endregion
 
     return (
