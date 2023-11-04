@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next';
 
 const createRequest = async (formData) => {
     try {
-        console.log("Vasdas" + formData);
         const response = await axios.post(`${API_ENDPOINT}Request`, formData);
         console.log("Request created successfully:", response.data);
     } catch (error) {

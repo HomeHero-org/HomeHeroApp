@@ -9,11 +9,12 @@ import ReqNormalCard from "../../Components/UI/RequestCard/ReqNormalCard";
 import ExtendedCard from "../../Components/UI/ExtendedCard/ExtendedCard";
 import { useTranslation } from 'react-i18next';
 import { API_COLOMBIA } from "../../config"
+import axios from "axios"
 
 const Requestlist = (props) => {
     const ctx = useCtx();
     const axiosPrivate = useAxiosPrivate();
-
+    const [cityNames, setCityNames] = useState({});
     
     useEffect(() => {
         let isMounted = true;
@@ -41,34 +42,46 @@ const Requestlist = (props) => {
         if (!Array.isArray(ctx.requests)) return [];
 
         return ctx.requests.filter((request) => {
-            if (
-                props.selectedCategory &&
-                request.requestArea !== props.selectedCategory
-            ) {
-                return false;
-            }
-            if (props.selectedMunicipio && request.requestLocation !== props.selectedMunicipio) {
+            if (props.selectedCategory && request.requestArea !== props.selectedCategory) {
                 return false;
             }
 
-            if (
-                props.searchText &&
-                !request.requestTitle
-                    .toLowerCase()
-                    .includes(props.searchText.toLowerCase())
-            ) {
+            if (props.selectedMunicipio && String(request.locationServiceID) !== String(props.selectedMunicipio)) {
+                console.log("Entra a validacion!");
+                return false;
+            }
+
+            if (props.searchText && !request.requestTitle.toLowerCase().includes(props.searchText.toLowerCase())) {
                 return false;
             }
 
             return true;
         });
-    }, [
-        ctx.requests,
-        props.selectedCategory,
-        props.selectedMunicipio,
-        props.searchText,
-    ]);
+    }, [ctx.requests, props.selectedCategory, props.selectedMunicipio, props.searchText]);
+
+
     const { t } = useTranslation();
+   
+
+    useEffect(() => {
+        const fetchCityName = async (cityId) => {
+            try {
+                const response = await axios.get(`${API_COLOMBIA}City/${cityId}`);
+                setCityNames(prev => ({ ...prev, [cityId]: response.data.name }));
+            } catch (error) {
+                console.error("Error fetching city name:", error);
+            }
+        };
+
+        if (ctx.requests) {
+            ctx.requests.forEach(request => {
+                if (request.locationServiceID && !cityNames[request.locationServiceID]) {
+                    fetchCityName(request.locationServiceID);
+                }
+            });
+        }
+
+    }, [ctx.requests, cityNames]);
 
 
     if (ctx.isLoading) {
@@ -77,23 +90,24 @@ const Requestlist = (props) => {
         return (
             <>
                 {filteredRequests.map((request) => {
-                    return (
-                        console.log(request),
-                        <ReqNormalCard
-                            key={request.requestID}
-                            picture={`data:image/jpeg;base64,${request.requestPicture}`}
-                            infoReq={{
-                                title: request.requestTitle,
-                                location: request.requestLocation,
-                                description: request.requestContent,
-                                numHeroes: request.membersNeeded,
-                                date: new Date(request.publicationReqDate).toLocaleDateString(),
-                                category: request.requestArea,
-                        }}
-                        showExtendInfo={() => props.showExtendedInfoHandler(request)}
-                        />
-                    );
-                })}
+    const cityName = cityNames[request.locationServiceID] || 'Loading...';
+    return (
+        <ReqNormalCard
+            key={request.requestID}
+            picture={`data:image/jpeg;base64,${request.requestPicture}`}
+            infoReq={{
+                title: request.requestTitle,
+                location: cityName, 
+                description: request.requestContent,
+                numHeroes: request.membersNeeded,
+                date: new Date(request.publicationReqDate).toLocaleDateString(),
+                category: request.requestArea,
+            }}
+            showExtendInfo={() => props.showExtendedInfoHandler(request)}
+        />
+    );
+})}
+
 
             </>
         );
@@ -160,6 +174,7 @@ const AdvancedFilters = (props) => {
                     }}
                 >
 
+
                     <option value="0" disabled>
                         {t('city')}
                     </option>
@@ -183,7 +198,8 @@ const SearchRequest = (props) => {
     const [isShowExtendCard, setShowExtendCard] = useState(false);
     const [isShowFilters, setShowFilters] = useState(false);
     const [locationServiceID, setLocationServiceID] = useState(0);
-
+    const [cityNames, setCityNames] = useState({});
+    const ctx = useCtx();
     //
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedMunicipio, setSelectedMunicipio] = useState(null);
@@ -208,9 +224,39 @@ const SearchRequest = (props) => {
         document.body.style.overflow = "hidden";
     };
 
+    useEffect(() => {
+        const fetchCityName = async (cityId) => {
+            try {
+                const response = await axios.get(`${API_COLOMBIA}City/${cityId}`);
+                setCityNames(prev => ({ ...prev, [cityId]: response.data.name }));
+            } catch (error) {
+                console.error("Error fetching city name:", error);
+            }
+        };
+
+        if (ctx.requests) {
+            ctx.requests.forEach(request => {
+                if (request.locationServiceID && !cityNames[request.locationServiceID]) {
+                    fetchCityName(request.locationServiceID);
+                }
+            });
+        }
+
+    }, [ctx.requests, cityNames]);
+
+
     const showExtendedInfoHandler = (request) => {
+
+        const cityName = cityNames[request.locationServiceID] || 'Nombre no disponible';
+
+       
+        const requestWithCityName = {
+            ...request, 
+            location: cityName, 
+        };
+
         setShowExtendCard(true);
-        setSelectedRequest(request);
+        setSelectedRequest(requestWithCityName);
     };
 
     const clearExtendCard = () => {
@@ -273,6 +319,7 @@ const SearchRequest = (props) => {
                     selectedCategory={selectedCategory}
                     selectedMunicipio={selectedMunicipio}
                     searchText={searchText} 
+ 
                 />
             </InfoSection>
         </React.Fragment>
