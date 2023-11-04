@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/a86f2de2-54f9-4eda-b116-83ba5bd5722d/resourceGroups/GrupoHomeHero/providers/Microsoft.Web/sites/HomeHeroFront",
+    "appService.deploySubpath": "build"
+}

@@ -254,7 +254,7 @@ export const PageContextProvider = (props) => {
             console.log(response.data);
             setstatusResponse(response.data.statusCode);
         } catch (error) {
-            console.error("Error al solicitar el restablecimiento de contraseña:", error);
+            console.error("Error al solicitar el restablecimiento de contraseï¿½a:", error);
             setstatusResponse(error.response.data.statusCode);
         }
     };
@@ -276,7 +276,7 @@ export const PageContextProvider = (props) => {
             console.log(response.data);
             setstatusResponse(response.data.statusCode);
         } catch (error) {
-            console.error("Error al establecer la nueva contraseña:", error);
+            console.error("Error al establecer la nueva contraseï¿½a:", error);
             setstatusResponse(error.response.data.statusCode);
         }
     };
