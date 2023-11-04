@@ -15,7 +15,8 @@ import PersistLogin from "./Components/PersistLogin";
 import ResetPassword from "./Pages/ResetPassword/ResetPassword";
 import UserProfile from "./Pages/UserProfile/UserProfile";
 import MyRequest from "./Pages/UserOwnRequest/MyRequests";
-
+import ReportsView from "./Pages/Reports/ReportsView"
+import MyPostulations from "./Pages/UserPostulations/MyPostulations";
 function Loading() {
     return <>Loading...</>;
 }
@@ -51,14 +52,11 @@ function App() {
                             element={<SearchRequest />}
                         />
                         <Route
-                            path="/~/1017/settings"
-                            element={<SettingsView />}
+                            path="/~/1017/reports"
+                            element={<ReportsView />}
                         />
-                        <Route
-                            path="/~/1017/profile"
-                            element={<UserProfile />}
-                        />
-                         <Route path="/~/1017/MyRequests" element={<MyRequest />} />
+                        <Route path="/~/1017/settings" element={<SettingsView />} />
+                        <Route path="/~/1017/postulations" element={<MyPostulations />} />
                     </Route>
                     <Route
                         path="/~/2001"

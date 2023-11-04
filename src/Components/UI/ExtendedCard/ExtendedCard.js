@@ -106,7 +106,7 @@ const Modal = (props) => {
                 <h2 className={styles.requestTitle}>{props.infoReq.requestTitle}</h2>
                 <div className={styles.InfoGroup}>
                     <h6>{t('location')}</h6>
-                    <p>{props.infoReq.requestLocation}</p>
+                    <p>{props.infoReq.location}</p>
                 </div>
                 <div className={`${styles.InfoGroup} ${styles.description}`}>
                     <h6>{t('description')}</h6>

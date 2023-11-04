@@ -12,17 +12,16 @@ const RequireAuth = ({ allowedRoles }) => {
         setCollapseMenu(!isCollapseMenu);
     };
 
-    const getViewHandler = (nameComponent) => {};
+    const getViewHandler = (nameComponent) => { };
 
     const { token } = useCtx();
     const role = getRole(token)
-    console.log("code role",role);
+    console.log("code role", role);
     const location = useLocation();
     return allowedRoles.includes(role) ? (
         <div
-            className={`${styles.main_content} ${
-                isCollapseMenu ? styles.menu_collapsed : undefined
-            }`}
+            className={`${styles.main_content} ${isCollapseMenu ? styles.menu_collapsed : undefined
+                }`}
         >
             <Sidebar
                 getViewHandler={getViewHandler}
