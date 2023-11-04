@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Signup.module.css";
 import SignupImg from "../../Images/Sign-Up-Logo.svg";
 import { useTranslation } from 'react-i18next';
+
 const SignupValitadion = (state, action) => {
     //#region Regular Expressions for validations
     const nameValidation = /^[\p{L} '-]{3,100}$/u;
@@ -140,11 +141,11 @@ const Signup = () => {
             !signupData.surnames.isValid ||
             !signupData.email.isValid ||
             !signupData.password.isValid ||
-            signupData.city > 0
+            signupData.city > 0 
         ) {
             setErrorMessage(t('INVALID_DATA'));
           
-        } else {
+        } else if(errorMessage == null) {
             setErrorMessage(null);
             ctx.onSetForm({
                 namesUser: signupData.names.value,

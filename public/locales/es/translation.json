@@ -123,5 +123,7 @@
   "pending_ratings": "Calificaciones Pendientes por Hacer",
   "help_done_october": "Ayudas Hechas Este en Octubre",
   "help_done_this_week": "Ayudas Hechas Esta Semana",
-  "help_done_today": "Ayudas Hechas Este día"
+  "help_done_today": "Ayudas Hechas Este día",
+  "City where you live":"Ciudad en la que vives"
+  
 }

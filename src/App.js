@@ -17,16 +17,11 @@ import UserProfile from "./Pages/UserProfile/UserProfile";
 import MyRequest from "./Pages/UserOwnRequest/MyRequests";
 
 function Loading() {
-    return (
-        <>Loading...</>
-    )
+    return <>Loading...</>;
 }
 
 function App() {
-
-
     return (
-
         <Routes>
             <Route path="/" element={<Layout />}>
                 {/*Public routes*/}
@@ -34,16 +29,10 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/not_found" element={<NotFound />} />
                 <Route path="/sign_up" element={<Signup />} />
-                <Route path="/settings" element={<SettingsView />} />
+
                 <Route path="/reset_password" element={<ResetPassword />} />
-                <Route
-                    path="/~/1017/profile"
-                    element={<UserProfile />}
-                />
-                <Route
-                    path="/~/1017/MyRequests"
-                    element={<MyRequest />}
-                />
+
+               
                 {/*Protected routes*/}
                 <Route path="/~" element={<PersistLogin />}>
                     <Route
@@ -61,6 +50,15 @@ function App() {
                             path="/~/1017/search-request"
                             element={<SearchRequest />}
                         />
+                        <Route
+                            path="/~/1017/settings"
+                            element={<SettingsView />}
+                        />
+                        <Route
+                            path="/~/1017/profile"
+                            element={<UserProfile />}
+                        />
+                         <Route path="/~/1017/MyRequests" element={<MyRequest />} />
                     </Route>
                     <Route
                         path="/~/2001"
